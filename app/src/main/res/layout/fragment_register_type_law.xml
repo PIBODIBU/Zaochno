@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorBackground"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingBottom="16dp"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp">
+
+            <ImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="250dp"
+                android:layout_height="100dp"
+                tools:src="@drawable/logo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Быстрая регистрация"
+                android:textAllCaps="true"
+                android:textColor="@color/md_light_primary_text"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:layout_width="@dimen/btn_social_width"
+                    android:layout_height="@dimen/btn_social_width"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitXY"
+                    app:srcCompat="@drawable/ic_social_facebook" />
+
+                <ImageButton
+                    android:layout_width="@dimen/btn_social_width"
+                    android:layout_height="@dimen/btn_social_width"
+                    android:layout_marginLeft="8dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitXY"
+                    app:srcCompat="@drawable/ic_social_twitter" />
+
+                <ImageButton
+                    android:layout_width="@dimen/btn_social_width"
+                    android:layout_height="@dimen/btn_social_width"
+                    android:layout_marginLeft="8dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitXY"
+                    app:srcCompat="@drawable/ic_social_linkedin" />
+
+                <ImageButton
+                    android:layout_width="@dimen/btn_social_width"
+                    android:layout_height="@dimen/btn_social_width"
+                    android:layout_marginLeft="8dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitXY"
+                    app:srcCompat="@drawable/ic_social_vk" />
+
+                <ImageButton
+                    android:layout_width="@dimen/btn_social_width"
+                    android:layout_height="@dimen/btn_social_width"
+                    android:layout_marginLeft="8dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitXY"
+                    app:srcCompat="@drawable/ic_social_odnoklassniki" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/et_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_edit_text"
+                android:hint="E-Mail"
+                android:padding="8dp" />
+
+            <EditText
+                android:id="@+id/et_dir_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_edit_text"
+                android:hint="Имя ген.директора"
+                android:padding="8dp" />
+
+            <EditText
+                android:id="@+id/et_inn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_edit_text"
+                android:hint="ИНН"
+                android:padding="8dp" />
+
+            <EditText
+                android:id="@+id/et_cor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_edit_text"
+                android:hint="Кор.счет"
+                android:padding="8dp" />
+
+            <EditText
+                android:id="@+id/et_bank_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_edit_text"
+                android:hint="Имя банка"
+                android:padding="8dp" />
+
+            <EditText
+                android:id="@+id/et_region"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_edit_text"
+                android:hint="Регион"
+                android:padding="8dp" />
+
+            <EditText
+                android:id="@+id/et_street"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_edit_text"
+                android:hint="Улица,дом,офис"
+                android:padding="8dp" />
+
+            <EditText
+                android:id="@+id/et_opf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_edit_text"
+                android:hint="ОПФ"
+                android:padding="8dp" />
+
+            <EditText
+                android:id="@+id/et_contact_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_edit_text"
+                android:hint="Конт.телефон"
+                android:inputType="phone"
+                android:padding="8dp" />
+
+            <EditText
+                android:id="@+id/et_kpf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_edit_text"
+                android:hint="КПП"
+                android:padding="8dp" />
+
+            <EditText
+                android:id="@+id/et_bill"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_edit_text"
+                android:hint="Расчет.счет"
+                android:padding="8dp" />
+
+            <EditText
+                android:id="@+id/et_bik"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_edit_text"
+                android:hint="БИК"
+                android:padding="8dp" />
+
+            <EditText
+                android:id="@+id/et_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_edit_text"
+                android:hint="Телефон"
+                android:inputType="phone"
+                android:padding="8dp" />
+
+            <EditText
+                android:id="@+id/et_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_edit_text"
+                android:hint="Город"
+                android:padding="8dp" />
+
+            <EditText
+                android:id="@+id/et_contact_face"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_edit_text"
+                android:hint="Имя конт.лица"
+                android:padding="8dp" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_marginTop="16dp"
+                android:text="Соглашаюсь с правилами использования"
+                android:textAllCaps="true"
+                android:textSize="12sp"
+                app:buttonTint="@color/colorPrimary" />
+
+            <Button
+                android:id="@+id/btn_register"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginEnd="36dp"
+                android:layout_marginStart="36dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_button_accent_cornered"
+                android:text="Зарегистрироваться"
+                android:textColor="@color/md_dark_primary_text"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
