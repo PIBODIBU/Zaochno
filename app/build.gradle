@@ -10,6 +10,7 @@ android {
         applicationId "ru.zaochno.zaochno"
         minSdkVersion 19
         targetSdkVersion 26
+        vectorDrawables.useSupportLibrary = true
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -37,6 +38,9 @@ dependencies {
 
     // Google Services
     compile 'com.google.android.gms:play-services-auth:11.4.0'
+
+    // Retrofit
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
 
     // Butterknife
     compile 'com.jakewharton:butterknife:8.8.1'

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_alignParentTop="true"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/bg_mountains_blured" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingTop="50dp">
+
+        <ImageView
+            android:id="@+id/iv_logo"
+            android:layout_width="250dp"
+            android:layout_height="100dp"
+            tools:src="@drawable/logo" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Вход через социальные сети:"
+            android:textColor="@color/md_light_primary_text"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:layout_width="@dimen/btn_social_width"
+                android:layout_height="@dimen/btn_social_width"
+                android:background="@android:color/transparent"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/ic_social_facebook" />
+
+            <ImageButton
+                android:layout_width="@dimen/btn_social_width"
+                android:layout_height="@dimen/btn_social_width"
+                android:layout_marginLeft="8dp"
+                android:background="@android:color/transparent"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/ic_social_twitter" />
+
+            <ImageButton
+                android:layout_width="@dimen/btn_social_width"
+                android:layout_height="@dimen/btn_social_width"
+                android:layout_marginLeft="8dp"
+                android:background="@android:color/transparent"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/ic_social_linkedin" />
+
+            <ImageButton
+                android:layout_width="@dimen/btn_social_width"
+                android:layout_height="@dimen/btn_social_width"
+                android:layout_marginLeft="8dp"
+                android:background="@android:color/transparent"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/ic_social_vk" />
+
+            <ImageButton
+                android:layout_width="@dimen/btn_social_width"
+                android:layout_height="@dimen/btn_social_width"
+                android:layout_marginLeft="8dp"
+                android:background="@android:color/transparent"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/ic_social_odnoklassniki" />
+        </LinearLayout>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="36dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="36dp"
+            android:background="@color/md_white_1000"
+            android:hint="Логин"
+            android:padding="8dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="36dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/md_white_1000"
+            android:hint="Пароль"
+            android:padding="8dp" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginEnd="36dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/colorButton"
+            android:text="Войти"
+            android:textColor="@color/md_dark_primary_text"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btn_forgot_pass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@android:color/transparent"
+            android:text="Забыли пароль?"
+            android:textColor="@color/md_light_primary_text"
+            android:textStyle="bold" />
+    </LinearLayout>
+</RelativeLayout>
