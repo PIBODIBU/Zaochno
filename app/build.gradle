@@ -52,6 +52,9 @@ dependencies {
     // Images
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile "com.mikepenz:iconics-core:2.9.3@aar"
+    compile 'com.mikepenz:google-material-typeface:3.0.1.1.original@aar' //Google Material Icons
+    compile 'com.mikepenz:fontawesome-typeface:4.7.0.1@aar'     //FontAwesome
 
     // Drawer
     compile('com.mikepenz:materialdrawer:5.9.5@aar') {

@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.holder.DimenHolder;
@@ -89,19 +90,19 @@ public class BaseNavDrawerActivity extends AppCompatActivity {
         /*PrimaryDrawerItem item1 = new PrimaryDrawerItem()
                 .withIdentifier(1)
                 .withName(R.string.drawer_item_training_list)
-                .withIcon(R.drawable.icon_training);
+                .withIcon(R.drawable.ic_training);
 
         drawerItems.put(TrainingListActivity.class.getName(), item1);*/
 
         drawer = new DrawerBuilder()
                 .withActivity(this)
                 .addDrawerItems(
-                        createItem(R.drawable.icon_training, "Мои тренинги", true),
-                        createItem(R.drawable.icon_training, "Избранное", true),
-                        createItem(R.drawable.icon_training, "Тестирование", true),
-                        createItem(R.drawable.icon_training, "Мои сообщения", true),
-                        createItem(R.drawable.icon_training, "Настройка", true),
-                        createItem(R.drawable.icon_training, "Выход", false)
+                        createItem(R.drawable.ic_training, "Мои тренинги", true),
+                        createItem(R.drawable.ic_favourite, "Избранное", true),
+                        createItem(R.drawable.ic_testing, "Тестирование", true),
+                        createItem(R.drawable.ic_email, "Мои сообщения", true),
+                        createItem(R.drawable.ic_settings, "Настройка", true),
+                        createItem(R.drawable.ic_exit, "Выход", false)
                 )
                 .withToolbar(toolbar)
                 .withHeader(R.layout.drawer_header)
