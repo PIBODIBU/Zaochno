@@ -10,4 +10,6 @@
     <color name="colorButtonPrimaryLight">#5fa7e5</color>
 
     <color name="colorBackground">#f9f9f9</color>
+
+    <color name="colorDrawerFooter">#153f7c</color>
 </resources>

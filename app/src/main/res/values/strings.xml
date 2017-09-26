@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Zaochno</string>
+
+    <string name="drawer_item_training_list">Мои тренинги</string>
 </resources>

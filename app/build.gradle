@@ -51,6 +51,7 @@ dependencies {
 
     // Images
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
 
     // Drawer
     compile('com.mikepenz:materialdrawer:5.9.5@aar') {

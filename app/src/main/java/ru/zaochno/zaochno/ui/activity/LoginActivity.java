@@ -21,7 +21,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import ru.zaochno.zaochno.R;
 import ru.zaochno.zaochno.data.api.Retrofit2Client;
+import ru.zaochno.zaochno.data.model.User;
 import ru.zaochno.zaochno.data.model.response.AuthResponse;
+import ru.zaochno.zaochno.data.shared.SharedPrefUtils;
 
 public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.btn_forgot_pass)
@@ -63,9 +65,16 @@ public class LoginActivity extends AppCompatActivity {
         String username = etUsername.getText().toString();
         String password = etPassword.getText().toString();
 
-//        startActivity(new Intent(this, ));
+        // TODO temp code
+        new SharedPrefUtils(this).setCurrentUser(new User(
+                "John Smith",
+                "email@gmail.com",
+                "https://cdn.pixabay.com/photo/2016/08/20/05/38/avatar-1606916_960_720.png"
+        ));
+        startActivity(new Intent(this, TrainingListActivity.class));
+        finish();
 
-        Retrofit2Client.getInstance().getApi().authenticate(username, password).enqueue(new Callback<AuthResponse>() {
+        /*Retrofit2Client.getInstance().getApi().authenticate(username, password).enqueue(new Callback<AuthResponse>() {
             @Override
             public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
 
@@ -75,6 +84,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onFailure(Call<AuthResponse> call, Throwable t) {
                 Toast.makeText(LoginActivity.this, "Ошибка авторизации", Toast.LENGTH_LONG).show();
             }
-        });
+        });*/
     }
 }
