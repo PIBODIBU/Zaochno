@@ -4,20 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_margin="4dp"
     android:background="#ffffff"
-    android:padding="8dp">
+    android:paddingBottom="4dp">
 
     <ImageView
         android:id="@+id/iv_img"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        app:srcCompat="@drawable/example_training" />
+        tools:src="@drawable/example_training" />
 
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_toEndOf="@+id/iv_img"
         android:text="Сегмент рынка определяет"
@@ -31,6 +33,8 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/container_buttons"
         android:layout_below="@+id/tv_title"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:layout_toEndOf="@+id/iv_img"
         android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, "
@@ -43,6 +47,7 @@
         android:layout_height="35dp"
         android:layout_below="@+id/iv_img"
         android:layout_marginTop="8dp"
+        android:baselineAligned="false"
         android:gravity="center"
         android:orientation="horizontal"
         android:weightSum="3">
@@ -67,7 +72,7 @@
                 android:gravity="center"
                 android:text="Купить"
                 android:textColor="@color/md_dark_primary_text"
-                android:textSize="10sp" />
+                android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -91,7 +96,7 @@
                 android:gravity="center"
                 android:text="Демо"
                 android:textColor="@color/md_dark_primary_text"
-                android:textSize="10sp" />
+                android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -115,7 +120,41 @@
                 android:gravity="center"
                 android:text="В избранное"
                 android:textColor="@color/md_dark_primary_text"
-                android:textSize="10sp" />
+                android:textSize="12sp" />
         </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="140dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="-40dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorLabelRed"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:rotation="-45">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Цена: "
+            android:textColor="@color/md_dark_primary_text"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="500"
+            android:textColor="@color/md_dark_primary_text"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" руб"
+            android:textColor="@color/md_dark_primary_text"
+            android:textSize="10sp" />
     </LinearLayout>
 </RelativeLayout>
