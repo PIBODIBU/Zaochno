@@ -63,7 +63,7 @@ public class TrainingListActivity extends BaseNavDrawerActivity {
     private void fetchTrainings() {
         Retrofit2Client.getInstance().getApi().getTrainings(new TrainingFilter(
                 1000,
-                AuthProvider.getInstance(this).getCurrentUser().getToken(),
+                "",
                 null,
                 0,
                 1000
