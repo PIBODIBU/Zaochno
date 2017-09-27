@@ -16,7 +16,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.holder.DimenHolder;
@@ -30,6 +29,7 @@ import java.util.HashMap;
 import de.hdodenhof.circleimageview.CircleImageView;
 import ru.zaochno.zaochno.R;
 import ru.zaochno.zaochno.data.model.User;
+import ru.zaochno.zaochno.data.provider.AuthProvider;
 import ru.zaochno.zaochno.data.shared.SharedPrefUtils;
 
 public class BaseNavDrawerActivity extends AppCompatActivity {
@@ -45,14 +45,17 @@ public class BaseNavDrawerActivity extends AppCompatActivity {
     private SharedPrefUtils sharedPrefUtils;
     private HashMap<String, IDrawerItem> drawerItems = new HashMap<>();
     private User currentUser;
-    private View upFooter;
+
+    private int stickyFooterId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         sharedPrefUtils = new SharedPrefUtils(this);
-        currentUser = sharedPrefUtils.getCurrentUser();
+        currentUser = AuthProvider.getInstance(this).getCurrentUser();
+
+        stickyFooterId = AuthProvider.getInstance(this).isAuthenticated() ? R.layout.drawer_footer : -1;
     }
 
     public void setToolbar(Toolbar toolbar) {
@@ -87,26 +90,11 @@ public class BaseNavDrawerActivity extends AppCompatActivity {
             }
         });
 
-        /*PrimaryDrawerItem item1 = new PrimaryDrawerItem()
-                .withIdentifier(1)
-                .withName(R.string.drawer_item_training_list)
-                .withIcon(R.drawable.ic_training);
-
-        drawerItems.put(TrainingListActivity.class.getName(), item1);*/
-
         drawer = new DrawerBuilder()
                 .withActivity(this)
-                .addDrawerItems(
-                        createItem(R.drawable.ic_training, "Мои тренинги", true),
-                        createItem(R.drawable.ic_favourite, "Избранное", true),
-                        createItem(R.drawable.ic_testing, "Тестирование", true),
-                        createItem(R.drawable.ic_email, "Мои сообщения", true),
-                        createItem(R.drawable.ic_settings, "Настройка", true),
-                        createItem(R.drawable.ic_exit, "Выход", false)
-                )
                 .withToolbar(toolbar)
                 .withHeader(R.layout.drawer_header)
-                .withStickyFooter(R.layout.drawer_footer)
+                .withStickyFooter(stickyFooterId)
                 .withStickyFooterShadow(false)
                 .withActionBarDrawerToggle(true)
                 .withActionBarDrawerToggleAnimated(true)
@@ -125,24 +113,77 @@ public class BaseNavDrawerActivity extends AppCompatActivity {
                 })
                 .build();
 
-        drawer.getActionBarDrawerToggle()
-                .setDrawerIndicatorEnabled(true);
+        drawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(true);
+
+        if (AuthProvider.getInstance(this).isAuthenticated())
+            drawer.addItems(
+                    createItem(R.drawable.ic_training, "Мои тренинги", true, TrainingListActivity.class, true),
+                    createItem(R.drawable.ic_favourite, "Избранное", true, null, true),
+                    createItem(R.drawable.ic_testing, "Тестирование", true, null, true),
+                    createItem(R.drawable.ic_email, "Мои сообщения", true, null, true),
+                    createItem(R.drawable.ic_settings, "Настройка", true, null, true),
+                    createItem(R.drawable.ic_exit, "Выход", false, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            AuthProvider.getInstance(BaseNavDrawerActivity.this).logOut();
+                            startActivity(new Intent(BaseNavDrawerActivity.this, LoginActivity.class));
+                            finish();
+                        }
+                    })
+            );
+        else
+            drawer.addItems(
+                    createItem(R.drawable.ic_favourite, "Авторизация", true, LoginActivity.class, true),
+                    createItem(R.drawable.ic_training, "Тренинги", true, TrainingListActivity.class, true),
+                    createItem(R.drawable.ic_testing, "Тестирование", true, null, true),
+                    createItem(R.drawable.ic_exit, "Выход", false, null, true)
+            );
 
         setupHeader(drawer.getHeader());
-        setupFooter(drawer.getStickyFooter());
+
+        if (AuthProvider.getInstance(this).isAuthenticated())
+            setupFooter(drawer.getStickyFooter());
 
         drawer.setSelection(-1);
-        //setDrawerSelection();
     }
 
-    private ContainerDrawerItem createItem(@DrawableRes int iconRes, @NonNull String title, Boolean showDivider) {
+    private ContainerDrawerItem createItem(@DrawableRes int iconRes, @NonNull String title, Boolean showDivider, View.OnClickListener itemClickListener) {
+        View v = LayoutInflater.from(this).inflate(R.layout.drawer_item, null);
+        Picasso.with(this)
+                .load(iconRes)
+                .into(((ImageView) v.findViewById(R.id.iv_icon)));
+        v.setOnClickListener(itemClickListener);
+        ((TextView) v.findViewById(R.id.tv_title)).setText(title);
+
+        return new ContainerDrawerItem()
+                .withView(v)
+                .withHeight(DimenHolder.fromDp(60))
+                .withDivider(showDivider);
+    }
+
+    private ContainerDrawerItem createItem(@DrawableRes int iconRes, @NonNull String title, Boolean showDivider, final Class activityToStart, final Boolean finishThis) {
         View v = LayoutInflater.from(this).inflate(R.layout.drawer_item, null);
         Picasso.with(this)
                 .load(iconRes)
                 .into(((ImageView) v.findViewById(R.id.iv_icon)));
         ((TextView) v.findViewById(R.id.tv_title)).setText(title);
 
-        return new ContainerDrawerItem().withView(v).withHeight(DimenHolder.fromDp(60)).withDivider(showDivider);
+        v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (activityToStart == null)
+                    return;
+
+                startActivity(new Intent(BaseNavDrawerActivity.this, activityToStart));
+                if (finishThis)
+                    BaseNavDrawerActivity.this.finish();
+            }
+        });
+
+        return new ContainerDrawerItem()
+                .withView(v)
+                .withHeight(DimenHolder.fromDp(60))
+                .withDivider(showDivider);
     }
 
     private void setupHeader(View header) {
@@ -154,14 +195,14 @@ public class BaseNavDrawerActivity extends AppCompatActivity {
                 .load(R.drawable.logo)
                 .into(((ImageView) header.findViewById(R.id.iv_logo)));
 
-        Picasso.with(this)
-                .load(currentUser.getPhotoUrl())
-                .into(((CircleImageView) header.findViewById(R.id.iv_user_avatar)));
+        if (AuthProvider.getInstance(this).isAuthenticated())
+            Picasso.with(this)
+                    .load(currentUser.getPhotoUrl())
+                    .into(((CircleImageView) header.findViewById(R.id.iv_user_avatar)));
     }
 
     private void setupFooter(View upFooter) {
         ((TextView) upFooter.findViewById(R.id.tv_user_name)).setText(currentUser.getName());
-
     }
 
     private void setDrawerSelection() {

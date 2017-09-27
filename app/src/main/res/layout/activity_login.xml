@@ -91,7 +91,10 @@
             android:layout_marginTop="36dp"
             android:background="@color/md_white_1000"
             android:hint="Логин"
-            android:padding="8dp" />
+            android:lines="1"
+            android:padding="8dp"
+            android:singleLine="true"
+            android:text="cazabap@doanart.com" />
 
         <EditText
             android:id="@+id/ed_password"
@@ -102,7 +105,11 @@
             android:layout_marginTop="16dp"
             android:background="@color/md_white_1000"
             android:hint="Пароль"
-            android:padding="8dp" />
+            android:inputType="textPassword"
+            android:lines="1"
+            android:padding="8dp"
+            android:singleLine="true"
+            android:text="cazabap" />
 
         <Button
             android:id="@+id/btn_login"
@@ -126,16 +133,35 @@
             android:textColor="@color/md_light_primary_text"
             android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/btn_register"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginEnd="36dp"
             android:layout_marginStart="36dp"
             android:layout_marginTop="16dp"
-            android:background="@color/colorButtonAccent"
-            android:text="Регистрация"
-            android:textColor="@color/md_dark_primary_text"
-            android:textStyle="bold" />
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/btn_skip"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/colorButtonGreyDark"
+                android:text="Пропустить"
+                android:textColor="@color/md_dark_primary_text"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btn_register"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:background="@color/colorButtonAccent"
+                android:text="Регистрация"
+                android:textColor="@color/md_dark_primary_text"
+                android:textStyle="bold" />
+        </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

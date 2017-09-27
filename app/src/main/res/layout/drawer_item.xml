@@ -14,7 +14,7 @@
         android:layout_height="36dp"
         android:layout_centerInParent="true"
         tools:src="@drawable/ic_email" />
-
+    
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
