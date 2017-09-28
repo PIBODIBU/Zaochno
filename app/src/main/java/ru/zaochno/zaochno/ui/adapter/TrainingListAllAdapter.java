@@ -11,6 +11,10 @@ import ru.zaochno.zaochno.data.model.Training;
 import ru.zaochno.zaochno.ui.holder.TrainingListAllViewHolder;
 
 public class TrainingListAllAdapter extends BaseTrainingListAdapter<TrainingListAllViewHolder> {
+    public TrainingListAllAdapter(Context context) {
+        super(context);
+    }
+
     public TrainingListAllAdapter(LinkedList<Training> trainings, Context context) {
         super(trainings, context);
     }

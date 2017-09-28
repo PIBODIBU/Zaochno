@@ -9,7 +9,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.zaochno.zaochno.R;
 
-public abstract class BaseTrainingListViewHolder extends RecyclerView.ViewHolder {
+public class BaseTrainingListViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.iv_img)
     public ImageView ivImg;
 

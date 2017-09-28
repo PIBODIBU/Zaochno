@@ -15,6 +15,7 @@
         android:layout_centerInParent="true"
         android:layout_marginStart="8dp"
         android:gravity="center"
+        android:padding="8dp"
         android:text="Для полноценного пользования всему функциями приложения ZaOchno.Ru, пожалуйста, авторизируйтесь или зарегистрируйтесь"
         android:textColor="@color/md_light_primary_text"
         android:textSize="14sp" />

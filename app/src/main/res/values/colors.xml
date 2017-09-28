@@ -16,4 +16,6 @@
     <color name="colorBackground">#f9f9f9</color>
 
     <color name="colorDrawerFooter">#153f7c</color>
+
+    <color name="colorSearchBar">#2c7dc1</color>
 </resources>

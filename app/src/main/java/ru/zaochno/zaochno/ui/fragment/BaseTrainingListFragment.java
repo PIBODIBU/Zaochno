@@ -42,4 +42,8 @@ public abstract class BaseTrainingListFragment<T extends BaseTrainingListAdapter
     public void setAdapter(T adapter) {
         this.adapter = adapter;
     }
+
+    public T getAdapter() {
+        return adapter;
+    }
 }

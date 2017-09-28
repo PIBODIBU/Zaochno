@@ -106,6 +106,10 @@ public class Training {
         return trainingPrices;
     }
 
+    public void setTrainingPrices(List<TrainingPrice> trainingPrices) {
+        this.trainingPrices = trainingPrices;
+    }
+
     public TrainingPrice getLowestPrice() {
         if (getTrainingPrices() == null)
             return null;
@@ -118,9 +122,5 @@ public class Training {
         });
 
         return getTrainingPrices().get(0);
-    }
-
-    public void setTrainingPrices(List<TrainingPrice> trainingPrices) {
-        this.trainingPrices = trainingPrices;
     }
 }
