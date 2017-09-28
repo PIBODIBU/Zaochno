@@ -2,33 +2,29 @@ package ru.zaochno.zaochno.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
+import android.util.Log;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.LinkedList;
+import java.util.List;
 
-import ru.zaochno.zaochno.R;
 import ru.zaochno.zaochno.data.model.Training;
-import ru.zaochno.zaochno.ui.holder.TrainingListViewHolder;
+import ru.zaochno.zaochno.ui.holder.BaseTrainingListViewHolder;
 
-public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListViewHolder> {
-    private LinkedList<Training> trainings;
-    private Context context;
+public abstract class BaseTrainingListAdapter<T extends BaseTrainingListViewHolder> extends RecyclerView.Adapter<T> {
+    private final String TAG = "BaseTrainingListAdapter";
 
-    public TrainingListAdapter(LinkedList<Training> trainings, Context context) {
+    protected List<Training> trainings;
+    protected Context context;
+
+    public BaseTrainingListAdapter(LinkedList<Training> trainings, Context context) {
         this.trainings = trainings;
         this.context = context;
     }
 
     @Override
-    public TrainingListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new TrainingListViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_training, parent, false));
-    }
-
-    @Override
-    public void onBindViewHolder(TrainingListViewHolder holder, int position) {
+    public void onBindViewHolder(T holder, int position) {
         Training training = trainings.get(position);
 
         if (training == null)
@@ -38,9 +34,6 @@ public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListViewHo
             Picasso.with(context)
                     .load(training.getImgUrl())
                     .into(holder.ivImg);
-
-        if (training.getLowestPrice() != null && training.getLowestPrice().getPrice() != null)
-            holder.tvPrice.setText(String.valueOf(training.getLowestPrice().getPrice()));
 
         if (training.getName() != null)
             holder.tvTitle.setText(training.getName());

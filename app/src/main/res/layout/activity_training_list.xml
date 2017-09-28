@@ -31,6 +31,7 @@
                 app:srcCompat="@drawable/logo" />
 
             <LinearLayout
+                android:id="@+id/container_cart"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="16dp"
@@ -106,10 +107,8 @@
         android:layout_height="1dp"
         android:background="@drawable/shadow_top_bottom" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <FrameLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        tools:listitem="@layout/item_training" />
+        android:layout_height="match_parent" />
 </LinearLayout>

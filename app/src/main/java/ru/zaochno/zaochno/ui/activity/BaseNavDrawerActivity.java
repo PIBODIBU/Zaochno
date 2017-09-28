@@ -94,23 +94,10 @@ public class BaseNavDrawerActivity extends AppCompatActivity {
                 .withActivity(this)
                 .withToolbar(toolbar)
                 .withHeader(R.layout.drawer_header)
+                .withTranslucentStatusBar(false)
                 .withStickyFooter(stickyFooterId)
                 .withStickyFooterShadow(false)
                 .withActionBarDrawerToggle(true)
-                .withActionBarDrawerToggleAnimated(true)
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        switch ((int) drawerItem.getIdentifier()) {
-                            case 1:
-                                startActivity(new Intent(BaseNavDrawerActivity.this, TrainingListActivity.class));
-                                finish();
-                                return true;
-                        }
-
-                        return true;
-                    }
-                })
                 .build();
 
         drawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(true);
@@ -133,10 +120,9 @@ public class BaseNavDrawerActivity extends AppCompatActivity {
             );
         else
             drawer.addItems(
+                    createTextItem("Для полноценного пользования всему функциями приложения ZaOchno.Ru, пожалуйста, авторизируйтесь или зарегистрируйтесь", true),
                     createItem(R.drawable.ic_favourite, "Авторизация", true, LoginActivity.class, true),
-                    createItem(R.drawable.ic_training, "Тренинги", true, TrainingListActivity.class, true),
-                    createItem(R.drawable.ic_testing, "Тестирование", true, null, true),
-                    createItem(R.drawable.ic_exit, "Выход", false, null, true)
+                    createItem(R.drawable.ic_training, "Тренинги", true, TrainingListActivity.class, true)
             );
 
         setupHeader(drawer.getHeader());
@@ -145,6 +131,15 @@ public class BaseNavDrawerActivity extends AppCompatActivity {
             setupFooter(drawer.getStickyFooter());
 
         drawer.setSelection(-1);
+    }
+
+    private ContainerDrawerItem createTextItem(@NonNull String text, Boolean showDivider) {
+        View v = LayoutInflater.from(this).inflate(R.layout.drawer_item_text, null);
+        ((TextView) v.findViewById(R.id.tv_text)).setText(text);
+
+        return new ContainerDrawerItem()
+                .withView(v)
+                .withDivider(showDivider);
     }
 
     private ContainerDrawerItem createItem(@DrawableRes int iconRes, @NonNull String title, Boolean showDivider, View.OnClickListener itemClickListener) {

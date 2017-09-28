@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:gravity="center"
+    android:paddingBottom="4dp"
+    android:paddingTop="4dp">
+
+    <TextView
+        android:id="@+id/tv_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="8dp"
+        android:gravity="center"
+        android:text="Для полноценного пользования всему функциями приложения ZaOchno.Ru, пожалуйста, авторизируйтесь или зарегистрируйтесь"
+        android:textColor="@color/md_light_primary_text"
+        android:textSize="14sp" />
+</RelativeLayout>

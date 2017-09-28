@@ -9,12 +9,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.zaochno.zaochno.R;
 
-public class TrainingListViewHolder extends RecyclerView.ViewHolder {
+public abstract class BaseTrainingListViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.iv_img)
     public ImageView ivImg;
-
-    @BindView(R.id.tv_price)
-    public TextView tvPrice;
 
     @BindView(R.id.tv_title)
     public TextView tvTitle;
@@ -22,7 +19,7 @@ public class TrainingListViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.tv_description)
     public TextView tvDescription;
 
-    public TrainingListViewHolder(View itemView) {
+    public BaseTrainingListViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
     }

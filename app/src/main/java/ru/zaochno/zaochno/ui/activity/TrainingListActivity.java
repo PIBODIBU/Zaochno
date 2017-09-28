@@ -25,14 +25,12 @@ import ru.zaochno.zaochno.data.model.Training;
 import ru.zaochno.zaochno.data.model.filter.TrainingFilter;
 import ru.zaochno.zaochno.data.model.response.DataResponseWrapper;
 import ru.zaochno.zaochno.data.provider.AuthProvider;
-import ru.zaochno.zaochno.ui.adapter.TrainingListAdapter;
+import ru.zaochno.zaochno.ui.adapter.TrainingListAllAdapter;
+import ru.zaochno.zaochno.ui.fragment.TrainingListAllFragment;
 
 public class TrainingListActivity extends BaseNavDrawerActivity {
     @BindView(R.id.toolbar)
     public Toolbar toolbar;
-
-    @BindView(R.id.recycler_view)
-    public RecyclerView recyclerView;
 
     @BindView(R.id.iv_toolbar_logo)
     public ImageView ivToolbarLogo;
@@ -40,9 +38,13 @@ public class TrainingListActivity extends BaseNavDrawerActivity {
     @BindView(R.id.container_tabs)
     public View containerTabs;
 
-    private TrainingListAdapter adapter;
-    private LinearLayoutManager layoutManager;
+    @BindView(R.id.container_cart)
+    public View containerCart;
+
+    private TrainingListAllAdapter adapter;
     private LinkedList<Training> trainings = new LinkedList<>();
+
+    private TrainingListAllFragment listAllFragment = new TrainingListAllFragment();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,15 +94,17 @@ public class TrainingListActivity extends BaseNavDrawerActivity {
                 .load(R.drawable.logo)
                 .into(ivToolbarLogo);
 
-        if (!AuthProvider.getInstance(this).isAuthenticated())
+        if (!AuthProvider.getInstance(this).isAuthenticated()) {
             containerTabs.setVisibility(View.GONE);
+            containerCart.setVisibility(View.GONE);
+        }
     }
 
     private void setupRecyclerView() {
-        adapter = new TrainingListAdapter(trainings, this);
-        layoutManager = new LinearLayoutManager(this);
+        adapter = new TrainingListAllAdapter(trainings, this);
 
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+        listAllFragment.setAdapter(adapter);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, listAllFragment).commit();
     }
 }
