@@ -23,6 +23,12 @@ android {
     }
 }
 
+repositories {
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots"
+    }
+}
+
 dependencies {
     // Support
     compile 'com.android.support:appcompat-v7:26.1.0'
@@ -48,6 +54,9 @@ dependencies {
     // Butterknife
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
+    // Custom views
+    compile 'org.florescu.android.rangeseekbar:rangeseekbar-library:0.4.0'
 
     // Images
     compile 'com.squareup.picasso:picasso:2.5.2'

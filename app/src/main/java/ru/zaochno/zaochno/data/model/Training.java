@@ -123,4 +123,18 @@ public class Training {
 
         return getTrainingPrices().get(0);
     }
+
+    public TrainingPrice getHighestPrice() {
+        if (getTrainingPrices() == null)
+            return null;
+
+        Collections.sort(getTrainingPrices(), new Comparator<TrainingPrice>() {
+            @Override
+            public int compare(TrainingPrice trainingPrice, TrainingPrice t1) {
+                return t1.getPrice().compareTo(trainingPrice.getPrice());
+            }
+        });
+
+        return getTrainingPrices().get(0);
+    }
 }

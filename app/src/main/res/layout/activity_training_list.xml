@@ -8,7 +8,7 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="56dp"
         android:background="@color/colorPrimary"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -27,7 +27,7 @@
                 android:background="@drawable/btn_toolbar_white_cornered"
                 android:paddingBottom="2dp"
                 android:paddingTop="2dp"
-                app:srcCompat="@drawable/logo" />
+                tools:src="@drawable/logo" />
 
             <LinearLayout
                 android:id="@+id/container_cart"

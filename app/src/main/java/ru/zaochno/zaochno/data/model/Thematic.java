@@ -1,8 +1,22 @@
 package ru.zaochno.zaochno.data.model;
 
-/**
- * Created by Roman on 27.09.2017.
- */
-
 public class Thematic {
+    private String name;
+
+    public Thematic(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
 }

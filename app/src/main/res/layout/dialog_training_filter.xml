@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    android:orientation="vertical"
+    android:paddingBottom="24dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Фильтры"
+            android:textColor="#ffffff"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/border_oval_white_1dp"
+            android:padding="4dp"
+            app:srcCompat="@drawable/ic_close_white" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_title_thematic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:text="Тематика"
+            android:textColor="#000"
+            android:textSize="18sp" />
+
+        <Spinner
+            android:id="@+id/spinner_thematic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_title_thematic"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:id="@+id/tv_title_price_range"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/spinner_thematic"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:text="Цена"
+            android:textColor="#000"
+            android:textSize="18sp" />
+
+        <org.florescu.android.rangeseekbar.RangeSeekBar
+            android:id="@+id/range_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_title_price_range"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            app:absoluteMaxValue="5000"
+            app:absoluteMinValue="0"
+            app:activateOnDefaultValues="true"
+            app:activeColor="@color/colorSeekBarActive"
+            app:barHeight="10dp"
+            app:defaultColor="@color/colorSeekBarDefault"
+            app:showLabels="false"
+            app:textAboveThumbsColor="#000"
+            app:thumbNormal="@drawable/seek_bar_thumb"
+            app:thumbPressed="@drawable/seek_bar_thumb"
+            app:valuesAboveThumbs="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/range_bar"
+            android:layout_marginStart="20dp"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:text="0 руб"
+            android:textColor="#000" />
+
+        <TextView
+            android:id="@+id/tv_max_price_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/range_bar"
+            android:layout_marginEnd="20dp"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:text="5000 руб"
+            android:textColor="#000" />
+
+        <Button
+            android:id="@+id/btn_apply"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/range_bar"
+            android:layout_marginEnd="36dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="30dp"
+            android:background="@color/colorButtonAccent"
+            android:text="Применить"
+            android:textColor="@color/md_dark_primary_text" />
+    </RelativeLayout>
+</LinearLayout>

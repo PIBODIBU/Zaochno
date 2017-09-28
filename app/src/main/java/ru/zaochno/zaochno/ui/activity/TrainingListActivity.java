@@ -35,6 +35,7 @@ import ru.zaochno.zaochno.ui.adapter.TrainingListAllAdapter;
 import ru.zaochno.zaochno.ui.adapter.TrainingListFavouriteAdapter;
 import ru.zaochno.zaochno.ui.adapter.TrainingListPayedAdapter;
 import ru.zaochno.zaochno.ui.adapter.pager.TrainingListPagerAdapter;
+import ru.zaochno.zaochno.ui.dialog.TrainingListFilterDialog;
 import ru.zaochno.zaochno.ui.fragment.TrainingListAllFragment;
 import ru.zaochno.zaochno.ui.fragment.TrainingListFavouriteFragment;
 import ru.zaochno.zaochno.ui.fragment.TrainingListPayedFragment;
@@ -77,6 +78,8 @@ public class TrainingListActivity extends BaseNavDrawerActivity {
 
     private TrainingListPagerAdapter pagerAdapter;
 
+    private TrainingListFilterDialog dialogFilterSettings;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,13 +94,7 @@ public class TrainingListActivity extends BaseNavDrawerActivity {
 
         setupUi();
         setupAdapters();
-        fetchData(new TrainingFilter(
-                1000, // number
-                AuthProvider.getInstance(this).isAuthenticated() ? AuthProvider.getInstance(this).getCurrentUser().getToken() : "", // token
-                null,  // thematics
-                0, // start price
-                1000 // end price
-        ));
+        fetchData();
         setupTabs();
     }
 
@@ -158,6 +155,23 @@ public class TrainingListActivity extends BaseNavDrawerActivity {
         });
     }
 
+    private void setupFilterSettingsDialog(Integer maxPrice) {
+        dialogFilterSettings = new TrainingListFilterDialog();
+        dialogFilterSettings.setFilter(new TrainingFilter(
+                1000, // number
+                AuthProvider.getInstance(this).isAuthenticated() ? AuthProvider.getInstance(this).getCurrentUser().getToken() : "", // token
+                null,  // thematics
+                0, // start price
+                maxPrice // end price
+        ));
+        dialogFilterSettings.setOnFilterApplyListener(new TrainingListFilterDialog.OnFilterApplyListener() {
+            @Override
+            public void onApply(TrainingFilter filter) {
+                fetchData(filter);
+            }
+        });
+    }
+
     private void setupAdapters() {
         adapterAll = new TrainingListAllAdapter(this);
         adapterFavourite = new TrainingListFavouriteAdapter(this);
@@ -166,6 +180,54 @@ public class TrainingListActivity extends BaseNavDrawerActivity {
         fragmentAll.setAdapter(adapterAll);
         fragmentFavourite.setAdapter(adapterFavourite);
         fragmentPayed.setAdapter(adapterPayed);
+    }
+
+    private void fetchData() {
+        Retrofit2Client.getInstance().getApi().getTrainings(new TrainingFilter(
+                1000, // number
+                AuthProvider.getInstance(this).isAuthenticated() ? AuthProvider.getInstance(this).getCurrentUser().getToken() : "", // token
+                null,  // thematics
+                0, // start price
+                1000 // end price
+        )).enqueue(new Callback<DataResponseWrapper<List<Training>>>() {
+            @Override
+            public void onResponse(Call<DataResponseWrapper<List<Training>>> call, Response<DataResponseWrapper<List<Training>>> response) {
+                if (response == null || response.body() == null || response.body().getResponseObj() == null) {
+                    Toast.makeText(TrainingListActivity.this, "Ошибка", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                Integer maxPrice = 0;
+                listAll.clear();
+                adapterFavourite.getTrainings().clear();
+                adapterPayed.getTrainings().clear();
+
+                listAll.addAll(response.body().getResponseObj());
+
+                for (Training training : response.body().getResponseObj()) {
+                    if (training.getHighestPrice().getPrice() > maxPrice)
+                        maxPrice = training.getHighestPrice().getPrice();
+
+                    if (training.getFavourite())
+                        adapterFavourite.getTrainings().add(training);
+
+                    if (training.getPayed())
+                        adapterPayed.getTrainings().add(training);
+                }
+
+                adapterAll.setTrainings(listAll);
+                adapterAll.notifyDataSetChanged();
+                adapterFavourite.notifyDataSetChanged();
+                adapterPayed.notifyDataSetChanged();
+
+                setupFilterSettingsDialog(maxPrice);
+            }
+
+            @Override
+            public void onFailure(Call<DataResponseWrapper<List<Training>>> call, Throwable t) {
+                Toast.makeText(TrainingListActivity.this, "Ошибка", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void fetchData(@NonNull TrainingFilter trainingFilter) {
@@ -178,23 +240,9 @@ public class TrainingListActivity extends BaseNavDrawerActivity {
                 }
 
                 listAll.clear();
-                adapterFavourite.getTrainings().clear();
-                adapterPayed.getTrainings().clear();
-
                 listAll.addAll(response.body().getResponseObj());
-
-                for (Training training : response.body().getResponseObj()) {
-                    if (training.getFavourite())
-                        adapterFavourite.getTrainings().add(training);
-
-                    if (training.getPayed())
-                        adapterPayed.getTrainings().add(training);
-                }
-
                 adapterAll.setTrainings(listAll);
                 adapterAll.notifyDataSetChanged();
-                adapterFavourite.notifyDataSetChanged();
-                adapterPayed.notifyDataSetChanged();
             }
 
             @Override
@@ -220,7 +268,7 @@ public class TrainingListActivity extends BaseNavDrawerActivity {
 
     @OnClick(R.id.ib_search_settings)
     public void openSearchSettingsDialog() {
-
+        dialogFilterSettings.show(getSupportFragmentManager(), "dialogFilterSettings");
     }
 
     @OnClick(R.id.iv_clear_search_query)

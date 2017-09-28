@@ -22,6 +22,9 @@ public class TrainingFilter {
     @SerializedName("priceEnd")
     private Integer priceEnd;
 
+    public TrainingFilter() {
+    }
+
     public TrainingFilter(Integer number, String token, List<Thematic> thematics, Integer priceStart, Integer priceEnd) {
         this.number = number;
         this.token = token;
