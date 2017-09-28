@@ -20,9 +20,14 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import ru.zaochno.zaochno.R;
+import ru.zaochno.zaochno.data.api.Retrofit2Client;
 import ru.zaochno.zaochno.data.model.Thematic;
 import ru.zaochno.zaochno.data.model.filter.TrainingFilter;
+import ru.zaochno.zaochno.data.model.response.DataResponseWrapper;
 
 public class TrainingListFilterDialog extends DialogFragment {
     @BindView(R.id.range_bar)
@@ -37,6 +42,8 @@ public class TrainingListFilterDialog extends DialogFragment {
     private TrainingFilter filter;
     private TrainingFilter internalFilter = new TrainingFilter();
     private OnFilterApplyListener onFilterApplyListener;
+
+    private List<Thematic> thematics;
 
     @Nullable
     @Override
@@ -57,21 +64,38 @@ public class TrainingListFilterDialog extends DialogFragment {
             }
         });
 
-        List<Thematic> thematics = new ArrayList<>();
-        thematics.add(new Thematic("Thematic 1"));
-        thematics.add(new Thematic("Business Services"));
-        thematics.add(new Thematic("Computers"));
-        thematics.add(new Thematic("Education"));
-        thematics.add(new Thematic("Personal"));
-        thematics.add(new Thematic("Travel"));
+        Retrofit2Client.getInstance().getApi().getThematics().enqueue(new Callback<DataResponseWrapper<List<Thematic>>>() {
+            @Override
+            public void onResponse(Call<DataResponseWrapper<List<Thematic>>> call, Response<DataResponseWrapper<List<Thematic>>> response) {
+                if (response == null || response.body() == null || response.body().getResponseObj() == null) {
+                    Toast.makeText(getActivity(), "Ошибка", Toast.LENGTH_LONG).show();
+                    return;
+                }
 
+                thematics = new ArrayList<>();
+                thematics.add(new Thematic("Все"));
+                thematics.addAll(response.body().getResponseObj());
+                setupSpinner();
+            }
+
+            @Override
+            public void onFailure(Call<DataResponseWrapper<List<Thematic>>> call, Throwable t) {
+
+            }
+        });
+
+        return rootView;
+    }
+
+    private void setupSpinner() {
         ArrayAdapter<Thematic> dataAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, thematics);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerThematic.setAdapter(dataAdapter);
         spinnerThematic.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getActivity(), ((Thematic) adapterView.getItemAtPosition(i)).getName(), Toast.LENGTH_LONG).show();
+                internalFilter.getThematics().clear();
+                internalFilter.getThematics().add((Thematic) adapterView.getItemAtPosition(i));
             }
 
             @Override
@@ -79,8 +103,6 @@ public class TrainingListFilterDialog extends DialogFragment {
 
             }
         });
-
-        return rootView;
     }
 
     @OnClick(R.id.iv_close)

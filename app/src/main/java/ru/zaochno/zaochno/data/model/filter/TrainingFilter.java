@@ -2,6 +2,7 @@ package ru.zaochno.zaochno.data.model.filter;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ru.zaochno.zaochno.data.model.Thematic;
@@ -23,6 +24,10 @@ public class TrainingFilter {
     private Integer priceEnd;
 
     public TrainingFilter() {
+    }
+
+    public TrainingFilter(String token) {
+        this.token = token;
     }
 
     public TrainingFilter(Integer number, String token, List<Thematic> thematics, Integer priceStart, Integer priceEnd) {
@@ -50,6 +55,8 @@ public class TrainingFilter {
     }
 
     public List<Thematic> getThematics() {
+        if (thematics == null)
+            thematics = new ArrayList<>();
         return thematics;
     }
 

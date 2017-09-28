@@ -105,9 +105,16 @@ public class BaseNavDrawerActivity extends AppCompatActivity {
         if (AuthProvider.getInstance(this).isAuthenticated())
             drawer.addItems(
                     createItem(R.drawable.ic_training, "Мои тренинги", true, TrainingListActivity.class, true),
-                    createItem(R.drawable.ic_favourite, "Избранное", true, null, true),
+                    createItem(R.drawable.ic_favourite, "Избранное", true, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startActivity(new Intent(BaseNavDrawerActivity.this, TrainingListActivity.class)
+                                    .putExtra(TrainingListActivity.INTENT_KEY_TAB, TrainingListActivity.INTENT_KEY_TAB_FAVOURITE));
+                            finish();
+                        }
+                    }),
                     createItem(R.drawable.ic_testing, "Тестирование", true, null, true),
-                    createItem(R.drawable.ic_email, "Мои сообщения", true, null, true),
+                    createItem(R.drawable.ic_email, "Мои сообщения", true, MessageListActivity.class, true),
                     createItem(R.drawable.ic_settings, "Настройка", true, null, true),
                     createItem(R.drawable.ic_exit, "Выход", false, new View.OnClickListener() {
                         @Override

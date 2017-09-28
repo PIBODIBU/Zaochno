@@ -43,6 +43,11 @@ import ru.zaochno.zaochno.ui.fragment.TrainingListPayedFragment;
 public class TrainingListActivity extends BaseNavDrawerActivity {
     private static final String TAG = "TrainingListActivity";
 
+    public static final String INTENT_KEY_TAB = "INTENT_KEY_TAB";
+    public static final String INTENT_KEY_TAB_ALL = "INTENT_KEY_TAB_ALL";
+    public static final String INTENT_KEY_TAB_FAVOURITE = "INTENT_KEY_TAB_FAVOURITE";
+    public static final String INTENT_KEY_TAB_PAYED = "INTENT_KEY_TAB_PAYED";
+
     @BindView(R.id.toolbar)
     public Toolbar toolbar;
 
@@ -96,6 +101,28 @@ public class TrainingListActivity extends BaseNavDrawerActivity {
         setupAdapters();
         fetchData();
         setupTabs();
+        checkIntent();
+    }
+
+    private void checkIntent() {
+        if (getIntent().getExtras() != null && getIntent().getExtras().containsKey(INTENT_KEY_TAB)) {
+            Integer switchToId = -1;
+
+            switch (getIntent().getExtras().getString(INTENT_KEY_TAB)) {
+                case INTENT_KEY_TAB_ALL:
+                    switchToId = 0;
+                    break;
+                case INTENT_KEY_TAB_FAVOURITE:
+                    switchToId = 1;
+                    break;
+                case INTENT_KEY_TAB_PAYED:
+                    switchToId = 2;
+                    break;
+            }
+
+            if (switchToId != -1)
+                viewPager.setCurrentItem(switchToId);
+        }
     }
 
     private void setupUi() {
@@ -231,6 +258,9 @@ public class TrainingListActivity extends BaseNavDrawerActivity {
     }
 
     private void fetchData(@NonNull TrainingFilter trainingFilter) {
+        if (trainingFilter.getThematics().get(0).getId() == null)
+            trainingFilter.getThematics().remove(0);
+
         Retrofit2Client.getInstance().getApi().getTrainings(trainingFilter).enqueue(new Callback<DataResponseWrapper<List<Training>>>() {
             @Override
             public void onResponse(Call<DataResponseWrapper<List<Training>>> call, Response<DataResponseWrapper<List<Training>>> response) {

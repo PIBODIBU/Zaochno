@@ -13,7 +13,9 @@
 
     <color name="colorLabelRed">#e72924</color>
 
+    <color name="colorBackgroundPrimary">#ddeaf4</color>
     <color name="colorBackground">#f9f9f9</color>
+    <color name="colorBackgroundDark">#cfcfcf</color>
 
     <color name="colorDrawerFooter">#153f7c</color>
 
@@ -21,4 +23,6 @@
 
     <color name="colorSeekBarActive">#ffeb00</color>
     <color name="colorSeekBarDefault">#e2e2e2</color>
+
+    <color name="white">#ffffff</color>
 </resources>

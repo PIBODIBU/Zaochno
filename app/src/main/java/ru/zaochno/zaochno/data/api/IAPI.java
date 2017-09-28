@@ -5,6 +5,8 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
+import ru.zaochno.zaochno.data.model.Message;
+import ru.zaochno.zaochno.data.model.Thematic;
 import ru.zaochno.zaochno.data.model.Token;
 import ru.zaochno.zaochno.data.model.Training;
 import ru.zaochno.zaochno.data.model.User;
@@ -21,4 +23,10 @@ public interface IAPI {
 
     @POST("trennings")
     Call<DataResponseWrapper<List<Training>>> getTrainings(@Body TrainingFilter trainingFilter);
+
+    @POST("thematics")
+    Call<DataResponseWrapper<List<Thematic>>> getThematics();
+
+    @POST("feedback")
+    Call<DataResponseWrapper<List<Message>>> getMessages(@Body TrainingFilter trainingFilter);
 }
