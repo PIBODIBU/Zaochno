@@ -25,8 +25,8 @@ public class MessageListViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.tv_text)
     public TextView tvText;
 
-    @BindView(R.id.btn_cancel)
-    public ImageButton ibCancel;
+    @BindView(R.id.btn_delete)
+    public ImageButton ibDelete;
 
     public MessageListViewHolder(View itemView) {
         super(itemView);

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import ru.zaochno.zaochno.ui.holder.MessageListViewHolder;
 public class MessageListAdapter extends RecyclerView.Adapter<MessageListViewHolder> {
     private List<Message> messages;
     private Context context;
+    private OnMessageActionListener onMessageActionListener;
 
     public MessageListAdapter(List<Message> messages, Context context) {
         this.messages = messages;
@@ -28,7 +30,23 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListViewHold
 
     @Override
     public void onBindViewHolder(MessageListViewHolder holder, int position) {
-        Message message = messages.get(position);
+        final Message message = messages.get(position);
+
+        if (onMessageActionListener != null) {
+            holder.containerContent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onMessageActionListener.onMessageClick(message);
+                }
+            });
+
+            holder.ibDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onMessageActionListener.onMessageDelete(message);
+                }
+            });
+        }
 
         if (message.getTitle() != null)
             holder.tvTitle.setText(message.getTitle());
@@ -44,12 +62,12 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListViewHold
                 // Message is read
                 holder.containerContent.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
                 holder.tvStatus.setTextColor(ContextCompat.getColor(context, R.color.md_light_primary_text));
-                holder.ibCancel.setBackgroundResource(R.drawable.oval_grey);
+                holder.ibDelete.setBackgroundResource(R.drawable.oval_grey);
             } else {
                 // Message is not read
                 holder.containerContent.setBackgroundColor(ContextCompat.getColor(context, R.color.colorBackgroundPrimary));
                 holder.tvStatus.setTextColor(ContextCompat.getColor(context, R.color.md_red_500));
-                holder.ibCancel.setBackgroundResource(R.drawable.oval_white);
+                holder.ibDelete.setBackgroundResource(R.drawable.oval_white);
             }
         }
     }
@@ -61,5 +79,15 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListViewHold
 
     public List<Message> getMessages() {
         return messages;
+    }
+
+    public interface OnMessageActionListener {
+        void onMessageClick(Message message);
+
+        void onMessageDelete(Message message);
+    }
+
+    public void setOnMessageActionListener(OnMessageActionListener onMessageActionListener) {
+        this.onMessageActionListener = onMessageActionListener;
     }
 }

@@ -2,7 +2,7 @@ package ru.zaochno.zaochno.data.model.response;
 
 import com.google.gson.annotations.SerializedName;
 
-public abstract class BaseResponse {
+public class BaseErrorResponse {
     @SerializedName("error")
     private Boolean error;
 

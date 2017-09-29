@@ -11,12 +11,14 @@ import ru.zaochno.zaochno.data.model.Token;
 import ru.zaochno.zaochno.data.model.Training;
 import ru.zaochno.zaochno.data.model.User;
 import ru.zaochno.zaochno.data.model.filter.TrainingFilter;
-import ru.zaochno.zaochno.data.model.response.AuthResponse;
+import ru.zaochno.zaochno.data.model.request.TokenRequest;
+import ru.zaochno.zaochno.data.model.response.AuthErrorResponse;
+import ru.zaochno.zaochno.data.model.response.BaseErrorResponse;
 import ru.zaochno.zaochno.data.model.response.DataResponseWrapper;
 
 public interface IAPI {
     @POST("Account/Login")
-    Call<AuthResponse> authenticate(@Body User user);
+    Call<AuthErrorResponse> authenticate(@Body User user);
 
     @POST("Account/getUserProfile")
     Call<DataResponseWrapper<User>> getUserInfo(@Body Token token);
@@ -28,5 +30,11 @@ public interface IAPI {
     Call<DataResponseWrapper<List<Thematic>>> getThematics();
 
     @POST("feedback")
-    Call<DataResponseWrapper<List<Message>>> getMessages(@Body TrainingFilter trainingFilter);
+    Call<DataResponseWrapper<List<Message>>> getMessages(@Body TokenRequest tokenRequest);
+
+    @POST("sendMessage")
+    Call<BaseErrorResponse> sendMessage(@Body Message message);
+
+    @POST("feedback")
+    Call<BaseErrorResponse> markMessageAsRead(@Body Message message);
 }

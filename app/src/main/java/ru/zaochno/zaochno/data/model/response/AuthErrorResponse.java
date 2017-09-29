@@ -2,7 +2,7 @@ package ru.zaochno.zaochno.data.model.response;
 
 import com.google.gson.annotations.SerializedName;
 
-public class AuthResponse extends BaseResponse {
+public class AuthErrorResponse extends BaseErrorResponse {
     @SerializedName("data")
     private String token;
 

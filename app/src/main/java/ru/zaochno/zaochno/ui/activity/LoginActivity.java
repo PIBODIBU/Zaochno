@@ -23,7 +23,7 @@ import ru.zaochno.zaochno.R;
 import ru.zaochno.zaochno.data.api.Retrofit2Client;
 import ru.zaochno.zaochno.data.model.Token;
 import ru.zaochno.zaochno.data.model.User;
-import ru.zaochno.zaochno.data.model.response.AuthResponse;
+import ru.zaochno.zaochno.data.model.response.AuthErrorResponse;
 import ru.zaochno.zaochno.data.model.response.DataResponseWrapper;
 import ru.zaochno.zaochno.data.shared.SharedPrefUtils;
 
@@ -80,9 +80,9 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        Retrofit2Client.getInstance().getApi().authenticate(new User(username, password)).enqueue(new Callback<AuthResponse>() {
+        Retrofit2Client.getInstance().getApi().authenticate(new User(username, password)).enqueue(new Callback<AuthErrorResponse>() {
             @Override
-            public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
+            public void onResponse(Call<AuthErrorResponse> call, Response<AuthErrorResponse> response) {
                 if (response == null || response.body() == null || response.body().getToken() == null) {
                     Toast.makeText(LoginActivity.this, "Ошибка авторизации", Toast.LENGTH_LONG).show();
                     return;
@@ -111,7 +111,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<AuthResponse> call, Throwable t) {
+            public void onFailure(Call<AuthErrorResponse> call, Throwable t) {
                 Toast.makeText(LoginActivity.this, "Ошибка авторизации", Toast.LENGTH_LONG).show();
             }
         });

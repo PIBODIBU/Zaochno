@@ -2,14 +2,14 @@ package ru.zaochno.zaochno.data.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class SubCategory {
+public class SubThematic {
     @SerializedName("name")
     private String name;
 
     @SerializedName("id")
     private Integer id;
 
-    public SubCategory(String name, Integer id) {
+    public SubThematic(String name, Integer id) {
         this.name = name;
         this.id = id;
     }
@@ -28,5 +28,10 @@ public class SubCategory {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

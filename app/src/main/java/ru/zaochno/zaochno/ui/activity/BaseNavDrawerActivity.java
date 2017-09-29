@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -25,12 +26,21 @@ import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import ru.zaochno.zaochno.R;
+import ru.zaochno.zaochno.data.api.Retrofit2Client;
+import ru.zaochno.zaochno.data.model.Message;
 import ru.zaochno.zaochno.data.model.User;
+import ru.zaochno.zaochno.data.model.request.TokenRequest;
+import ru.zaochno.zaochno.data.model.response.DataResponseWrapper;
 import ru.zaochno.zaochno.data.provider.AuthProvider;
 import ru.zaochno.zaochno.data.shared.SharedPrefUtils;
+import ru.zaochno.zaochno.ui.drawer.DrawerItemCreator;
 
 public class BaseNavDrawerActivity extends AppCompatActivity {
     private static final String TAG = "BaseNavDrawerActivity";
@@ -104,32 +114,82 @@ public class BaseNavDrawerActivity extends AppCompatActivity {
 
         if (AuthProvider.getInstance(this).isAuthenticated())
             drawer.addItems(
-                    createItem(R.drawable.ic_training, "Мои тренинги", true, TrainingListActivity.class, true),
-                    createItem(R.drawable.ic_favourite, "Избранное", true, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            startActivity(new Intent(BaseNavDrawerActivity.this, TrainingListActivity.class)
-                                    .putExtra(TrainingListActivity.INTENT_KEY_TAB, TrainingListActivity.INTENT_KEY_TAB_FAVOURITE));
-                            finish();
-                        }
-                    }),
-                    createItem(R.drawable.ic_testing, "Тестирование", true, null, true),
-                    createItem(R.drawable.ic_email, "Мои сообщения", true, MessageListActivity.class, true),
-                    createItem(R.drawable.ic_settings, "Настройка", true, null, true),
-                    createItem(R.drawable.ic_exit, "Выход", false, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            AuthProvider.getInstance(BaseNavDrawerActivity.this).logOut();
-                            startActivity(new Intent(BaseNavDrawerActivity.this, LoginActivity.class));
-                            finish();
-                        }
-                    })
+                    DrawerItemCreator.createItem(this,
+                            R.drawable.ic_training,
+                            "Мои тренинги",
+                            1,
+                            true,
+                            TrainingListActivity.class,
+                            true),
+                    DrawerItemCreator.createItem(this,
+                            R.drawable.ic_favourite,
+                            "Избранное",
+                            2,
+                            true,
+                            new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    startActivity(new Intent(BaseNavDrawerActivity.this, TrainingListActivity.class)
+                                            .putExtra(TrainingListActivity.INTENT_KEY_TAB, TrainingListActivity.INTENT_KEY_TAB_FAVOURITE));
+                                    finish();
+                                }
+                            }),
+                    DrawerItemCreator.createItem(this,
+                            R.drawable.ic_testing,
+                            "Тестирование",
+                            3,
+                            true,
+                            null,
+                            true),
+                    DrawerItemCreator.createItem(this,
+                            R.drawable.ic_email,
+                            R.layout.drawer_item_messages,
+                            "Мои сообщения",
+                            4,
+                            true,
+                            MessageListActivity.class,
+                            true),
+                    DrawerItemCreator.createItem(this,
+                            R.drawable.ic_settings,
+                            "Настройка",
+                            5,
+                            true,
+                            null,
+                            true),
+                    DrawerItemCreator.createItem(this,
+                            R.drawable.ic_exit,
+                            "Выход",
+                            6,
+                            false,
+                            new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    AuthProvider.getInstance(BaseNavDrawerActivity.this).logOut();
+                                    startActivity(new Intent(BaseNavDrawerActivity.this, LoginActivity.class));
+                                    finish();
+                                }
+                            })
             );
         else
             drawer.addItems(
-                    createTextItem("Для полноценного пользования всему функциями приложения ZaOchno.Ru, пожалуйста, авторизируйтесь или зарегистрируйтесь", true),
-                    createItem(R.drawable.ic_favourite, "Авторизация", true, LoginActivity.class, true),
-                    createItem(R.drawable.ic_training, "Тренинги", true, TrainingListActivity.class, true)
+                    DrawerItemCreator.createTextItem(this,
+                            "Для полноценного пользования всему функциями приложения ZaOchno.Ru, пожалуйста, авторизируйтесь или зарегистрируйтесь",
+                            true,
+                            1),
+                    DrawerItemCreator.createItem(this,
+                            R.drawable.ic_favourite,
+                            "Авторизация",
+                            2,
+                            true,
+                            LoginActivity.class,
+                            true),
+                    DrawerItemCreator.createItem(this,
+                            R.drawable.ic_training,
+                            "Тренинги",
+                            3,
+                            true,
+                            TrainingListActivity.class,
+                            true)
             );
 
         setupHeader(drawer.getHeader());
@@ -138,54 +198,35 @@ public class BaseNavDrawerActivity extends AppCompatActivity {
             setupFooter(drawer.getStickyFooter());
 
         drawer.setSelection(-1);
+
+        if (AuthProvider.getInstance(this).isAuthenticated())
+            checkUnreadMessages();
     }
 
-    private ContainerDrawerItem createTextItem(@NonNull String text, Boolean showDivider) {
-        View v = LayoutInflater.from(this).inflate(R.layout.drawer_item_text, null);
-        ((TextView) v.findViewById(R.id.tv_text)).setText(text);
+    private void checkUnreadMessages() {
+        Retrofit2Client.getInstance().getApi().getMessages(new TokenRequest(AuthProvider.getInstance(this).getCurrentUser().getToken()))
+                .enqueue(new Callback<DataResponseWrapper<List<Message>>>() {
+                    @Override
+                    public void onResponse(Call<DataResponseWrapper<List<Message>>> call, Response<DataResponseWrapper<List<Message>>> response) {
+                        Integer unreadCount = 0;
 
-        return new ContainerDrawerItem()
-                .withView(v)
-                .withDivider(showDivider);
-    }
+                        for (Message message : response.body().getResponseObj())
+                            if (!message.getRead())
+                                unreadCount++;
 
-    private ContainerDrawerItem createItem(@DrawableRes int iconRes, @NonNull String title, Boolean showDivider, View.OnClickListener itemClickListener) {
-        View v = LayoutInflater.from(this).inflate(R.layout.drawer_item, null);
-        Picasso.with(this)
-                .load(iconRes)
-                .into(((ImageView) v.findViewById(R.id.iv_icon)));
-        v.setOnClickListener(itemClickListener);
-        ((TextView) v.findViewById(R.id.tv_title)).setText(title);
+                        ((ContainerDrawerItem) drawer.getDrawerItem(4)).getView().findViewById(R.id.tv_unread_count)
+                                .setVisibility(unreadCount == 0 ? View.GONE : View.VISIBLE);
 
-        return new ContainerDrawerItem()
-                .withView(v)
-                .withHeight(DimenHolder.fromDp(60))
-                .withDivider(showDivider);
-    }
+                        if (unreadCount > 0)
+                            ((TextView) ((ContainerDrawerItem) drawer.getDrawerItem(4)).getView().findViewById(R.id.tv_unread_count))
+                                    .setText(String.valueOf(unreadCount));
+                    }
 
-    private ContainerDrawerItem createItem(@DrawableRes int iconRes, @NonNull String title, Boolean showDivider, final Class activityToStart, final Boolean finishThis) {
-        View v = LayoutInflater.from(this).inflate(R.layout.drawer_item, null);
-        Picasso.with(this)
-                .load(iconRes)
-                .into(((ImageView) v.findViewById(R.id.iv_icon)));
-        ((TextView) v.findViewById(R.id.tv_title)).setText(title);
+                    @Override
+                    public void onFailure(Call<DataResponseWrapper<List<Message>>> call, Throwable t) {
 
-        v.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (activityToStart == null)
-                    return;
-
-                startActivity(new Intent(BaseNavDrawerActivity.this, activityToStart));
-                if (finishThis)
-                    BaseNavDrawerActivity.this.finish();
-            }
-        });
-
-        return new ContainerDrawerItem()
-                .withView(v)
-                .withHeight(DimenHolder.fromDp(60))
-                .withDivider(showDivider);
+                    }
+                });
     }
 
     private void setupHeader(View header) {

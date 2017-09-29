@@ -2,7 +2,9 @@ package ru.zaochno.zaochno.data.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Message {
+import ru.zaochno.zaochno.data.model.request.BaseTokenRequest;
+
+public class Message implements BaseTokenRequest {
     @SerializedName("msgId")
     private Integer id;
 
@@ -14,6 +16,14 @@ public class Message {
 
     @SerializedName("message")
     private String message;
+
+    @SerializedName("token")
+    private String token;
+
+    public Message(String title, String message) {
+        this.title = title;
+        this.message = message;
+    }
 
     public Message(Integer id, Boolean isRead, String title, String message) {
         this.id = id;
@@ -52,5 +62,15 @@ public class Message {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    @Override
+    public String getToken() {
+        return token;
+    }
+
+    @Override
+    public void setToken(String token) {
+        this.token = token;
     }
 }

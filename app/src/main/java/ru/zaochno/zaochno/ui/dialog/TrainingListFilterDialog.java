@@ -25,6 +25,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import ru.zaochno.zaochno.R;
 import ru.zaochno.zaochno.data.api.Retrofit2Client;
+import ru.zaochno.zaochno.data.model.SubThematic;
 import ru.zaochno.zaochno.data.model.Thematic;
 import ru.zaochno.zaochno.data.model.filter.TrainingFilter;
 import ru.zaochno.zaochno.data.model.response.DataResponseWrapper;
@@ -36,6 +37,9 @@ public class TrainingListFilterDialog extends DialogFragment {
     @BindView(R.id.spinner_thematic)
     public Spinner spinnerThematic;
 
+    @BindView(R.id.spinner_sub_thematic)
+    public Spinner spinnerSubThematic;
+
     @BindView(R.id.tv_max_price_label)
     public TextView tvMaxPriceLabel;
 
@@ -44,6 +48,7 @@ public class TrainingListFilterDialog extends DialogFragment {
     private OnFilterApplyListener onFilterApplyListener;
 
     private List<Thematic> thematics;
+    private List<SubThematic> subThematics = new ArrayList<>();
 
     @Nullable
     @Override
@@ -75,7 +80,7 @@ public class TrainingListFilterDialog extends DialogFragment {
                 thematics = new ArrayList<>();
                 thematics.add(new Thematic("Все"));
                 thematics.addAll(response.body().getResponseObj());
-                setupSpinner();
+                setupSpinners();
             }
 
             @Override
@@ -87,7 +92,7 @@ public class TrainingListFilterDialog extends DialogFragment {
         return rootView;
     }
 
-    private void setupSpinner() {
+    private void setupSpinners() {
         ArrayAdapter<Thematic> dataAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, thematics);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerThematic.setAdapter(dataAdapter);
@@ -96,6 +101,14 @@ public class TrainingListFilterDialog extends DialogFragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 internalFilter.getThematics().clear();
                 internalFilter.getThematics().add((Thematic) adapterView.getItemAtPosition(i));
+
+                subThematics.clear();
+                if (((Thematic) adapterView.getItemAtPosition(i)).getSubThematics() != null)
+                    subThematics.addAll(((Thematic) adapterView.getItemAtPosition(i)).getSubThematics());
+
+                ArrayAdapter<SubThematic> dataAdapterSubThematic = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, subThematics);
+                dataAdapterSubThematic.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnerSubThematic.setAdapter(dataAdapterSubThematic);
             }
 
             @Override

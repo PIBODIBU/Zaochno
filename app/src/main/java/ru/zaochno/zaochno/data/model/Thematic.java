@@ -1,20 +1,27 @@
 package ru.zaochno.zaochno.data.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class Thematic {
+    @SerializedName("id")
     private Integer id;
+
+    @SerializedName("name")
     private String name;
-    private List<SubCategory> subCategories;
+
+    @SerializedName("subcats")
+    private List<SubThematic> subThematics;
 
     public Thematic(String name) {
         this.name = name;
     }
 
-    public Thematic(Integer id, String name, List<SubCategory> subCategories) {
+    public Thematic(Integer id, String name, List<SubThematic> subThematics) {
         this.id = id;
         this.name = name;
-        this.subCategories = subCategories;
+        this.subThematics = subThematics;
     }
 
     public Integer getId() {
@@ -33,12 +40,12 @@ public class Thematic {
         this.name = name;
     }
 
-    public List<SubCategory> getSubCategories() {
-        return subCategories;
+    public List<SubThematic> getSubThematics() {
+        return subThematics;
     }
 
-    public void setSubCategories(List<SubCategory> subCategories) {
-        this.subCategories = subCategories;
+    public void setSubThematics(List<SubThematic> subThematics) {
+        this.subThematics = subThematics;
     }
 
     @Override

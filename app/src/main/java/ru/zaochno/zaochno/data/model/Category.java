@@ -12,9 +12,9 @@ public class Category {
     private Integer id;
 
     @SerializedName("subcategories")
-    private List<SubCategory> subCategories;
+    private List<SubThematic> subCategories;
 
-    public Category(String name, Integer id, List<SubCategory> subCategories) {
+    public Category(String name, Integer id, List<SubThematic> subCategories) {
         this.name = name;
         this.id = id;
         this.subCategories = subCategories;
@@ -36,11 +36,11 @@ public class Category {
         this.id = id;
     }
 
-    public List<SubCategory> getSubCategories() {
+    public List<SubThematic> getSubCategories() {
         return subCategories;
     }
 
-    public void setSubCategories(List<SubCategory> subCategories) {
+    public void setSubCategories(List<SubThematic> subCategories) {
         this.subCategories = subCategories;
     }
 }
