@@ -27,6 +27,9 @@ public class User {
     @SerializedName("token")
     private String token;
 
+    public User() {
+    }
+
     public User(String userNick, String password) {
         this.userNick = userNick;
         this.password = password;

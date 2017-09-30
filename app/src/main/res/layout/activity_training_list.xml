@@ -12,50 +12,54 @@
         android:background="@color/colorPrimary"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="34dp"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="2">
+            android:layout_height="match_parent"
+            android:layout_margin="4dp">
 
-            <ImageView
-                android:id="@+id/iv_toolbar_logo"
-                android:layout_width="0dp"
+            <RelativeLayout
+                android:layout_width="230dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/btn_toolbar_white_cornered"
-                android:paddingBottom="2dp"
-                android:paddingTop="2dp"
-                tools:src="@drawable/logo" />
-
-            <LinearLayout
-                android:id="@+id/container_cart"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_weight="1"
+                android:layout_centerInParent="true"
                 android:background="@drawable/btn_toolbar_white_cornered"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp">
 
                 <ImageView
-                    android:layout_width="30dp"
+                    android:id="@+id/iv_toolbar_logo"
+                    android:layout_width="56dp"
                     android:layout_height="match_parent"
-                    app:srcCompat="@drawable/ic_cart_primary" />
+                    android:layout_alignParentStart="true"
+                    android:scaleType="centerInside"
+                    tools:src="@drawable/ic_launcher_logo" />
+
+                <TextView
+                    android:id="@+id/tv_toolbar_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/iv_toolbar_logo"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="Заочно Ру"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="4dp"
-                    android:gravity="center"
-                    android:text="Корзина (5)"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </LinearLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_toolbar_title"
+                    android:layout_toEndOf="@+id/iv_toolbar_logo"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="Собери пазл знаний"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+        </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 
     <android.support.design.widget.TabLayout

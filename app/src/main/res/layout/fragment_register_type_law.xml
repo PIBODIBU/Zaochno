@@ -88,6 +88,7 @@
                 android:layout_marginTop="16dp"
                 android:background="@drawable/edit_text"
                 android:hint="E-Mail"
+                android:inputType="textEmailAddress"
                 android:padding="8dp" />
 
             <EditText

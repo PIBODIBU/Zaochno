@@ -20,7 +20,7 @@
     </item>
 
     <item
-        android:bottom="1dp"
+        android:bottom="2dp"
         android:left="3dp"
         android:top="2dp">
         <shape android:shape="rectangle">

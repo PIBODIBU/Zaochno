@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -78,6 +80,10 @@ public class MessageListActivity extends BaseNavDrawerActivity {
                     return;
 
                 message.setRead(true);
+                message.setTitle(null);
+                message.setMessage(null);
+                message.setToken(AuthProvider.getInstance(MessageListActivity.this).getCurrentUser().getToken());
+
                 Retrofit2Client.getInstance().getApi().markMessageAsRead(message).enqueue(new Callback<BaseErrorResponse>() {
                     @Override
                     public void onResponse(Call<BaseErrorResponse> call, Response<BaseErrorResponse> response) {
@@ -117,6 +123,12 @@ public class MessageListActivity extends BaseNavDrawerActivity {
                         }
 
                         adapter.getMessages().clear();
+                        Collections.sort(response.body().getResponseObj(), new Comparator<Message>() {
+                            @Override
+                            public int compare(Message message, Message t1) {
+                                return message.getRead().compareTo(t1.getRead());
+                            }
+                        });
                         adapter.getMessages().addAll(response.body().getResponseObj());
                         adapter.notifyDataSetChanged();
                     }

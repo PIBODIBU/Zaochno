@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_toolbar_logo"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:layout_margin="4dp"
+                android:background="@drawable/btn_toolbar_white_cornered"
+                android:scaleType="centerInside"
+                tools:src="@drawable/logo" />
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp">
+
+                <ImageView
+                    android:id="@+id/iv_head_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    tools:src="@drawable/account_header_bg" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/civ_avatar"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/oval_shadow"
+                    app:civ_border_color="#fff"
+                    app:civ_border_width="2dp" />
+
+                <LinearLayout
+                    android:id="@+id/container_no_avatar"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_account_add_grey" />
+
+                    <TextView
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:gravity="center"
+                        android:text="Загрузить\nаватар"
+                        android:textColor="#000"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:focusableInTouchMode="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <EditText
+                    android:id="@+id/et_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/edit_text"
+                    android:hint="Имя"
+                    android:inputType="textEmailAddress"
+                    android:padding="8dp" />
+
+                <EditText
+                    android:id="@+id/et_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/edit_text"
+                    android:hint="E-Mail"
+                    android:inputType="textEmailAddress"
+                    android:padding="8dp" />
+
+                <EditText
+                    android:id="@+id/et_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/edit_text"
+                    android:hint="Телефон"
+                    android:inputType="phone"
+                    android:padding="8dp" />
+
+                <EditText
+                    android:id="@+id/et_region"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/edit_text"
+                    android:hint="Регион"
+                    android:padding="8dp" />
+
+                <EditText
+                    android:id="@+id/et_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/edit_text"
+                    android:hint="Пароль"
+                    android:inputType="textPassword"
+                    android:padding="8dp" />
+
+                <EditText
+                    android:id="@+id/et_password_retype"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/edit_text"
+                    android:hint="Подтверждение пароля"
+                    android:inputType="textPassword"
+                    android:padding="8dp" />
+
+                <Button
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/btn_primary_dark_cornered"
+
+                    android:text="Сохранить"
+                    android:textColor="@color/md_dark_primary_text" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

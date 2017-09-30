@@ -154,7 +154,7 @@ public class BaseNavDrawerActivity extends AppCompatActivity {
                             "Настройка",
                             5,
                             true,
-                            null,
+                            AccountSettingsActivity.class,
                             true),
                     DrawerItemCreator.createItem(this,
                             R.drawable.ic_exit,

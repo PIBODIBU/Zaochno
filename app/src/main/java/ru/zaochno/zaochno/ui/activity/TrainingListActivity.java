@@ -54,9 +54,6 @@ public class TrainingListActivity extends BaseNavDrawerActivity {
     @BindView(R.id.iv_toolbar_logo)
     public ImageView ivToolbarLogo;
 
-    @BindView(R.id.container_cart)
-    public View containerCart;
-
     @BindView(R.id.et_search_query)
     public EditText etSearchQuery;
 
@@ -127,7 +124,7 @@ public class TrainingListActivity extends BaseNavDrawerActivity {
 
     private void setupUi() {
         Picasso.with(this)
-                .load(R.drawable.logo)
+                .load(R.drawable.ic_launcher_logo)
                 .into(ivToolbarLogo);
 
         if (!AuthProvider.getInstance(this).isAuthenticated()) {
