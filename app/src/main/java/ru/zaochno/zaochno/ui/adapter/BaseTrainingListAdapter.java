@@ -2,6 +2,7 @@ package ru.zaochno.zaochno.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.squareup.picasso.Picasso;
 
@@ -16,8 +17,8 @@ public abstract class BaseTrainingListAdapter<T extends BaseTrainingListViewHold
     private final String TAG = "BaseTrainingListAdapter";
 
     protected List<Training> trainings;
-
     protected Context context;
+    protected OnItemClickListener onItemClickListener;
 
     public BaseTrainingListAdapter(Context context) {
         this.context = context;
@@ -31,7 +32,7 @@ public abstract class BaseTrainingListAdapter<T extends BaseTrainingListViewHold
 
     @Override
     public void onBindViewHolder(T holder, int position) {
-        Training training = trainings.get(position);
+        final Training training = trainings.get(position);
 
         if (training == null)
             return;
@@ -46,6 +47,14 @@ public abstract class BaseTrainingListAdapter<T extends BaseTrainingListViewHold
 
         if (training.getShortText() != null)
             holder.tvDescription.setText(training.getShortText());
+
+        if (onItemClickListener != null)
+            holder.rootView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onItemClickListener.onClick(training);
+                }
+            });
     }
 
     public List<Training> getTrainings() {
@@ -64,5 +73,13 @@ public abstract class BaseTrainingListAdapter<T extends BaseTrainingListViewHold
     @Override
     public int getItemCount() {
         return trainings.size();
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onClick(Training training);
     }
 }

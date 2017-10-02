@@ -1,0 +1,176 @@
+Delete message as read by id
+/api/feedback/delete - POST
+
+Request:
+{
+    "token": "de11f767-0000-54e9-9db3-555a81190701"
+    "msgId": 137
+}
+
+=====================================
+Get training list
+/api/trennings - POST
+
+Request:
+{
+    "take" : 1000,
+    "token" : "b63279fe-d2b4-43da-b5e2-11725c4a94af",
+    "priceStart" : 100, //номер или пустая строка
+    "priceEnd" : 500   //номер или пустая строка
+    "thematics" :  [
+        {
+            "id"  : "catId",
+            "subcats": [ // или null (все подтематики)
+                {
+                "id"  : "subcatId"
+                },
+                {
+                "id"  : "subcatId"
+                }
+            ]
+        },
+        {
+            "id"  : "catId",
+            "subcats": [ // или null (все подтематики)
+                {
+                "id"  : "subcatId"
+                },
+                {
+                "id"  : "subcatId"
+                }
+            ]
+        }
+  ],   // или null (все тематики)
+}
+
+Response
+{
+    "data": [
+        {
+            "trenningId": 19,
+            "isPayment": false,
+            "treningName": "Как улучшить память",
+            "trenningIcoUrl": "zaochno.ru/Files/LhHVfubnANO9VsSfa7N1.jpg",
+            "treningShortText": "",
+            "treningFullText": "", // full description
+            "treningFavorite": false,
+            "categories": [
+                {
+                    "name": "Саморазвитие и самосовершенствование",
+                    "id": 7,
+                    "subcategories": [
+                        {
+                            "name": "Психология",
+                            "id": 17
+                        }
+                    ]
+                }
+            ],
+            "treningPrice": [
+                {
+                    "price": 1,
+                    "duration": 1
+                }
+            ]
+        },
+    ],
+    "error": false,
+    "code": 200
+}
+
+========================================
+Mark message as read by id
+/api/feedback/read - POST
+
+Request:
+{
+ "token": "de11f767-0000-54e9-9db3-555a81190701",
+ "msgId": 137
+}
+
+========================================
+Get message list
+/api/feedback - POST
+
+Request:
+{
+ "token": "de11f767-0000-54e9-9db3-555a81190701"
+}
+
+Response:
+{
+    data: [
+        {
+            "msgId": 137
+            "isRead": false,
+            "title": "Заголовок",
+            "message": "Текст сообщения",
+            "answer": "Текст ответа администрации" // or null
+        },
+        {
+            "msgId": 137
+            "isRead": false,
+            "title": "Заголовок",
+            "message": "Текст сообщения",
+            "answer": "Текст ответа администрации" // or null
+        }
+    ],
+    error : false,
+    code: 200,
+}
+
+========================================
+Update account data
+/api/Account/Update - POST
+
+Request:
+Если физ. лицо:
+{
+    "token" : "token",
+    "email" : "email@gmail.com",
+    "name" : "Имя",
+    "region" : "region",
+    "phone" : "9586469458"
+}
+
+Если юр. лицо:
+{
+    "token" : "token",
+    "email" : "email@gmail.com",
+    "name" : "Имя",
+    "companyName" : "Название компании",
+    "organizationForm" : "Организационно-правовая форма",
+    "phone" : "9586469458",
+    "genDirectoryName" : "Имя генерального директора",
+    "inn" : "ИНН",
+    "kpp" : "КПП",
+    "checkingAccount" : "расчётный счёт",
+    "corAccount" : "Кор счёт",
+    "bik" : "БИК",
+    "bankName" : "bank name",
+    "region1" : "Юридический адрес Регион",
+    "city1" : "Юридический адрес Город",
+    "address1" : "Юридический адрес",
+    "region2" : "Фактический адрес Регион",
+    "city2" : "Фактический адрес Город",
+    "address2" : "Фактический адрес"
+}
+
+Response success:
+{
+  "error": false,
+  "code": 200
+}
+
+Response error:
+{
+  "error": true,
+  "code": 402
+}
+
+========================================
+Update user avatar
+
+/api/Account/Update/Avatar
+"avatar" : multipart data
+Header: multipart/form-data

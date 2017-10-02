@@ -18,11 +18,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".ui.activity.LoginActivity" />
         <activity android:name=".ui.activity.RegisterActivity" />
         <activity android:name=".ui.activity.TrainingListActivity" />
         <activity android:name=".ui.activity.MessageListActivity" />
         <activity android:name=".ui.activity.AccountSettingsActivity" />
+        <activity android:name=".ui.activity.TrainingInfoActivity" />
     </application>
+
 </manifest>

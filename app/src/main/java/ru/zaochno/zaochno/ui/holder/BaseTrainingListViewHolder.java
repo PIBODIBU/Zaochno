@@ -19,6 +19,9 @@ public class BaseTrainingListViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.tv_description)
     public TextView tvDescription;
 
+    @BindView(R.id.root_view)
+    public View rootView;
+
     public BaseTrainingListViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);

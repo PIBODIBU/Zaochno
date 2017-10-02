@@ -2,7 +2,9 @@ package ru.zaochno.zaochno.data.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class SubThematic {
+import java.io.Serializable;
+
+public class SubThematic implements Serializable {
     @SerializedName("name")
     private String name;
 

@@ -210,16 +210,18 @@ public class BaseNavDrawerActivity extends AppCompatActivity {
                     public void onResponse(Call<DataResponseWrapper<List<Message>>> call, Response<DataResponseWrapper<List<Message>>> response) {
                         Integer unreadCount = 0;
 
-                        for (Message message : response.body().getResponseObj())
-                            if (!message.getRead())
-                                unreadCount++;
+                        if (response.body().getResponseObj() != null) {
+                            for (Message message : response.body().getResponseObj())
+                                if (!message.getRead())
+                                    unreadCount++;
 
-                        ((ContainerDrawerItem) drawer.getDrawerItem(4)).getView().findViewById(R.id.tv_unread_count)
-                                .setVisibility(unreadCount == 0 ? View.GONE : View.VISIBLE);
+                            ((ContainerDrawerItem) drawer.getDrawerItem(4)).getView().findViewById(R.id.tv_unread_count)
+                                    .setVisibility(unreadCount == 0 ? View.GONE : View.VISIBLE);
 
-                        if (unreadCount > 0)
-                            ((TextView) ((ContainerDrawerItem) drawer.getDrawerItem(4)).getView().findViewById(R.id.tv_unread_count))
-                                    .setText(String.valueOf(unreadCount));
+                            if (unreadCount > 0)
+                                ((TextView) ((ContainerDrawerItem) drawer.getDrawerItem(4)).getView().findViewById(R.id.tv_unread_count))
+                                        .setText(String.valueOf(unreadCount));
+                        }
                     }
 
                     @Override

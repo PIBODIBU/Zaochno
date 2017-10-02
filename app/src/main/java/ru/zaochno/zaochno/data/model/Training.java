@@ -1,12 +1,17 @@
 package ru.zaochno.zaochno.data.model;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+
+import com.android.databinding.library.baseAdapters.BR;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class Training {
+public class Training extends BaseObservable implements Serializable {
     @SerializedName("trenningId")
     private Integer id;
 
@@ -50,12 +55,14 @@ public class Training {
         this.id = id;
     }
 
+    @Bindable
     public Boolean getPayed() {
         return isPayed;
     }
 
     public void setPayed(Boolean payed) {
         isPayed = payed;
+        notifyPropertyChanged(BR.payed);
     }
 
     public String getName() {

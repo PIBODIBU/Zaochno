@@ -2,7 +2,9 @@ package ru.zaochno.zaochno.data.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class TrainingPrice {
+import java.io.Serializable;
+
+public class TrainingPrice implements Serializable {
     @SerializedName("price")
     private Integer price;
 

@@ -1,5 +1,6 @@
 package ru.zaochno.zaochno.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -31,6 +32,7 @@ import ru.zaochno.zaochno.data.model.Training;
 import ru.zaochno.zaochno.data.model.filter.TrainingFilter;
 import ru.zaochno.zaochno.data.model.response.DataResponseWrapper;
 import ru.zaochno.zaochno.data.provider.AuthProvider;
+import ru.zaochno.zaochno.ui.adapter.BaseTrainingListAdapter;
 import ru.zaochno.zaochno.ui.adapter.TrainingListAllAdapter;
 import ru.zaochno.zaochno.ui.adapter.TrainingListFavouriteAdapter;
 import ru.zaochno.zaochno.ui.adapter.TrainingListPayedAdapter;
@@ -200,6 +202,14 @@ public class TrainingListActivity extends BaseNavDrawerActivity {
         adapterAll = new TrainingListAllAdapter(this);
         adapterFavourite = new TrainingListFavouriteAdapter(this);
         adapterPayed = new TrainingListPayedAdapter(this);
+
+        adapterAll.setOnItemClickListener(new BaseTrainingListAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(Training training) {
+                startActivity(new Intent(TrainingListActivity.this, TrainingInfoActivity.class)
+                        .putExtra(TrainingInfoActivity.INTENT_KEY_TRAINING_MODEL, training));
+            }
+        });
 
         fragmentAll.setAdapter(adapterAll);
         fragmentFavourite.setAdapter(adapterFavourite);

@@ -9,6 +9,7 @@ import ru.zaochno.zaochno.data.model.Message;
 import ru.zaochno.zaochno.data.model.Thematic;
 import ru.zaochno.zaochno.data.model.Token;
 import ru.zaochno.zaochno.data.model.Training;
+import ru.zaochno.zaochno.data.model.TrainingFull;
 import ru.zaochno.zaochno.data.model.User;
 import ru.zaochno.zaochno.data.model.filter.TrainingFilter;
 import ru.zaochno.zaochno.data.model.request.TokenRequest;
@@ -37,4 +38,7 @@ public interface IAPI {
 
     @POST("feedback")
     Call<BaseErrorResponse> markMessageAsRead(@Body Message message);
+
+    @POST("trennings/trening")
+    Call<DataResponseWrapper<TrainingFull>> getFullTraining(@Body Training training);
 }
