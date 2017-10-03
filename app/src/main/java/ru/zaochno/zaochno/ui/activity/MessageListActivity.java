@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -83,12 +84,19 @@ public class MessageListActivity extends BaseNavDrawerActivity {
                 messageDialogShow.setDialogActionListener(new MessageDialogShow.DialogActionListener() {
                     @Override
                     public void onMessageShow(Message message) {
+                        // Mark as read only when message has answer
+                        if (message.getAnswer() == null || TextUtils.isEmpty(message.getAnswer()))
+                            return;
+
+                        // Mark as read if message is unread
                         if (message.getRead())
                             return;
 
+                        // Set properties
                         message.setRead(true);
                         message.setToken(AuthProvider.getInstance(MessageListActivity.this).getCurrentUser().getToken());
 
+                        // Call API
                         Retrofit2Client.getInstance().getApi().markMessageAsRead(message).enqueue(new Callback<BaseErrorResponse>() {
                             @Override
                             public void onResponse(Call<BaseErrorResponse> call, Response<BaseErrorResponse> response) {
@@ -97,6 +105,7 @@ public class MessageListActivity extends BaseNavDrawerActivity {
                                     return;
                                 }
 
+                                // Message successfully marked as read
                                 fetchData();
                             }
 
