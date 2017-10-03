@@ -16,10 +16,17 @@ import ru.zaochno.zaochno.data.model.request.TokenRequest;
 import ru.zaochno.zaochno.data.model.response.AuthErrorResponse;
 import ru.zaochno.zaochno.data.model.response.BaseErrorResponse;
 import ru.zaochno.zaochno.data.model.response.DataResponseWrapper;
+import ru.zaochno.zaochno.data.model.response.RegisterResponse;
 
 public interface IAPI {
     @POST("Account/Login")
     Call<AuthErrorResponse> authenticate(@Body User user);
+
+    @POST("register")
+    Call<RegisterResponse> register(@Body User user);
+
+    @POST("Account/Update")
+    Call<BaseErrorResponse> updateUserInfo(@Body User user);
 
     @POST("Account/getUserProfile")
     Call<DataResponseWrapper<User>> getUserInfo(@Body Token token);

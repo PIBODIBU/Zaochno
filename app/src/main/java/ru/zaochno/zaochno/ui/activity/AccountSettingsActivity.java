@@ -1,31 +1,34 @@
 package ru.zaochno.zaochno.ui.activity;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import ru.zaochno.zaochno.R;
+import ru.zaochno.zaochno.data.api.Retrofit2Client;
+import ru.zaochno.zaochno.data.enums.UserType;
+import ru.zaochno.zaochno.data.model.Token;
 import ru.zaochno.zaochno.data.model.User;
+import ru.zaochno.zaochno.data.model.response.BaseErrorResponse;
+import ru.zaochno.zaochno.data.model.response.DataResponseWrapper;
 import ru.zaochno.zaochno.data.provider.AuthProvider;
-import ru.zaochno.zaochno.utils.FileUtils;
+import ru.zaochno.zaochno.data.shared.SharedPrefUtils;
+import ru.zaochno.zaochno.ui.callback.OnUserUpdateListener;
+import ru.zaochno.zaochno.ui.fragment.AccountSettingsLawFragment;
+import ru.zaochno.zaochno.ui.fragment.AccountSettingsPhysFragment;
 
-public class AccountSettingsActivity extends BaseNavDrawerActivity {
-    private static final int REQ_CODE_PICK_IMAGE = 9002;
+public class AccountSettingsActivity extends BaseNavDrawerActivity implements OnUserUpdateListener {
     private static final String TAG = "AccountSettingsActivity";
 
     @BindView(R.id.toolbar)
@@ -34,16 +37,9 @@ public class AccountSettingsActivity extends BaseNavDrawerActivity {
     @BindView(R.id.iv_toolbar_logo)
     public ImageView ivToolbarLogo;
 
-    @BindView(R.id.iv_head_background)
-    public ImageView ivHeadBackground;
-
-    @BindView(R.id.civ_avatar)
-    public CircleImageView civAvatar;
-
-    @BindView(R.id.container_no_avatar)
-    public View containerNoImage;
-
-    public User currentUser;
+    public User user;
+    private AccountSettingsPhysFragment physFragment = new AccountSettingsPhysFragment();
+    private AccountSettingsLawFragment lawFragment = new AccountSettingsLawFragment();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,46 +57,96 @@ public class AccountSettingsActivity extends BaseNavDrawerActivity {
         fetchData();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    private void setupFragments() {
+        String userType = AuthProvider.getInstance(this).getCurrentUser().getType();
 
-        switch (requestCode) {
-            case REQ_CODE_PICK_IMAGE:
-                if (resultCode == RESULT_OK) {
-                    Uri selectedImageUri = data.getData();
-                    //String selectedImagePath = FileUtils.getPathFromUri(this, selectedImageUri);
+        physFragment.setUser(user);
+        lawFragment.setUser(user);
 
-                    //Bitmap selectedImageBitmap = BitmapFactory.decodeFile(selectedImagePath);
+        physFragment.setOnUserUpdateListener(this);
+        lawFragment.setOnUserUpdateListener(this);
 
-                    Picasso.with(this)
-                            .load(selectedImageUri)
-                            .into(civAvatar);
-
-                    containerNoImage.setVisibility(View.GONE);
-                }
+        if (userType.equals(UserType.PHYS.rawType())) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.container, physFragment)
+                    .commit();
+        } else if (userType.equals(UserType.LAW.rawType())) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.container, lawFragment)
+                    .commit();
         }
     }
 
-    @OnClick(R.id.civ_avatar)
-    public void pickImage() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select avatar image"), REQ_CODE_PICK_IMAGE);
-    }
-
     private void fetchData() {
-        currentUser = AuthProvider.getInstance(this).getCurrentUser();
+        Retrofit2Client.getInstance().getApi().getUserInfo(new Token(AuthProvider.getInstance(this).getCurrentUser().getToken())).enqueue(new Callback<DataResponseWrapper<User>>() {
+            @Override
+            public void onResponse(Call<DataResponseWrapper<User>> call, Response<DataResponseWrapper<User>> response) {
+                if (response == null || response.body() == null || response.body().getResponseObj() == null) {
+                    Toast.makeText(AccountSettingsActivity.this, R.string.error, Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                AccountSettingsActivity.this.user = response.body().getResponseObj();
+                setupFragments();
+            }
+
+            @Override
+            public void onFailure(Call<DataResponseWrapper<User>> call, Throwable t) {
+                Toast.makeText(AccountSettingsActivity.this, R.string.error, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void setupUi() {
         Picasso.with(this)
                 .load(R.drawable.logo)
                 .into(ivToolbarLogo);
+    }
 
-        Picasso.with(this)
-                .load(R.drawable.account_header_bg)
-                .into(ivHeadBackground);
+    @Override
+    public void onAvatarUpdate() {
+
+    }
+
+    @Override
+    public void onUserInfoUpdate(User user) {
+        Retrofit2Client.getInstance().getApi().updateUserInfo(user).enqueue(new Callback<BaseErrorResponse>() {
+            @Override
+            public void onResponse(Call<BaseErrorResponse> call, Response<BaseErrorResponse> response) {
+                if (response == null || response.body() == null || response.body().getError()) {
+                    Toast.makeText(AccountSettingsActivity.this, R.string.error, Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                Retrofit2Client.getInstance().getApi().getUserInfo(new Token(AuthProvider.getInstance(AccountSettingsActivity.this).getCurrentUser().getToken()))
+                        .enqueue(new Callback<DataResponseWrapper<User>>() {
+                            @Override
+                            public void onResponse(Call<DataResponseWrapper<User>> call, Response<DataResponseWrapper<User>> response) {
+                                if (response == null || response.body() == null || response.body().getResponseObj() == null) {
+                                    Toast.makeText(AccountSettingsActivity.this, R.string.error, Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+
+                                new SharedPrefUtils(AccountSettingsActivity.this).setCurrentUser(response.body().getResponseObj());
+
+                                startActivity(new Intent(AccountSettingsActivity.this, TrainingListActivity.class));
+                                finish();
+                            }
+
+                            @Override
+                            public void onFailure(Call<DataResponseWrapper<User>> call, Throwable t) {
+                                Toast.makeText(AccountSettingsActivity.this, R.string.error, Toast.LENGTH_LONG).show();
+
+                            }
+                        });
+            }
+
+            @Override
+            public void onFailure(Call<BaseErrorResponse> call, Throwable t) {
+                Toast.makeText(AccountSettingsActivity.this, R.string.error, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

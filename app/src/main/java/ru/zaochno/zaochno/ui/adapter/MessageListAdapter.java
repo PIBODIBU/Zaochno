@@ -3,6 +3,7 @@ package ru.zaochno.zaochno.ui.adapter;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,9 +52,6 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListViewHold
         if (message.getTitle() != null)
             holder.tvTitle.setText(message.getTitle());
 
-        if (message.getRead() != null)
-            holder.tvStatus.setText(message.getRead() ? "(прочитанно)" : "Не прочтено");
-
         if (message.getMessage() != null)
             holder.tvText.setText(message.getMessage());
 
@@ -63,11 +61,19 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListViewHold
                 holder.containerContent.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
                 holder.tvStatus.setTextColor(ContextCompat.getColor(context, R.color.md_light_primary_text));
                 holder.ibDelete.setBackgroundResource(R.drawable.oval_grey);
-            } else {
-                // Message is not read
+                holder.tvStatus.setText("(прочитанно)");
+            } else if (!message.getRead() && TextUtils.isEmpty(message.getAnswer())) {
+                // Message is not read & has no answer
+                holder.containerContent.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
+                holder.tvStatus.setTextColor(ContextCompat.getColor(context, R.color.md_light_primary_text));
+                holder.ibDelete.setBackgroundResource(R.drawable.oval_grey);
+                holder.tvStatus.setText("(прочитанно)");
+            } else if (!message.getRead() && !TextUtils.isEmpty(message.getAnswer())) {
+                // Message is not read & has answer
                 holder.containerContent.setBackgroundColor(ContextCompat.getColor(context, R.color.colorBackgroundPrimary));
                 holder.tvStatus.setTextColor(ContextCompat.getColor(context, R.color.md_red_500));
                 holder.ibDelete.setBackgroundResource(R.drawable.oval_white);
+                holder.tvStatus.setText("Не прочтено");
             }
         }
     }

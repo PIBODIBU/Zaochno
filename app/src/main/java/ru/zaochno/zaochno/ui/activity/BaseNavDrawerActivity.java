@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -212,7 +213,7 @@ public class BaseNavDrawerActivity extends AppCompatActivity {
 
                         if (response.body().getResponseObj() != null) {
                             for (Message message : response.body().getResponseObj())
-                                if (!message.getRead())
+                                if (!message.getRead() && !TextUtils.isEmpty(message.getAnswer()))
                                     unreadCount++;
 
                             ((ContainerDrawerItem) drawer.getDrawerItem(4)).getView().findViewById(R.id.tv_unread_count)

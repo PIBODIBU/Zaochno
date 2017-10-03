@@ -3,6 +3,7 @@ package ru.zaochno.zaochno.ui.activity;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -68,6 +69,7 @@ public class MessageListActivity extends BaseNavDrawerActivity {
     }
 
     private void setupUi() {
+        // Load toolbar logo
         Picasso.with(this)
                 .load(R.drawable.logo)
                 .into(ivToolbarLogo);
@@ -76,6 +78,8 @@ public class MessageListActivity extends BaseNavDrawerActivity {
     private void setupRecyclerView() {
         layoutManager = new LinearLayoutManager(this);
         adapter = new MessageListAdapter(messages, this);
+
+        // Setup adapter's callbacks
         adapter.setOnMessageActionListener(new MessageListAdapter.OnMessageActionListener() {
             @Override
             public void onMessageClick(Message message) {
@@ -84,13 +88,16 @@ public class MessageListActivity extends BaseNavDrawerActivity {
                 messageDialogShow.setDialogActionListener(new MessageDialogShow.DialogActionListener() {
                     @Override
                     public void onMessageShow(Message message) {
-                        // Mark as read only when message has answer
-                        if (message.getAnswer() == null || TextUtils.isEmpty(message.getAnswer()))
+                        if (message.getRead()) {
+                            // Message is read
                             return;
+                        } else if (!message.getRead() && TextUtils.isEmpty(message.getAnswer())) {
+                            // Message is not read & has no answer
+                            return;
+                        } /*else if (!message.getRead() && !TextUtils.isEmpty(message.getAnswer())) {
+                            // Message is not read & has answer
 
-                        // Mark as read if message is unread
-                        if (message.getRead())
-                            return;
+                        }*/
 
                         // Set properties
                         message.setRead(true);
@@ -165,6 +172,14 @@ public class MessageListActivity extends BaseNavDrawerActivity {
                         Collections.sort(response.body().getResponseObj(), new Comparator<Message>() {
                             @Override
                             public int compare(Message message, Message t1) {
+                                /*Boolean isRead1 = message.getRead();
+                                Boolean isRead2 = t1.getRead();
+                                int resIsRead = isRead1.compareTo(isRead2);
+
+                                if(resIsRead != 0){
+
+                                }*/
+
                                 return message.getRead().compareTo(t1.getRead());
                             }
                         });
@@ -198,6 +213,7 @@ public class MessageListActivity extends BaseNavDrawerActivity {
 
                         dialog.cancel();
                         Toast.makeText(MessageListActivity.this, "Сообщение отправлено", Toast.LENGTH_LONG).show();
+                        fetchData();
                     }
 
                     @Override

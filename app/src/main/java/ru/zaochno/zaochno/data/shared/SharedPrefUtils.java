@@ -25,7 +25,7 @@ public class SharedPrefUtils {
         editor.putString("user_name", user.getName());
         editor.putString("user_type", user.getType());
         editor.putString("user_region", user.getRegion());
-        editor.putString("user_phone", user.getPhotoUrl());
+        editor.putString("user_phone", user.getPhone());
         editor.putString("user_email", user.getEmail());
         editor.putString("user_photo_url", user.getPhotoUrl());
         editor.putString("user_token", user.getToken());
