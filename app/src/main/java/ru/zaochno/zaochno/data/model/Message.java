@@ -17,6 +17,9 @@ public class Message implements BaseTokenRequest {
     @SerializedName("message")
     private String message;
 
+    @SerializedName("answer")
+    private String answer;
+
     @SerializedName("token")
     private String token;
 
@@ -25,11 +28,13 @@ public class Message implements BaseTokenRequest {
         this.message = message;
     }
 
-    public Message(Integer id, Boolean isRead, String title, String message) {
+    public Message(Integer id, Boolean isRead, String title, String message, String answer, String token) {
         this.id = id;
         this.isRead = isRead;
         this.title = title;
         this.message = message;
+        this.answer = answer;
+        this.token = token;
     }
 
     public Integer getId() {
@@ -62,6 +67,14 @@ public class Message implements BaseTokenRequest {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 
     @Override

@@ -40,17 +40,14 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity {
     @BindView(R.id.iv_toolbar_logo)
     public ImageView ivToolbarLogo;
 
-    @BindView(R.id.tv_title)
-    public TextView tvTitle;
+    @BindView(R.id.btn_buy)
+    public Button btnBuy;
 
-    @BindView(R.id.iv_cover)
-    public ImageView ivCover;
+    @BindView(R.id.btn_read_more)
+    public Button btnReadMore;
 
     @BindView(R.id.tv_description)
     public TextView tvDescription;
-
-    @BindView(R.id.btn_buy)
-    public Button btnBuy;
 
     @BindView(R.id.switch_view)
     public Switch aSwitch;
@@ -101,7 +98,7 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity {
         binding.setTrainingFull(trainingFull);
 
         Picasso.with(this)
-                .load(R.drawable.logo)
+                .load(R.drawable.ic_launcher_logo)
                 .into(ivToolbarLogo);
 
         aSwitch.setChecked(binding.getTraining().getPayed());
@@ -109,17 +106,38 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 binding.getTraining().setPayed(b);
+                setupUi();
             }
         });
 
-        /*if (!training.getPayed()) {
-            // Training is not bought
-            btnBuy.setVisibility(View.VISIBLE);
-            btnBuy.setText("Купить (от " + String.valueOf(training.getLowestPrice().getPrice()) + " руб.)");
-        } else {
-            // Training is bought
-            btnBuy.setVisibility(View.GONE);
-        }*/
+        if (training.getPayed())
+            setupUiPayed();
+        else
+            setupUiNotPayed();
+    }
+
+    private void setupUiPayed() {
+        btnBuy.setVisibility(View.GONE);
+
+        tvDescription.setMaxLines(4);
+
+        btnReadMore.setVisibility(View.VISIBLE);
+        btnReadMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tvDescription.setMaxLines(999);
+                btnReadMore.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void setupUiNotPayed() {
+        btnBuy.setVisibility(View.VISIBLE);
+        btnBuy.setText("Купить (от ".concat(String.valueOf(training.getLowestPrice().getPrice())).concat(" руб.)"));
+
+        tvDescription.setMaxLines(999);
+
+        btnReadMore.setVisibility(View.GONE);
     }
 
     @BindingAdapter("android:src")

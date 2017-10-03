@@ -31,6 +31,7 @@ import ru.zaochno.zaochno.data.model.response.BaseErrorResponse;
 import ru.zaochno.zaochno.data.model.response.DataResponseWrapper;
 import ru.zaochno.zaochno.data.provider.AuthProvider;
 import ru.zaochno.zaochno.ui.adapter.MessageListAdapter;
+import ru.zaochno.zaochno.ui.dialog.MessageDialogShow;
 import ru.zaochno.zaochno.ui.dialog.NewMessageDialog;
 
 public class MessageListActivity extends BaseNavDrawerActivity {
@@ -43,6 +44,7 @@ public class MessageListActivity extends BaseNavDrawerActivity {
     @BindView(R.id.recycler_view)
     public RecyclerView recyclerView;
 
+    private MessageDialogShow messageDialogShow = new MessageDialogShow();
     private MessageListAdapter adapter;
     private LinearLayoutManager layoutManager;
     private List<Message> messages = new LinkedList<>();
@@ -76,35 +78,63 @@ public class MessageListActivity extends BaseNavDrawerActivity {
         adapter.setOnMessageActionListener(new MessageListAdapter.OnMessageActionListener() {
             @Override
             public void onMessageClick(Message message) {
-                if (message.getRead())
-                    return;
-
-                message.setRead(true);
-                message.setTitle(null);
-                message.setMessage(null);
-                message.setToken(AuthProvider.getInstance(MessageListActivity.this).getCurrentUser().getToken());
-
-                Retrofit2Client.getInstance().getApi().markMessageAsRead(message).enqueue(new Callback<BaseErrorResponse>() {
+                messageDialogShow.setMessage(message);
+                messageDialogShow.show(getSupportFragmentManager(), "messageDialogShow");
+                messageDialogShow.setDialogActionListener(new MessageDialogShow.DialogActionListener() {
                     @Override
-                    public void onResponse(Call<BaseErrorResponse> call, Response<BaseErrorResponse> response) {
-                        if (response == null || response.body() == null || response.body().getError() == null || response.body().getError()) {
-                            Toast.makeText(MessageListActivity.this, "Ошибка", Toast.LENGTH_LONG).show();
+                    public void onMessageShow(Message message) {
+                        if (message.getRead())
                             return;
-                        }
 
-                        fetchData();
+                        message.setRead(true);
+                        message.setToken(AuthProvider.getInstance(MessageListActivity.this).getCurrentUser().getToken());
+
+                        Retrofit2Client.getInstance().getApi().markMessageAsRead(message).enqueue(new Callback<BaseErrorResponse>() {
+                            @Override
+                            public void onResponse(Call<BaseErrorResponse> call, Response<BaseErrorResponse> response) {
+                                if (response == null || response.body() == null || response.body().getError() == null || response.body().getError()) {
+                                    Toast.makeText(MessageListActivity.this, R.string.error, Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+
+                                fetchData();
+                            }
+
+                            @Override
+                            public void onFailure(Call<BaseErrorResponse> call, Throwable t) {
+                                Toast.makeText(MessageListActivity.this, R.string.error, Toast.LENGTH_LONG).show();
+                            }
+                        });
                     }
 
                     @Override
-                    public void onFailure(Call<BaseErrorResponse> call, Throwable t) {
-                        Toast.makeText(MessageListActivity.this, "Ошибка", Toast.LENGTH_LONG).show();
+                    public void onDialogClose() {
+
                     }
                 });
             }
 
             @Override
             public void onMessageDelete(Message message) {
-                // TODO write smth
+                message.setToken(AuthProvider.getInstance(MessageListActivity.this).getCurrentUser().getToken());
+
+                Retrofit2Client.getInstance().getApi().deleteMessage(message).enqueue(new Callback<BaseErrorResponse>() {
+                    @Override
+                    public void onResponse(Call<BaseErrorResponse> call, Response<BaseErrorResponse> response) {
+                        if (response == null || response.body() == null || response.body().getError() == null || response.body().getError()) {
+                            Toast.makeText(MessageListActivity.this, R.string.error, Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
+                        Toast.makeText(MessageListActivity.this, R.string.message_deleted, Toast.LENGTH_LONG).show();
+                        fetchData();
+                    }
+
+                    @Override
+                    public void onFailure(Call<BaseErrorResponse> call, Throwable t) {
+                        Toast.makeText(MessageListActivity.this, R.string.error, Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
 
@@ -118,7 +148,7 @@ public class MessageListActivity extends BaseNavDrawerActivity {
                     @Override
                     public void onResponse(Call<DataResponseWrapper<List<Message>>> call, Response<DataResponseWrapper<List<Message>>> response) {
                         if (response == null || response.body() == null || response.body().getResponseObj() == null) {
-                            Toast.makeText(MessageListActivity.this, "Ошибка", Toast.LENGTH_LONG).show();
+                            Toast.makeText(MessageListActivity.this, R.string.error, Toast.LENGTH_LONG).show();
                             return;
                         }
 
@@ -135,7 +165,7 @@ public class MessageListActivity extends BaseNavDrawerActivity {
 
                     @Override
                     public void onFailure(Call<DataResponseWrapper<List<Message>>> call, Throwable t) {
-                        Toast.makeText(MessageListActivity.this, "Ошибка", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MessageListActivity.this, R.string.error, Toast.LENGTH_LONG).show();
                     }
                 });
     }

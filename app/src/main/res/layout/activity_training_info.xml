@@ -7,6 +7,8 @@
 
         <import type="android.view.View" />
 
+        <import type="android.text.TextUtils" />
+
         <variable
             name="trainingFull"
             type="ru.zaochno.zaochno.data.model.TrainingFull" />
@@ -129,8 +131,18 @@
                     android:layout_marginEnd="24dp"
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="16dp"
-                    android:text="@{trainingFull.htmlText}"
-                    android:textColor="#000" />
+                    android:text="@{TextUtils.isEmpty(training.fullText)? training.shortText : training.fullText}"
+                    android:textColor="@color/md_light_primary_text" />
+
+                <Button
+                    android:id="@+id/btn_read_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="24dp"
+                    android:background="@android:color/transparent"
+                    android:text="Читать далее"
+                    android:textColor="@color/md_light_primary_text"
+                    android:textSize="12sp" />
 
                 <Button
                     android:id="@+id/btn_buy"
@@ -140,9 +152,7 @@
                     android:layout_marginStart="36dp"
                     android:layout_marginTop="16dp"
                     android:background="@drawable/btn_accent_cornered"
-                    android:text="@{`Купить (от ` + training.getLowestPrice() + ` руб.)`}"
-                    android:textColor="@color/md_dark_primary_text"
-                    android:visibility="@{training.payed?View.GONE:View.VISIBLE}" />
+                    android:textColor="@color/md_dark_primary_text" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

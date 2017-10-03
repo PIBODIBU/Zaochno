@@ -19,6 +19,7 @@ import android.widget.Toast;
 import org.florescu.android.rangeseekbar.RangeSeekBar;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -120,6 +121,21 @@ public class TrainingListFilterDialog extends DialogFragment {
                 ArrayAdapter<SubThematic> dataAdapterSubThematic = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, subThematics);
                 dataAdapterSubThematic.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerSubThematic.setAdapter(dataAdapterSubThematic);
+                spinnerSubThematic.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        List<SubThematic> subThematics = new LinkedList<>();
+                        subThematics.add(((SubThematic) adapterView.getItemAtPosition(i)));
+
+                        if (internalFilter.getThematics().get(0) != null)
+                            internalFilter.getThematics().get(0).setSubThematics(subThematics);
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
             }
 
             @Override

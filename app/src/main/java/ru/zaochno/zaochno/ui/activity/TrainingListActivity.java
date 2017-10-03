@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -27,7 +28,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import ru.zaochno.zaochno.R;
+import ru.zaochno.zaochno.data.annotation.Restrict;
+import ru.zaochno.zaochno.data.annotation.processor.RestrictProcessor;
 import ru.zaochno.zaochno.data.api.Retrofit2Client;
+import ru.zaochno.zaochno.data.enums.UserAuthLevel;
 import ru.zaochno.zaochno.data.model.Training;
 import ru.zaochno.zaochno.data.model.filter.TrainingFilter;
 import ru.zaochno.zaochno.data.model.response.DataResponseWrapper;
@@ -101,6 +105,18 @@ public class TrainingListActivity extends BaseNavDrawerActivity {
         fetchData();
         setupTabs();
         checkIntent();
+
+        //RestrictProcessor.bind(this);
+    }
+
+    @Restrict(userAuthLevel = UserAuthLevel.LOGGED)
+    public void userIsSignedIn() {
+        Log.d(TAG, "userIsSignedIn: called");
+    }
+
+    @Restrict(userAuthLevel = UserAuthLevel.ANONYMOUS)
+    public void userIsNotLogged() {
+        Log.d(TAG, "userIsNotLogged: called");
     }
 
     private void checkIntent() {

@@ -27,6 +27,9 @@ public class Training extends BaseObservable implements Serializable {
     @SerializedName("treningShortText")
     private String shortText;
 
+    @SerializedName("treningFullText")
+    private String fullText;
+
     @SerializedName("treningFavorite")
     private Boolean isFavourite;
 
@@ -36,12 +39,13 @@ public class Training extends BaseObservable implements Serializable {
     @SerializedName("treningPrice")
     private List<TrainingPrice> trainingPrices;
 
-    public Training(Integer id, Boolean isPayed, String name, String imgUrl, String shortText, Boolean isFavourite, List<Category> categories, List<TrainingPrice> trainingPrices) {
+    public Training(Integer id, Boolean isPayed, String name, String imgUrl, String shortText, String fullText, Boolean isFavourite, List<Category> categories, List<TrainingPrice> trainingPrices) {
         this.id = id;
         this.isPayed = isPayed;
         this.name = name;
         this.imgUrl = imgUrl;
         this.shortText = shortText;
+        this.fullText = fullText;
         this.isFavourite = isFavourite;
         this.categories = categories;
         this.trainingPrices = trainingPrices;
@@ -91,6 +95,14 @@ public class Training extends BaseObservable implements Serializable {
 
     public void setShortText(String shortText) {
         this.shortText = shortText;
+    }
+
+    public String getFullText() {
+        return fullText;
+    }
+
+    public void setFullText(String fullText) {
+        this.fullText = fullText;
     }
 
     public Boolean getFavourite() {

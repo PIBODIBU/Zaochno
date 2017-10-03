@@ -36,7 +36,10 @@ public interface IAPI {
     @POST("sendMessage")
     Call<BaseErrorResponse> sendMessage(@Body Message message);
 
-    @POST("feedback")
+    @POST("feedback/delete")
+    Call<BaseErrorResponse> deleteMessage(@Body Message message);
+
+    @POST("feedback/read")
     Call<BaseErrorResponse> markMessageAsRead(@Body Message message);
 
     @POST("trennings/trening")

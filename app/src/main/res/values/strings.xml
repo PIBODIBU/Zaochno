@@ -12,4 +12,8 @@
         "flexibility of the material creates new affordances that supercede those in the physical "
         "world, without breaking the rules of physics.\n"
     </string>
+
+    <string name="admin_not_answered_yet">"Администрация еще не ответила на Ваше сообщение"</string>
+    <string name="message_deleted">Обращение удалено</string>
+    <string name="error">Ошибка</string>
 </resources>
