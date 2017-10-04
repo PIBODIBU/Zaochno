@@ -2,9 +2,13 @@ package ru.zaochno.zaochno.data.api;
 
 import java.util.List;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import ru.zaochno.zaochno.data.model.Message;
 import ru.zaochno.zaochno.data.model.Thematic;
 import ru.zaochno.zaochno.data.model.Token;
@@ -27,6 +31,10 @@ public interface IAPI {
 
     @POST("Account/Update")
     Call<BaseErrorResponse> updateUserInfo(@Body User user);
+
+    @Multipart
+    @POST("Account/Update/Avatar")
+    Call<BaseErrorResponse> updateUserAvatar(@Part("token") RequestBody token, @Part MultipartBody.Part avatar);
 
     @POST("Account/getUserProfile")
     Call<DataResponseWrapper<User>> getUserInfo(@Body Token token);

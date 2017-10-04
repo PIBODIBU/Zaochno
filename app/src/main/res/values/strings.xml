@@ -17,4 +17,5 @@
     <string name="message_deleted">Обращение удалено</string>
     <string name="error">Ошибка</string>
     <string name="you_must_agree">Вы должны принять условия</string>
+    <string name="message_no_date">Дата не указана</string>
 </resources>

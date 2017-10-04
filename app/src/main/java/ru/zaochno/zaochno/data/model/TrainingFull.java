@@ -15,18 +15,26 @@ public class TrainingFull implements Serializable {
     @SerializedName("htmlText")
     private String htmlText;
 
+    @SerializedName("purchDate")
+    private Long purchaseDate;
+
+    @SerializedName("purchDuration")
+    private Long durationHours;
+
     @SerializedName("chapters")
     private List<Chapter> chapters;
 
-//    @SerializedName("tests")
-//    private List<Test> tests;
+    @SerializedName("tests")
+    private List<Test> tests;
 
-    public TrainingFull(Boolean full, String name, String htmlText, List<Chapter> chapters, List<Test> tests) {
+    public TrainingFull(Boolean full, String name, String htmlText, Long purchaseDate, Long durationHours, List<Chapter> chapters, List<Test> tests) {
         this.full = full;
         this.name = name;
         this.htmlText = htmlText;
+        this.purchaseDate = purchaseDate;
+        this.durationHours = durationHours;
         this.chapters = chapters;
-        //this.tests = tests;
+        this.tests = tests;
     }
 
     public Boolean getFull() {
@@ -53,6 +61,29 @@ public class TrainingFull implements Serializable {
         this.htmlText = htmlText;
     }
 
+    public Long getPurchaseDate() {
+        return purchaseDate;
+    }
+
+    public void setPurchaseDate(Long purchaseDate) {
+        this.purchaseDate = purchaseDate;
+    }
+
+    public Long getDurationHours() {
+        return durationHours;
+    }
+
+    public Long getDurationMillis() {
+        if (durationHours == null)
+            return 0L;
+
+        return durationHours * 60 * 60 * 1000;
+    }
+
+    public void setDurationHours(Long durationHours) {
+        this.durationHours = durationHours;
+    }
+
     public List<Chapter> getChapters() {
         return chapters;
     }
@@ -61,11 +92,11 @@ public class TrainingFull implements Serializable {
         this.chapters = chapters;
     }
 
-    /*public List<Test> getTests() {
+    public List<Test> getTests() {
         return tests;
     }
 
     public void setTests(List<Test> tests) {
         this.tests = tests;
-    }*/
+    }
 }

@@ -11,6 +11,9 @@ public class Message implements BaseTokenRequest {
     @SerializedName("isRead")
     private Boolean isRead;
 
+    @SerializedName("date")
+    private Long date;
+
     @SerializedName("title")
     private String title;
 
@@ -28,9 +31,10 @@ public class Message implements BaseTokenRequest {
         this.message = message;
     }
 
-    public Message(Integer id, Boolean isRead, String title, String message, String answer, String token) {
+    public Message(Integer id, Boolean isRead, Long date, String title, String message, String answer, String token) {
         this.id = id;
         this.isRead = isRead;
+        this.date = date;
         this.title = title;
         this.message = message;
         this.answer = answer;
@@ -51,6 +55,14 @@ public class Message implements BaseTokenRequest {
 
     public void setRead(Boolean read) {
         isRead = read;
+    }
+
+    public Long getDate() {
+        return date;
+    }
+
+    public void setDate(Long date) {
+        this.date = date;
     }
 
     public String getTitle() {

@@ -18,86 +18,80 @@
             type="ru.zaochno.zaochno.data.model.Training" />
     </data>
 
-    <android.support.design.widget.CoordinatorLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="ru.zaochno.zaochno.ui.activity.TrainingInfoActivity">
 
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/app_bar"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:layout_height="56dp"
+            android:background="@color/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="@color/colorPrimary"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+                android:layout_height="match_parent"
+                android:layout_margin="4dp">
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="230dp"
                     android:layout_height="match_parent"
-                    android:layout_margin="4dp">
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/btn_toolbar_white_cornered"
+                    android:gravity="center"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp">
 
-                    <RelativeLayout
-                        android:layout_width="230dp"
+                    <ImageView
+                        android:id="@+id/iv_toolbar_logo"
+                        android:layout_width="56dp"
                         android:layout_height="match_parent"
-                        android:layout_centerInParent="true"
-                        android:background="@drawable/btn_toolbar_white_cornered"
-                        android:gravity="center"
-                        android:paddingEnd="16dp"
-                        android:paddingStart="16dp">
+                        android:layout_alignParentStart="true"
+                        android:scaleType="centerInside"
+                        tools:src="@drawable/ic_launcher_logo" />
 
-                        <ImageView
-                            android:id="@+id/iv_toolbar_logo"
-                            android:layout_width="56dp"
-                            android:layout_height="match_parent"
-                            android:layout_alignParentStart="true"
-                            android:scaleType="centerInside"
-                            tools:src="@drawable/ic_launcher_logo" />
-
-                        <TextView
-                            android:id="@+id/tv_toolbar_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_toEndOf="@+id/iv_toolbar_logo"
-                            android:lines="1"
-                            android:maxLines="1"
-                            android:singleLine="true"
-                            android:text="Заочно Ру"
-                            android:textColor="@color/colorAccent"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/tv_toolbar_title"
-                            android:layout_toEndOf="@+id/iv_toolbar_logo"
-                            android:lines="1"
-                            android:maxLines="1"
-                            android:singleLine="true"
-                            android:text="Собери пазл знаний"
-                            android:textColor="@color/colorAccent"
-                            android:textSize="14sp" />
-                    </RelativeLayout>
-
-                    <Switch
-                        android:id="@+id/switch_view"
+                    <TextView
+                        android:id="@+id/tv_toolbar_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true" />
+                        android:layout_toEndOf="@+id/iv_toolbar_logo"
+                        android:lines="1"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text="Заочно Ру"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_toolbar_title"
+                        android:layout_toEndOf="@+id/iv_toolbar_logo"
+                        android:lines="1"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text="Собери пазл знаний"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="14sp" />
                 </RelativeLayout>
-            </android.support.v7.widget.Toolbar>
-        </android.support.design.widget.AppBarLayout>
+
+                <Switch
+                    android:id="@+id/switch_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true" />
+            </RelativeLayout>
+        </android.support.v7.widget.Toolbar>
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:layout_above="@+id/btn_container"
+            android:layout_below="@+id/toolbar"
+            android:background="@color/white">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -142,7 +136,37 @@
                     android:background="@android:color/transparent"
                     android:text="Читать далее"
                     android:textColor="@color/md_light_primary_text"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/recycler_view_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Содержание"
+                    android:textColor="@color/md_light_primary_text"
+                    android:textSize="22sp" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_view_chapters"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_valid_tow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="18dp"
+                    android:paddingEnd="36dp"
+                    android:paddingStart="36dp"
+                    android:paddingTop="18dp"
+                    android:text="Годен до: "
+                    android:textColor="@color/md_light_primary_text"
+                    android:textSize="16sp" />
 
                 <Button
                     android:id="@+id/btn_buy"
@@ -150,64 +174,75 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="36dp"
                     android:layout_marginStart="36dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:background="@drawable/btn_accent_cornered"
                     android:textColor="@color/md_dark_primary_text" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="36dp"
-                    android:layout_marginStart="36dp"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
-                    <Button
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/btn_primary_dark_cornered"
-                        android:text="Демо"
-                        android:textColor="@color/md_dark_primary_text" />
-
-                    <Button
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/btn_primary_dark_cornered"
-                        android:text="В избранное"
-                        android:textColor="@color/md_dark_primary_text" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="36dp"
-                    android:layout_marginStart="36dp"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
-                    <Button
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/btn_primary_dark_cornered"
-                        android:text="Тестирования"
-                        android:textColor="@color/md_dark_primary_text" />
-
-                    <Button
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/btn_primary_dark_cornered"
-                        android:text="Поделиться"
-                        android:textColor="@color/md_dark_primary_text" />
-                </LinearLayout>
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
-    </android.support.design.widget.CoordinatorLayout>
+
+        <LinearLayout
+            android:id="@+id/btn_container"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorPrimaryDark"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <Button
+                android:id="@+id/btn_demo"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/primary_dark"
+                android:text="Демо"
+                android:textColor="@color/md_dark_primary_text"
+                android:textSize="11sp" />
+
+            <View
+                android:layout_width="5px"
+                android:layout_height="match_parent"
+                android:background="@color/md_dark_dividers" />
+
+            <Button
+                android:id="@+id/btn_to_fav"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/primary_dark"
+                android:text="В избранное"
+                android:textColor="@color/md_dark_primary_text"
+                android:textSize="11sp" />
+
+            <View
+                android:layout_width="5px"
+                android:layout_height="match_parent"
+                android:background="@color/md_dark_dividers" />
+
+            <Button
+                android:id="@+id/btn_test"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/primary_dark"
+                android:text="Тестирования"
+                android:textColor="@color/md_dark_primary_text"
+                android:textSize="11sp" />
+
+            <View
+                android:layout_width="5px"
+                android:layout_height="match_parent"
+                android:background="@color/md_dark_dividers" />
+
+            <Button
+                android:id="@+id/btn_share"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/primary_dark"
+                android:text="Поделиться"
+                android:textColor="@color/md_dark_primary_text"
+                android:textSize="11sp" />
+        </LinearLayout>
+    </RelativeLayout>
 </layout>

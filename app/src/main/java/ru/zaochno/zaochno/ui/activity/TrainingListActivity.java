@@ -100,13 +100,12 @@ public class TrainingListActivity extends BaseNavDrawerActivity {
         setTitle("");
         setupDrawer();
 
+        RestrictProcessor.bind(this);
         setupUi();
         setupAdapters();
         fetchData();
         setupTabs();
         checkIntent();
-
-        //RestrictProcessor.bind(this);
     }
 
     @Restrict(userAuthLevel = UserAuthLevel.LOGGED)
@@ -116,7 +115,7 @@ public class TrainingListActivity extends BaseNavDrawerActivity {
 
     @Restrict(userAuthLevel = UserAuthLevel.ANONYMOUS)
     public void userIsNotLogged() {
-        Log.d(TAG, "userIsNotLogged: called");
+        tabLayout.setVisibility(View.GONE);
     }
 
     private void checkIntent() {
@@ -144,10 +143,6 @@ public class TrainingListActivity extends BaseNavDrawerActivity {
         Picasso.with(this)
                 .load(R.drawable.ic_launcher_logo)
                 .into(ivToolbarLogo);
-
-        if (!AuthProvider.getInstance(this).isAuthenticated()) {
-            tabLayout.setVisibility(View.GONE);
-        }
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

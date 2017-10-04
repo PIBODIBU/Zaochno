@@ -32,18 +32,18 @@ public class RestrictProcessor {
                 switch (restrict.userAuthLevel()) {
                     case ANONYMOUS:
                         if (!isLogged)
-                            runMethod(context.getClass(), method);
+                            runMethod(context, method);
                         break;
                     case LOGGED:
                         if (isLogged)
-                            runMethod(context.getClass(), method);
+                            runMethod(context, method);
                         break;
                 }
             }
         }
     }
 
-    private static void runMethod(Class parent, Method method) {
+    private static void runMethod(Context parent, Method method) {
         try {
             method.invoke(parent, null);
         } catch (IllegalAccessException e) {

@@ -3,9 +3,8 @@ package ru.zaochno.zaochno.ui.activity;
 import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +16,8 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.LinkedList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
@@ -24,10 +25,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import ru.zaochno.zaochno.R;
 import ru.zaochno.zaochno.data.api.Retrofit2Client;
+import ru.zaochno.zaochno.data.model.BaseChapter;
+import ru.zaochno.zaochno.data.model.Chapter;
 import ru.zaochno.zaochno.data.model.Training;
 import ru.zaochno.zaochno.data.model.TrainingFull;
 import ru.zaochno.zaochno.data.model.response.DataResponseWrapper;
+import ru.zaochno.zaochno.data.provider.AuthProvider;
+import ru.zaochno.zaochno.data.utils.DateUtils;
 import ru.zaochno.zaochno.databinding.ActivityTrainingInfoBinding;
+import ru.zaochno.zaochno.ui.adapter.ChapterListAdapter;
 
 public class TrainingInfoActivity extends BaseNavDrawerActivity {
     private static final String TAG = "TrainingInfoActivity";
@@ -49,8 +55,17 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity {
     @BindView(R.id.tv_description)
     public TextView tvDescription;
 
+    @BindView(R.id.tv_valid_tow)
+    public TextView tvValidTo;
+
     @BindView(R.id.switch_view)
     public Switch aSwitch;
+
+    @BindView(R.id.recycler_view_title)
+    public TextView tvRecyclerViewTitle;
+
+    @BindView(R.id.recycler_view_chapters)
+    public RecyclerView recyclerViewChapters;
 
     private Training training;
     private TrainingFull trainingFull;
@@ -74,6 +89,8 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity {
     }
 
     private void fetchTraining() {
+        training.setUserToken(AuthProvider.getInstance(this).getCurrentUser().getToken());
+
         Retrofit2Client.getInstance().getApi().getFullTraining(training).enqueue(new Callback<DataResponseWrapper<TrainingFull>>() {
             @Override
             public void onResponse(Call<DataResponseWrapper<TrainingFull>> call, Response<DataResponseWrapper<TrainingFull>> response) {
@@ -118,8 +135,9 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity {
 
     private void setupUiPayed() {
         btnBuy.setVisibility(View.GONE);
+        tvRecyclerViewTitle.setVisibility(View.VISIBLE);
 
-        tvDescription.setMaxLines(4);
+        tvDescription.setMaxLines(3);
 
         btnReadMore.setVisibility(View.VISIBLE);
         btnReadMore.setOnClickListener(new View.OnClickListener() {
@@ -129,6 +147,13 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity {
                 btnReadMore.setVisibility(View.GONE);
             }
         });
+
+        tvValidTo.setVisibility(View.VISIBLE);
+        tvValidTo.setText(tvValidTo.getText().toString().concat(
+                DateUtils.millisToPattern(trainingFull.getDurationMillis() + trainingFull.getPurchaseDate(), DateUtils.PATTERN_DEFAULT)
+        ));
+
+        setupRecyclerViews();
     }
 
     private void setupUiNotPayed() {
@@ -138,7 +163,36 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity {
         tvDescription.setMaxLines(999);
 
         btnReadMore.setVisibility(View.GONE);
+        tvValidTo.setVisibility(View.GONE);
+        tvRecyclerViewTitle.setVisibility(View.GONE);
     }
+
+    private void setupRecyclerViews() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        LinkedList<BaseChapter> chapters = new LinkedList<>();
+
+        // Prepare data set
+        for (int k = 0; k < trainingFull.getChapters().size(); k++) {
+            Chapter chapter = trainingFull.getChapters().get(k);
+            chapter.setPosition(k + 1);
+            chapters.add(chapter);
+
+            if (chapter.getSubChapters() != null)
+                for (int i = 0; i < chapter.getSubChapters().size(); i++) {
+                    if (chapter.getSubChapters().get(i) != null) {
+                        chapter.getSubChapters().get(i).setPosition(i + 1);
+                        chapters.add(chapter.getSubChapters().get(i));
+                    }
+                }
+        }
+
+        ChapterListAdapter adapter = new ChapterListAdapter(this, chapters);
+
+        recyclerViewChapters.setAdapter(adapter);
+        recyclerViewChapters.setHasFixedSize(true);
+        recyclerViewChapters.setLayoutManager(layoutManager);
+    }
+
 
     @BindingAdapter("android:src")
     public static void setImageUrl(ImageView view, String url) {

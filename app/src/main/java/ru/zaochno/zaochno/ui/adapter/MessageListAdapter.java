@@ -12,6 +12,7 @@ import java.util.List;
 
 import ru.zaochno.zaochno.R;
 import ru.zaochno.zaochno.data.model.Message;
+import ru.zaochno.zaochno.data.utils.DateUtils;
 import ru.zaochno.zaochno.ui.holder.MessageListViewHolder;
 
 public class MessageListAdapter extends RecyclerView.Adapter<MessageListViewHolder> {
@@ -48,6 +49,11 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListViewHold
                 }
             });
         }
+
+        if (message.getDate() != null)
+            holder.tvDate.setText(DateUtils.millisToPattern(message.getDate(), DateUtils.PATTERN_DEFAULT));
+        else
+            holder.tvDate.setText(R.string.message_no_date);
 
         if (message.getTitle() != null)
             holder.tvTitle.setText(message.getTitle());

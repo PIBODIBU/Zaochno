@@ -102,6 +102,16 @@
                     android:text="@={user.email}" />
 
                 <EditText
+                    android:id="@+id/et_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/edit_text"
+                    android:hint="Имя"
+                    android:padding="8dp"
+                    android:text="@={user.name}" />
+
+                <EditText
                     android:id="@+id/et_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -138,7 +148,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:background="@drawable/edit_text"
-                    android:hint="ИНН"
+                    android:hint="ИНН (10 цифр)"
                     android:padding="8dp"
                     android:text="@={user.inn}" />
 
@@ -161,16 +171,6 @@
                     android:hint="Имя банка"
                     android:padding="8dp"
                     android:text="@={user.bankName}" />
-
-                <EditText
-                    android:id="@+id/et_region"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/edit_text"
-                    android:hint="Регион"
-                    android:padding="8dp"
-                    android:text="@={user.region}" />
 
                 <EditText
                     android:id="@+id/et_law_region"
@@ -248,7 +248,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:background="@drawable/edit_text"
-                    android:hint="КПП"
+                    android:hint="КПП (9 цифр)"
                     android:padding="8dp"
                     android:text="@={user.kpp}" />
 

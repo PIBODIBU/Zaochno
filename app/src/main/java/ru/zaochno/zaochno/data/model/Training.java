@@ -39,6 +39,13 @@ public class Training extends BaseObservable implements Serializable {
     @SerializedName("treningPrice")
     private List<TrainingPrice> trainingPrices;
 
+    @SerializedName("token")
+    private String userToken;
+
+    public Training(Integer id) {
+        this.id = id;
+    }
+
     public Training(Integer id, Boolean isPayed, String name, String imgUrl, String shortText, String fullText, Boolean isFavourite, List<Category> categories, List<TrainingPrice> trainingPrices) {
         this.id = id;
         this.isPayed = isPayed;
@@ -127,6 +134,14 @@ public class Training extends BaseObservable implements Serializable {
 
     public void setTrainingPrices(List<TrainingPrice> trainingPrices) {
         this.trainingPrices = trainingPrices;
+    }
+
+    public String getUserToken() {
+        return userToken;
+    }
+
+    public void setUserToken(String userToken) {
+        this.userToken = userToken;
     }
 
     public TrainingPrice getLowestPrice() {

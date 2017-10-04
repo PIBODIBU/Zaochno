@@ -1,11 +1,15 @@
 package ru.zaochno.zaochno.data.model;
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.List;
 
-public class Chapter implements Serializable {
+public class Chapter extends BaseChapter implements Serializable {
+    transient private Integer position;
+
     @SerializedName("chapterId")
     private Integer id;
 
@@ -25,18 +29,33 @@ public class Chapter implements Serializable {
         this.subChapters = subChapters;
     }
 
+    @NonNull
+    public Integer getPosition() {
+        if (position == null)
+            return -1;
+        return position;
+    }
+
+    public void setPosition(Integer position) {
+        this.position = position;
+    }
+
+    @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }

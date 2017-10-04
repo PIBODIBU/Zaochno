@@ -172,15 +172,19 @@ public class MessageListActivity extends BaseNavDrawerActivity {
                         Collections.sort(response.body().getResponseObj(), new Comparator<Message>() {
                             @Override
                             public int compare(Message message, Message t1) {
-                                /*Boolean isRead1 = message.getRead();
+                                Boolean isRead1 = message.getRead();
                                 Boolean isRead2 = t1.getRead();
                                 int resIsRead = isRead1.compareTo(isRead2);
 
-                                if(resIsRead != 0){
+                                if (resIsRead != 0) {
+                                    return resIsRead;
+                                } else {
+                                    Long date1 = message.getDate();
+                                    Long date2 = t1.getDate();
+                                    return date2.compareTo(date1);
+                                }
 
-                                }*/
-
-                                return message.getRead().compareTo(t1.getRead());
+//                                return message.getRead().compareTo(t1.getRead());
                             }
                         });
                         adapter.getMessages().addAll(response.body().getResponseObj());

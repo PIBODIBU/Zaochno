@@ -1,6 +1,7 @@
 package ru.zaochno.zaochno.ui.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
@@ -10,8 +11,13 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,6 +33,7 @@ import ru.zaochno.zaochno.data.shared.SharedPrefUtils;
 import ru.zaochno.zaochno.ui.callback.OnUserUpdateListener;
 import ru.zaochno.zaochno.ui.fragment.AccountSettingsLawFragment;
 import ru.zaochno.zaochno.ui.fragment.AccountSettingsPhysFragment;
+import ru.zaochno.zaochno.utils.FileUtils;
 
 public class AccountSettingsActivity extends BaseNavDrawerActivity implements OnUserUpdateListener {
     private static final String TAG = "AccountSettingsActivity";
@@ -106,8 +113,34 @@ public class AccountSettingsActivity extends BaseNavDrawerActivity implements On
     }
 
     @Override
-    public void onAvatarUpdate() {
+    public void onAvatarUpdate(Uri avatarUri) {
+        // use the FileUtils to get the actual file by uri
+        File file = new File(avatarUri.toString());
 
+        Log.d(TAG, "onAvatarUpdate: file: " + file.getAbsolutePath());
+        Log.d(TAG, "onAvatarUpdate: uri: " + avatarUri.getPath());
+        Log.d(TAG, "onAvatarUpdate: uri: " + avatarUri.toString());
+
+        // create RequestBody instance from file
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
+        // MultipartBody.Part is used to send also the actual file name
+        MultipartBody.Part body = MultipartBody.Part.createFormData("avatar", file.getName(), requestFile);
+
+        // add another part within the multipart request
+        RequestBody token = RequestBody.create(okhttp3.MultipartBody.FORM, AuthProvider.getInstance(this).getCurrentUser().getToken());
+
+        Retrofit2Client.getInstance().getApi().updateUserAvatar(token, body).enqueue(new Callback<BaseErrorResponse>() {
+            @Override
+            public void onResponse(Call<BaseErrorResponse> call, Response<BaseErrorResponse> response) {
+                Log.d(TAG, "onResponse: " + response.toString());
+            }
+
+            @Override
+            public void onFailure(Call<BaseErrorResponse> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override
@@ -129,7 +162,9 @@ public class AccountSettingsActivity extends BaseNavDrawerActivity implements On
                                     return;
                                 }
 
-                                new SharedPrefUtils(AccountSettingsActivity.this).setCurrentUser(response.body().getResponseObj());
+                                User user = response.body().getResponseObj();
+                                user.setToken(AuthProvider.getInstance(AccountSettingsActivity.this).getCurrentUser().getToken());
+                                new SharedPrefUtils(AccountSettingsActivity.this).setCurrentUser(user);
 
                                 startActivity(new Intent(AccountSettingsActivity.this, TrainingListActivity.class));
                                 finish();

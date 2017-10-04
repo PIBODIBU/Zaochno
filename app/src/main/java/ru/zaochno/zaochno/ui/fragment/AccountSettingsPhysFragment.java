@@ -71,6 +71,9 @@ public class AccountSettingsPhysFragment extends Fragment {
                             .into(civAvatar);
 
                     containerNoImage.setVisibility(View.GONE);
+
+                    if (onUserUpdateListener != null)
+                        onUserUpdateListener.onAvatarUpdate(selectedImageUri);
                 }
         }
     }
