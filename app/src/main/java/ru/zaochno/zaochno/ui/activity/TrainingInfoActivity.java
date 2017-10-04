@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -16,19 +17,25 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.LinkedList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import ru.zaochno.zaochno.R;
 import ru.zaochno.zaochno.data.api.Retrofit2Client;
+import ru.zaochno.zaochno.data.event.TrainingFavouriteEvent;
 import ru.zaochno.zaochno.data.model.BaseChapter;
 import ru.zaochno.zaochno.data.model.Chapter;
 import ru.zaochno.zaochno.data.model.Training;
 import ru.zaochno.zaochno.data.model.TrainingFull;
+import ru.zaochno.zaochno.data.model.response.BaseErrorResponse;
 import ru.zaochno.zaochno.data.model.response.DataResponseWrapper;
 import ru.zaochno.zaochno.data.provider.AuthProvider;
 import ru.zaochno.zaochno.data.utils.DateUtils;
@@ -55,8 +62,17 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity {
     @BindView(R.id.tv_description)
     public TextView tvDescription;
 
+    @BindView(R.id.container_progress)
+    public View containerProgress;
+
     @BindView(R.id.tv_valid_tow)
     public TextView tvValidTo;
+
+    @BindView(R.id.btn_to_fav)
+    public ImageButton ibFavourite;
+    public ImageButton ibDemo;
+    public ImageButton ibTest;
+    public ImageButton ibShare;
 
     @BindView(R.id.switch_view)
     public Switch aSwitch;
@@ -127,6 +143,11 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity {
             }
         });
 
+        if (training.getFavourite())
+            ibFavourite.setImageResource(R.drawable.ic_star_white_24dp);
+        else
+            ibFavourite.setImageResource(R.drawable.ic_star_border_white_24dp);
+
         if (training.getPayed())
             setupUiPayed();
         else
@@ -136,6 +157,7 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity {
     private void setupUiPayed() {
         btnBuy.setVisibility(View.GONE);
         tvRecyclerViewTitle.setVisibility(View.VISIBLE);
+        containerProgress.setVisibility(View.VISIBLE);
 
         tvDescription.setMaxLines(3);
 
@@ -156,8 +178,28 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity {
         setupRecyclerViews();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void onTrainingFavouriteEvent(TrainingFavouriteEvent event) {
+        training = event.getTraining();
+        fetchTraining();
+    }
+
     private void setupUiNotPayed() {
         btnBuy.setVisibility(View.VISIBLE);
+        containerProgress.setVisibility(View.GONE);
+
         btnBuy.setText("Купить (от ".concat(String.valueOf(training.getLowestPrice().getPrice())).concat(" руб.)"));
 
         tvDescription.setMaxLines(999);
@@ -206,5 +248,46 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity {
 
         training = ((Training) getIntent().getExtras().get(INTENT_KEY_TRAINING_MODEL));
         return training != null;
+    }
+
+    @OnClick(R.id.btn_buy)
+    public void onBuy() {
+    }
+
+    @OnClick(R.id.btn_demo)
+    public void onDemo() {
+    }
+
+    @OnClick(R.id.btn_to_fav)
+    public void onFavourite() {
+        // Invert favourite status
+        training.setFavourite(!training.getFavourite());
+        training.setUserToken(AuthProvider.getInstance(this).getCurrentUser().getToken());
+
+        Retrofit2Client.getInstance().getApi().favouriteTraining(training).enqueue(new Callback<BaseErrorResponse>() {
+            @Override
+            public void onResponse(Call<BaseErrorResponse> call, Response<BaseErrorResponse> response) {
+                if (response == null || response.body() == null || response.body().getError()) {
+                    Toast.makeText(TrainingInfoActivity.this, R.string.error, Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                Toast.makeText(TrainingInfoActivity.this, R.string.added_to_fav, Toast.LENGTH_LONG).show();
+                EventBus.getDefault().post(new TrainingFavouriteEvent(training));
+            }
+
+            @Override
+            public void onFailure(Call<BaseErrorResponse> call, Throwable t) {
+                Toast.makeText(TrainingInfoActivity.this, R.string.error, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    @OnClick(R.id.btn_test)
+    public void onTest() {
+    }
+
+    @OnClick(R.id.btn_share)
+    public void onShare() {
     }
 }
