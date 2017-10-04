@@ -66,6 +66,7 @@ dependencies {
     }
 
     compile 'org.reflections:reflections:0.9.11'
+    compile 'org.greenrobot:eventbus:3.0.0'
 }
 
 //apply plugin: 'com.google.gms.google-services'

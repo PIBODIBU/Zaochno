@@ -18,6 +18,9 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,8 +35,10 @@ import ru.zaochno.zaochno.data.annotation.Restrict;
 import ru.zaochno.zaochno.data.annotation.processor.RestrictProcessor;
 import ru.zaochno.zaochno.data.api.Retrofit2Client;
 import ru.zaochno.zaochno.data.enums.UserAuthLevel;
+import ru.zaochno.zaochno.data.event.TrainingFavouriteEvent;
 import ru.zaochno.zaochno.data.model.Training;
 import ru.zaochno.zaochno.data.model.filter.TrainingFilter;
+import ru.zaochno.zaochno.data.model.response.BaseErrorResponse;
 import ru.zaochno.zaochno.data.model.response.DataResponseWrapper;
 import ru.zaochno.zaochno.data.provider.AuthProvider;
 import ru.zaochno.zaochno.ui.adapter.BaseTrainingListAdapter;
@@ -41,12 +46,13 @@ import ru.zaochno.zaochno.ui.adapter.TrainingListAllAdapter;
 import ru.zaochno.zaochno.ui.adapter.TrainingListFavouriteAdapter;
 import ru.zaochno.zaochno.ui.adapter.TrainingListPayedAdapter;
 import ru.zaochno.zaochno.ui.adapter.pager.TrainingListPagerAdapter;
+import ru.zaochno.zaochno.ui.callback.TrainingActionListener;
 import ru.zaochno.zaochno.ui.dialog.TrainingListFilterDialog;
 import ru.zaochno.zaochno.ui.fragment.TrainingListAllFragment;
 import ru.zaochno.zaochno.ui.fragment.TrainingListFavouriteFragment;
 import ru.zaochno.zaochno.ui.fragment.TrainingListPayedFragment;
 
-public class TrainingListActivity extends BaseNavDrawerActivity {
+public class TrainingListActivity extends BaseNavDrawerActivity implements TrainingActionListener {
     private static final String TAG = "TrainingListActivity";
 
     public static final String INTENT_KEY_TAB = "INTENT_KEY_TAB";
@@ -106,6 +112,22 @@ public class TrainingListActivity extends BaseNavDrawerActivity {
         fetchData();
         setupTabs();
         checkIntent();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void onTrainingFavouriteEvent(TrainingFavouriteEvent event) {
     }
 
     @Restrict(userAuthLevel = UserAuthLevel.LOGGED)
@@ -210,9 +232,9 @@ public class TrainingListActivity extends BaseNavDrawerActivity {
     }
 
     private void setupAdapters() {
-        adapterAll = new TrainingListAllAdapter(this);
-        adapterFavourite = new TrainingListFavouriteAdapter(this);
-        adapterPayed = new TrainingListPayedAdapter(this);
+        adapterAll = new TrainingListAllAdapter(this, this);
+        adapterFavourite = new TrainingListFavouriteAdapter(this, this);
+        adapterPayed = new TrainingListPayedAdapter(this, this);
 
         adapterAll.setOnItemClickListener(new BaseTrainingListAdapter.OnItemClickListener() {
             @Override
@@ -322,5 +344,40 @@ public class TrainingListActivity extends BaseNavDrawerActivity {
     @OnClick(R.id.iv_clear_search_query)
     public void clearSearchQuery() {
         etSearchQuery.setText("");
+    }
+
+    @Override
+    public void onFavourite(final Training training) {
+        // Invert favourite status
+        training.setFavourite(!training.getFavourite());
+        training.setUserToken(AuthProvider.getInstance(this).getCurrentUser().getToken());
+
+        Retrofit2Client.getInstance().getApi().favouriteTraining(training).enqueue(new Callback<BaseErrorResponse>() {
+            @Override
+            public void onResponse(Call<BaseErrorResponse> call, Response<BaseErrorResponse> response) {
+                if (response == null || response.body() == null || response.body().getError()) {
+                    Toast.makeText(TrainingListActivity.this, R.string.error, Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                Toast.makeText(TrainingListActivity.this, R.string.added_to_fav, Toast.LENGTH_LONG).show();
+                EventBus.getDefault().post(new TrainingFavouriteEvent(training));
+            }
+
+            @Override
+            public void onFailure(Call<BaseErrorResponse> call, Throwable t) {
+                Toast.makeText(TrainingListActivity.this, R.string.error, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    @Override
+    public void onDemo(Training training) {
+
+    }
+
+    @Override
+    public void onBuy(Training training) {
+
     }
 }

@@ -11,6 +11,7 @@ import java.util.List;
 
 import ru.zaochno.zaochno.data.filter.TrainingListFilter;
 import ru.zaochno.zaochno.data.model.Training;
+import ru.zaochno.zaochno.ui.callback.TrainingActionListener;
 import ru.zaochno.zaochno.ui.holder.BaseTrainingListViewHolder;
 
 public abstract class BaseTrainingListAdapter<T extends BaseTrainingListViewHolder> extends RecyclerView.Adapter<T> {
@@ -19,15 +20,12 @@ public abstract class BaseTrainingListAdapter<T extends BaseTrainingListViewHold
     protected List<Training> trainings;
     protected Context context;
     protected OnItemClickListener onItemClickListener;
+    protected TrainingActionListener actionListener;
 
-    public BaseTrainingListAdapter(Context context) {
+    public BaseTrainingListAdapter(Context context, TrainingActionListener actionListener) {
         this.context = context;
         this.trainings = new LinkedList<>();
-    }
-
-    public BaseTrainingListAdapter(LinkedList<Training> trainings, Context context) {
-        this.trainings = trainings;
-        this.context = context;
+        this.actionListener = actionListener;
     }
 
     @Override

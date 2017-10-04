@@ -21,18 +21,22 @@ public class TrainingFull implements Serializable {
     @SerializedName("purchDuration")
     private Long durationHours;
 
+    @SerializedName("progress")
+    private Integer progress;
+
     @SerializedName("chapters")
     private List<Chapter> chapters;
 
     @SerializedName("tests")
     private List<Test> tests;
 
-    public TrainingFull(Boolean full, String name, String htmlText, Long purchaseDate, Long durationHours, List<Chapter> chapters, List<Test> tests) {
+    public TrainingFull(Boolean full, String name, String htmlText, Long purchaseDate, Long durationHours, Integer progress, List<Chapter> chapters, List<Test> tests) {
         this.full = full;
         this.name = name;
         this.htmlText = htmlText;
         this.purchaseDate = purchaseDate;
         this.durationHours = durationHours;
+        this.progress = progress;
         this.chapters = chapters;
         this.tests = tests;
     }
@@ -78,6 +82,14 @@ public class TrainingFull implements Serializable {
             return 0L;
 
         return durationHours * 60 * 60 * 1000;
+    }
+
+    public Integer getProgress() {
+        return progress;
+    }
+
+    public void setProgress(Integer progress) {
+        this.progress = progress;
     }
 
     public void setDurationHours(Long durationHours) {

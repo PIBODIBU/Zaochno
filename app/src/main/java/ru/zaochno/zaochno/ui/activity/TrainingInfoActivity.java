@@ -193,7 +193,6 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity {
         recyclerViewChapters.setLayoutManager(layoutManager);
     }
 
-
     @BindingAdapter("android:src")
     public static void setImageUrl(ImageView view, String url) {
         Picasso.with(view.getContext())

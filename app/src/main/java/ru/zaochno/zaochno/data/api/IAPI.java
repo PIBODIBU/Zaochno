@@ -42,6 +42,12 @@ public interface IAPI {
     @POST("trennings")
     Call<DataResponseWrapper<List<Training>>> getTrainings(@Body TrainingFilter trainingFilter);
 
+    @POST("trennings/trening")
+    Call<DataResponseWrapper<TrainingFull>> getFullTraining(@Body Training training);
+
+    @POST("trennings/favorite")
+    Call<BaseErrorResponse> favouriteTraining(@Body Training training);
+
     @POST("thematics")
     Call<DataResponseWrapper<List<Thematic>>> getThematics();
 
@@ -56,7 +62,4 @@ public interface IAPI {
 
     @POST("feedback/read")
     Call<BaseErrorResponse> markMessageAsRead(@Body Message message);
-
-    @POST("trennings/trening")
-    Call<DataResponseWrapper<TrainingFull>> getFullTraining(@Body Training training);
 }

@@ -4,8 +4,8 @@ import android.view.View;
 
 import butterknife.ButterKnife;
 
-public class TrainingListAllViewHolder extends BaseTrainingListViewHolder {
-    public TrainingListAllViewHolder(View itemView) {
+public class TrainingListPayedViewHolder extends BaseTrainingListViewHolder {
+    public TrainingListPayedViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
     }
