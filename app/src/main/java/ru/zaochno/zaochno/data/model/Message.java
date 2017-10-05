@@ -3,6 +3,7 @@ package ru.zaochno.zaochno.data.model;
 import com.google.gson.annotations.SerializedName;
 
 import ru.zaochno.zaochno.data.model.request.BaseTokenRequest;
+import ru.zaochno.zaochno.data.utils.DateUtils;
 
 public class Message implements BaseTokenRequest {
     @SerializedName("msgId")
@@ -58,7 +59,7 @@ public class Message implements BaseTokenRequest {
     }
 
     public Long getDate() {
-        return date;
+        return date - (DateUtils.HOUR * 3); // - 3 hours
     }
 
     public void setDate(Long date) {

@@ -255,7 +255,7 @@ public class TrainingListActivity extends BaseNavDrawerActivity implements Train
                 AuthProvider.getInstance(this).isAuthenticated() ? AuthProvider.getInstance(this).getCurrentUser().getToken() : "", // token
                 null,  // thematics
                 0, // start price
-                1000 // end price
+                99999 // end price
         )).enqueue(new Callback<DataResponseWrapper<List<Training>>>() {
             @Override
             public void onResponse(Call<DataResponseWrapper<List<Training>>> call, Response<DataResponseWrapper<List<Training>>> response) {

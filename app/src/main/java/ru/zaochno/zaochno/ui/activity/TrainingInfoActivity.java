@@ -1,5 +1,6 @@
 package ru.zaochno.zaochno.ui.activity;
 
+import android.content.Intent;
 import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -70,9 +71,18 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity {
 
     @BindView(R.id.btn_to_fav)
     public ImageButton ibFavourite;
+
+    @BindView(R.id.btn_demo)
     public ImageButton ibDemo;
+
+    @BindView(R.id.btn_test)
     public ImageButton ibTest;
+
+    @BindView(R.id.btn_share)
     public ImageButton ibShare;
+
+    @BindView(R.id.btn_schedule)
+    public Button btnSchedule;
 
     @BindView(R.id.switch_view)
     public Switch aSwitch;
@@ -110,7 +120,7 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity {
         Retrofit2Client.getInstance().getApi().getFullTraining(training).enqueue(new Callback<DataResponseWrapper<TrainingFull>>() {
             @Override
             public void onResponse(Call<DataResponseWrapper<TrainingFull>> call, Response<DataResponseWrapper<TrainingFull>> response) {
-                if (response == null || response.body() == null || response.body().getResponseObj() == null) {
+                if (response == null || response.body() == null) {
                     Toast.makeText(TrainingInfoActivity.this, "Ошибка", Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -158,6 +168,7 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity {
         btnBuy.setVisibility(View.GONE);
         tvRecyclerViewTitle.setVisibility(View.VISIBLE);
         containerProgress.setVisibility(View.VISIBLE);
+        btnSchedule.setVisibility(View.VISIBLE);
 
         tvDescription.setMaxLines(3);
 
@@ -170,12 +181,28 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity {
             }
         });
 
-        tvValidTo.setVisibility(View.VISIBLE);
-        tvValidTo.setText(tvValidTo.getText().toString().concat(
-                DateUtils.millisToPattern(trainingFull.getDurationMillis() + trainingFull.getPurchaseDate(), DateUtils.PATTERN_DEFAULT)
-        ));
+        if (trainingFull.getDurationMillis() != null && trainingFull.getPurchaseDate() != null) {
+            tvValidTo.setVisibility(View.VISIBLE);
+            tvValidTo.setText(tvValidTo.getText().toString().concat(
+                    DateUtils.millisToPattern(trainingFull.getDurationMillis() + trainingFull.getPurchaseDate(), DateUtils.PATTERN_DEFAULT)
+            ));
+        }
 
         setupRecyclerViews();
+    }
+
+    private void setupUiNotPayed() {
+        btnBuy.setVisibility(View.VISIBLE);
+        containerProgress.setVisibility(View.GONE);
+        btnSchedule.setVisibility(View.GONE);
+
+        btnBuy.setText("Купить (от ".concat(String.valueOf(training.getLowestPrice().getPrice())).concat(" руб.)"));
+
+        tvDescription.setMaxLines(999);
+
+        btnReadMore.setVisibility(View.GONE);
+        tvValidTo.setVisibility(View.GONE);
+        tvRecyclerViewTitle.setVisibility(View.GONE);
     }
 
     @Override
@@ -194,19 +221,6 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity {
     public void onTrainingFavouriteEvent(TrainingFavouriteEvent event) {
         training = event.getTraining();
         fetchTraining();
-    }
-
-    private void setupUiNotPayed() {
-        btnBuy.setVisibility(View.VISIBLE);
-        containerProgress.setVisibility(View.GONE);
-
-        btnBuy.setText("Купить (от ".concat(String.valueOf(training.getLowestPrice().getPrice())).concat(" руб.)"));
-
-        tvDescription.setMaxLines(999);
-
-        btnReadMore.setVisibility(View.GONE);
-        tvValidTo.setVisibility(View.GONE);
-        tvRecyclerViewTitle.setVisibility(View.GONE);
     }
 
     private void setupRecyclerViews() {
@@ -248,6 +262,11 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity {
 
         training = ((Training) getIntent().getExtras().get(INTENT_KEY_TRAINING_MODEL));
         return training != null;
+    }
+
+    @OnClick(R.id.btn_schedule)
+    public void schedule() {
+        startActivity(new Intent(this, ScheduleNewActivity.class));
     }
 
     @OnClick(R.id.btn_buy)

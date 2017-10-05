@@ -205,6 +205,17 @@
                     android:layout_marginTop="8dp"
                     android:background="@drawable/btn_accent_cornered"
                     android:textColor="@color/md_dark_primary_text" />
+
+                <Button
+                    android:id="@+id/btn_schedule"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="36dp"
+                    android:layout_marginStart="36dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/btn_accent_cornered"
+                    android:text="Записаться на экзамен"
+                    android:textColor="@color/md_dark_primary_text" />
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
 
@@ -242,7 +253,7 @@
             </RelativeLayout>
 
             <View
-                android:layout_width="5px"
+                android:layout_width="1px"
                 android:layout_height="match_parent"
                 android:background="@color/md_dark_dividers" />
 
@@ -271,7 +282,7 @@
             </RelativeLayout>
 
             <View
-                android:layout_width="5px"
+                android:layout_width="1px"
                 android:layout_height="match_parent"
                 android:background="@color/md_dark_dividers" />
 
@@ -300,7 +311,7 @@
             </RelativeLayout>
 
             <View
-                android:layout_width="5px"
+                android:layout_width="1px"
                 android:layout_height="match_parent"
                 android:background="@color/md_dark_dividers" />
 

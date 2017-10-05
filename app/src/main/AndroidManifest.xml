@@ -24,6 +24,8 @@
         <activity android:name=".ui.activity.MessageListActivity" />
         <activity android:name=".ui.activity.AccountSettingsActivity" />
         <activity android:name=".ui.activity.TrainingInfoActivity" />
+        <activity
+            android:name=".ui.activity.ScheduleNewActivity"
+            android:exported="true" />
     </application>
-
 </manifest>

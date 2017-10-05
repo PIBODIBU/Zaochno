@@ -25,4 +25,8 @@
     <color name="colorSeekBarDefault">#e2e2e2</color>
 
     <color name="white">#ffffff</color>
+
+    <color name="calendar_title_text">#989898</color>
+    <color name="calendar_disabled_text">#989898</color>
+    <color name="calendar_title_bg">#e1e1e1</color>
 </resources>
