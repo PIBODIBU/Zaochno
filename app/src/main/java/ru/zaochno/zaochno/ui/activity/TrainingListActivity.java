@@ -47,6 +47,7 @@ import ru.zaochno.zaochno.ui.adapter.TrainingListFavouriteAdapter;
 import ru.zaochno.zaochno.ui.adapter.TrainingListPayedAdapter;
 import ru.zaochno.zaochno.ui.adapter.pager.TrainingListPagerAdapter;
 import ru.zaochno.zaochno.ui.callback.TrainingActionListener;
+import ru.zaochno.zaochno.ui.dialog.BuyTrainingDialog;
 import ru.zaochno.zaochno.ui.dialog.TrainingListFilterDialog;
 import ru.zaochno.zaochno.ui.fragment.TrainingListAllFragment;
 import ru.zaochno.zaochno.ui.fragment.TrainingListFavouriteFragment;
@@ -365,6 +366,8 @@ public class TrainingListActivity extends BaseNavDrawerActivity implements Train
 
     @Override
     public void onBuy(Training training) {
-
+        BuyTrainingDialog dialog = new BuyTrainingDialog();
+        dialog.setTraining(training);
+        dialog.show(getSupportFragmentManager(), "BuyTrainingDialog");
     }
 }

@@ -60,7 +60,7 @@
         android:singleLine="true"
         android:text="Test title"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <TextView
@@ -73,10 +73,10 @@
         android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
         android:layout_toEndOf="@+id/iv_cover"
-        android:maxLines="4"
+        android:maxLines="3"
         android:text="@string/large_text"
         android:textColor="@color/md_light_primary_text"
-        android:textSize="12sp" />
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/tv_validity"
