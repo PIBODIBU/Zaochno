@@ -1,0 +1,211 @@
+---------------------------------------
+/api/regions - POST
+
+Request
+{
+}
+
+Response
+{
+  "data": [
+    {
+      "regionId": 1,
+      "resionName": "Region name"
+    },
+    {
+      "regionId": 1,
+      "resionName": "Region name"
+    }
+  ],
+  "error": false
+  "code": 200
+}
+
+---------------------------------------
+/api/exams/shedulle - POST
+
+Request
+{
+  "token": "de11f767-0000-54e9-9db3-555a81190701",
+  "trenningId": 124
+}
+
+Response
+{
+  "data": [
+    {
+      "examId": 1,
+      "date": 10110600096,
+      "members": 22
+    },
+    {
+      "name": 2,
+      "date": 10110600096,
+      "members": 15
+    }
+  ],
+  "error": false
+  "code": 200
+}
+
+---------------------------------------
+/api/tests/running - POST // Незавершенные тесты
+
+Request
+{
+  "token": "de11f767-0000-54e9-9db3-555a81190701"
+}
+
+Response
+{
+  "data": [
+    {
+      "testId": 5,
+      "testName": "Test name",
+      "testDesc": "Test description",
+      "cover": "http://example.com/pic.png",
+      "trenningValidity": 16561655181,
+      // Срок годности тренинга
+      "progress": 53
+    },
+    {
+      "testId": 5,
+      "testName": "Test name",
+      "testDesc": "Test description",
+      "cover": "http://example.com/pic.png",
+      "trenningValidity": 16561655181,
+      // Срок годности тренинга
+      "progress": 53
+    }
+  ],
+  "error": false
+  "code": 200
+}
+
+---------------------------------------
+/api/tests/done - POST // Завершенные тесты
+
+Request
+{
+  "token": "de11f767-0000-54e9-9db3-555a81190701"
+}
+
+Response
+{
+  "data": [
+    {
+      "testId": 5,
+      "testName": "Test name",
+      "testDesc": "Test description",
+      "cover": "http://example.com/pic.png",
+      "trenningValidity": 16561655181
+      // Срок годности тренинга
+    },
+    {
+      "testId": 5,
+      "testName": "Test name",
+      "testDesc": "Test description",
+      "cover": "http://example.com/pic.png",
+      "trenningValidity": 16561655181
+      // Срок годности тренинга
+    }
+  ],
+  "error": false
+  "code": 200
+}
+
+---------------------------------------
+/api/tests/test // Получение конкретного теста
+
+Request
+{
+  "token": "de11f767-0000-54e9-9db3-555a81190701",
+  "testId": 5
+}
+
+Response
+{
+  "data": [
+    {
+      "testId": 5,
+      "testName": "Test name",
+      "testDesc": "Test description",
+      "cover": "http://example.com/pic.png",
+      "trenningValidity": 16561655181,
+      // Срок годности тренинга
+      "progress": 53
+      "questions": [
+        {
+          "questionText": "Question text",
+          "questionCover": "http://example.com/pic.png",
+          "answers": [
+            {
+              "answerId": 1002,
+              "answerText": "Answer",
+              "correct": true
+            },
+            {
+              "answerId": 1003,
+              "answerText": "КНР",
+              "correct": false
+            },
+            {
+              "answerId": 1004,
+              "answerText": "Answer",
+              "correct": false
+            },
+            {
+              "answerId": 1005,
+              "answerText": "Answer",
+              "correct": false
+            }
+          ]
+        },
+        {
+          "questionText": "Question text",
+          "questionCover": "http://example.com/pic.png",
+          "answers": [
+            {
+              "answerId": 1002,
+              "answerText": "Answer",
+              "correct": true
+            },
+            {
+              "answerId": 1003,
+              "answerText": "КНР",
+              "correct": false
+            },
+            {
+              "answerId": 1004,
+              "answerText": "Answer",
+              "correct": false
+            },
+            {
+              "answerId": 1005,
+              "answerText": "Answer",
+              "correct": false
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "error": false
+  "code": 200
+}
+
+---------------------------------------
+/api/tests/test/register // Отправка результатов тестирования на сервер
+
+Request
+{
+  "token": "de11f767-0000-54e9-9db3-555a81190701",
+  "testId": 5,
+  "correctAnswers": 3
+}
+
+Response
+{
+  "error": false
+  "code": 200
+}

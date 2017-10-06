@@ -66,9 +66,31 @@ public class BaseNavDrawerActivity extends AppCompatActivity {
 
     public void setToolbar(Toolbar toolbar) {
         this.toolbar = toolbar;
+        setupToolbar();
+    }
+
+    private void setupToolbar() {
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        setTitle("");
+
+        if (toolbar.findViewById(R.id.iv_toolbar_logo) != null)
+            Picasso.with(this)
+                    .load(R.drawable.ic_launcher_logo)
+                    .into(((ImageView) toolbar.findViewById(R.id.iv_toolbar_logo)));
+    }
+
+    private void checkToolbar() {
+        if (toolbar == null)
+            if (findViewById(R.id.toolbar) != null && findViewById(R.id.toolbar) instanceof Toolbar)
+                toolbar = findViewById(R.id.toolbar);
+
+        setupToolbar();
     }
 
     protected void setupDrawer() {
+        checkToolbar();
+
         DrawerImageLoader.init(new DrawerImageLoader.IDrawerImageLoader() {
             @Override
             public void set(ImageView imageView, Uri uri, Drawable placeholder) {
@@ -135,7 +157,7 @@ public class BaseNavDrawerActivity extends AppCompatActivity {
                             "Тестирование",
                             3,
                             true,
-                            null,
+                            TestListActivity.class,
                             true),
                     DrawerItemCreator.createItem(this,
                             R.drawable.ic_email,

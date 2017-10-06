@@ -37,12 +37,6 @@ import ru.zaochno.zaochno.ui.dialog.MessageDialogShow;
 import ru.zaochno.zaochno.ui.dialog.NewMessageDialog;
 
 public class MessageListActivity extends BaseNavDrawerActivity {
-    @BindView(R.id.toolbar)
-    public Toolbar toolbar;
-
-    @BindView(R.id.iv_toolbar_logo)
-    public ImageView ivToolbarLogo;
-
     @BindView(R.id.recycler_view)
     public RecyclerView recyclerView;
 
@@ -57,10 +51,6 @@ public class MessageListActivity extends BaseNavDrawerActivity {
         setContentView(R.layout.activity_message_list);
         ButterKnife.bind(this);
 
-        setToolbar(toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        setTitle("");
         setupDrawer();
 
         setupUi();
@@ -69,10 +59,6 @@ public class MessageListActivity extends BaseNavDrawerActivity {
     }
 
     private void setupUi() {
-        // Load toolbar logo
-        Picasso.with(this)
-                .load(R.drawable.logo)
-                .into(ivToolbarLogo);
     }
 
     private void setupRecyclerView() {

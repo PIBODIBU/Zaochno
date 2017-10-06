@@ -51,9 +51,6 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity {
     @BindView(R.id.toolbar)
     public Toolbar toolbar;
 
-    @BindView(R.id.iv_toolbar_logo)
-    public ImageView ivToolbarLogo;
-
     @BindView(R.id.btn_buy)
     public Button btnBuy;
 
@@ -104,9 +101,6 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity {
         ButterKnife.bind(this);
 
         setToolbar(toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        setTitle("");
         setupDrawer();
 
         if (!getDataFromIntent())
@@ -139,10 +133,6 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity {
     private void setupUi() {
         binding.setTraining(training);
         binding.setTrainingFull(trainingFull);
-
-        Picasso.with(this)
-                .load(R.drawable.ic_launcher_logo)
-                .into(ivToolbarLogo);
 
         aSwitch.setChecked(binding.getTraining().getPayed());
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -266,7 +256,9 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity {
 
     @OnClick(R.id.btn_schedule)
     public void schedule() {
-        startActivity(new Intent(this, ScheduleNewActivity.class));
+        startActivity(new Intent(TrainingInfoActivity.this, ScheduleNewActivity.class)
+                .putExtra(ScheduleNewActivity.INTENT_KEY_TRAINING_MODEL, training)
+                .putExtra(ScheduleNewActivity.INTENT_KEY_TRAINING_FULL_MODEL, trainingFull));
     }
 
     @OnClick(R.id.btn_buy)

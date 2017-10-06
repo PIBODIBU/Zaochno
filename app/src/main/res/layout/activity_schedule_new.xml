@@ -1,95 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="ru.zaochno.zaochno.ui.activity.ScheduleNewActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@color/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:layout_height="wrap_content">
 
-        <RelativeLayout
+        <include layout="@layout/toolbar" />
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="4dp">
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
 
-            <RelativeLayout
-                android:layout_width="230dp"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:background="@drawable/btn_toolbar_white_cornered"
-                android:gravity="center"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp">
-
-                <ImageView
-                    android:id="@+id/iv_toolbar_logo"
-                    android:layout_width="56dp"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentStart="true"
-                    android:scaleType="centerInside"
-                    tools:src="@drawable/ic_launcher_logo" />
-
-                <TextView
-                    android:id="@+id/tv_toolbar_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@+id/iv_toolbar_logo"
-                    android:lines="1"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:text="Заочно Ру"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_toolbar_title"
-                    android:layout_toEndOf="@+id/iv_toolbar_logo"
-                    android:lines="1"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:text="Собери пазл знаний"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="14sp" />
-            </RelativeLayout>
-
-            <Switch
-                android:id="@+id/switch_view"
-                android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true" />
-        </RelativeLayout>
-    </android.support.v7.widget.Toolbar>
+                android:gravity="center"
+                android:paddingEnd="8dp"
+                android:paddingStart="8dp"
+                android:paddingTop="8dp"
+                android:text="Записаться на экзамен"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18dp"
+                android:textStyle="bold" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingEnd="8dp"
-        android:paddingStart="8dp"
-        android:paddingTop="16dp"
-        android:text="Выберите удобную вам дату"
-        android:textColor="@color/calendar_title_text"
-        android:textSize="18dp" />
+            <TextView
+                android:id="@+id/tv_training_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingEnd="8dp"
+                android:paddingStart="8dp"
+                android:text="Название тренинга"
+                android:textColor="@color/calendar_title_text"
+                android:textSize="18dp" />
 
-    <com.imanoweb.calendarview.CustomCalendarView
-        android:id="@+id/calendar_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        app:calendarTitleTextColor="@color/md_light_primary_text"
-        app:disabledDayBackgroundColor="@color/white"
-        app:disabledDayTextColor="@color/calendar_disabled_text"
-        app:selectedDayBackgroundColor="@color/colorAccent"
-        app:selectedDayTextColor="@color/white"
-        app:titleLayoutBackgroundColor="@color/calendar_title_bg" />
-</LinearLayout>
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                app:cardElevation="4dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:id="@+id/iv_time"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        app:srcCompat="@drawable/ic_access_time_grey_24dp" />
+
+                    <TextView
+                        android:id="@+id/tv_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginStart="8dp"
+                        android:layout_toEndOf="@+id/iv_time"
+                        android:gravity="center_vertical"
+                        android:text="Выберите дату"
+                        android:textColor="@color/md_light_primary_text"
+                        android:textSize="20sp" />
+
+                    <View
+                        android:id="@+id/divider"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/tv_title"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/divider" />
+
+                    <com.imanoweb.calendarview.CustomCalendarView
+                        android:id="@+id/calendar_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/divider"
+                        android:layout_marginTop="16dp"
+                        app:calendarTitleTextColor="@color/md_light_primary_text"
+                        app:disabledDayBackgroundColor="@color/white"
+                        app:disabledDayTextColor="@color/calendar_disabled_text"
+                        app:selectedDayBackgroundColor="@color/colorAccent"
+                        app:selectedDayTextColor="@color/white"
+                        app:titleLayoutBackgroundColor="@color/calendar_title_bg" />
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <Spinner
+                android:id="@+id/spinner_region"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="24dp"
+                android:orientation="horizontal"
+                android:paddingEnd="8dp"
+                android:paddingStart="8dp"
+                android:weightSum="2">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_primary_light_cornered"
+                    android:text="Записаться"
+                    android:textColor="@color/md_dark_primary_text" />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_accent_cornered"
+                    android:text="Расписание экзаменов"
+                    android:textColor="@color/md_dark_primary_text" />
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</android.support.design.widget.CoordinatorLayout>

@@ -38,12 +38,6 @@ import ru.zaochno.zaochno.utils.FileUtils;
 public class AccountSettingsActivity extends BaseNavDrawerActivity implements OnUserUpdateListener {
     private static final String TAG = "AccountSettingsActivity";
 
-    @BindView(R.id.toolbar)
-    public Toolbar toolbar;
-
-    @BindView(R.id.iv_toolbar_logo)
-    public ImageView ivToolbarLogo;
-
     public User user;
     private AccountSettingsPhysFragment physFragment = new AccountSettingsPhysFragment();
     private AccountSettingsLawFragment lawFragment = new AccountSettingsLawFragment();
@@ -54,10 +48,6 @@ public class AccountSettingsActivity extends BaseNavDrawerActivity implements On
         setContentView(R.layout.activity_account_settings);
         ButterKnife.bind(this);
 
-        setToolbar(toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        setTitle("");
         setupDrawer();
 
         setupUi();
@@ -107,9 +97,6 @@ public class AccountSettingsActivity extends BaseNavDrawerActivity implements On
     }
 
     private void setupUi() {
-        Picasso.with(this)
-                .load(R.drawable.logo)
-                .into(ivToolbarLogo);
     }
 
     @Override

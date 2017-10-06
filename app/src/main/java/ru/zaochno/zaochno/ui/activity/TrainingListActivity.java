@@ -60,17 +60,12 @@ public class TrainingListActivity extends BaseNavDrawerActivity implements Train
     public static final String INTENT_KEY_TAB_FAVOURITE = "INTENT_KEY_TAB_FAVOURITE";
     public static final String INTENT_KEY_TAB_PAYED = "INTENT_KEY_TAB_PAYED";
 
-    @BindView(R.id.toolbar)
-    public Toolbar toolbar;
-
-    @BindView(R.id.iv_toolbar_logo)
-    public ImageView ivToolbarLogo;
-
     @BindView(R.id.et_search_query)
     public EditText etSearchQuery;
 
     @BindView(R.id.tabs)
     public TabLayout tabLayout;
+
     @BindView(R.id.view_pager)
     public ViewPager viewPager;
 
@@ -100,10 +95,6 @@ public class TrainingListActivity extends BaseNavDrawerActivity implements Train
         setContentView(R.layout.activity_training_list);
         ButterKnife.bind(this);
 
-        setToolbar(toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        setTitle("");
         setupDrawer();
 
         RestrictProcessor.bind(this);
@@ -162,10 +153,6 @@ public class TrainingListActivity extends BaseNavDrawerActivity implements Train
     }
 
     private void setupUi() {
-        Picasso.with(this)
-                .load(R.drawable.ic_launcher_logo)
-                .into(ivToolbarLogo);
-
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

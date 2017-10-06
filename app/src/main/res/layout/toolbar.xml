@@ -1,0 +1,57 @@
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    android:background="@color/colorPrimary"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="4dp">
+
+        <RelativeLayout
+            android:layout_width="230dp"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:background="@drawable/btn_toolbar_white_cornered"
+            android:gravity="center"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp">
+
+            <ImageView
+                android:id="@+id/iv_toolbar_logo"
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:scaleType="centerInside"
+                tools:src="@drawable/ic_launcher_logo" />
+
+            <TextView
+                android:id="@+id/tv_toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/iv_toolbar_logo"
+                android:lines="1"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="Заочно Ру"
+                android:textColor="@color/colorAccent"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_toolbar_title"
+                android:layout_toEndOf="@+id/iv_toolbar_logo"
+                android:lines="1"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="Собери пазл знаний"
+                android:textColor="@color/colorAccent"
+                android:textSize="14sp" />
+        </RelativeLayout>
+    </RelativeLayout>
+</android.support.v7.widget.Toolbar>

@@ -5,28 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@color/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/iv_toolbar_logo"
-                android:layout_width="200dp"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:layout_margin="4dp"
-                android:background="@drawable/btn_toolbar_white_cornered"
-                android:scaleType="centerInside"
-                tools:src="@drawable/logo" />
-        </RelativeLayout>
-    </android.support.v7.widget.Toolbar>
+    <include layout="@layout/toolbar" />
 
     <FrameLayout
         android:id="@+id/container"
