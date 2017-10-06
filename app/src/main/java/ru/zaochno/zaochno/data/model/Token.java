@@ -2,7 +2,9 @@ package ru.zaochno.zaochno.data.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Token {
+import java.io.Serializable;
+
+public class Token implements Serializable {
     @SerializedName("token")
     private String token;
 

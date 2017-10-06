@@ -4,7 +4,10 @@ import com.google.gson.annotations.SerializedName;
 
 public class TokenRequest implements BaseTokenRequest {
     @SerializedName("token")
-    private String token;
+    protected String token;
+
+    public TokenRequest() {
+    }
 
     public TokenRequest(String token) {
         this.token = token;

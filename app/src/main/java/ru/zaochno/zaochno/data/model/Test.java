@@ -5,7 +5,10 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
-public class Test implements Serializable {
+import ru.zaochno.zaochno.data.model.request.TokenRequest;
+import ru.zaochno.zaochno.utils.UrlUtils;
+
+public class Test extends TokenRequest implements Serializable {
     @SerializedName("testId")
     private Integer id;
 
@@ -15,13 +18,34 @@ public class Test implements Serializable {
     @SerializedName("testDesc")
     private String description;
 
+    @SerializedName("cover")
+    private String coverUrl;
+
+    @SerializedName("trenningValidity")
+    private Long trainingValidity;
+
+    @SerializedName("progress")
+    private Integer progress;
+
     @SerializedName("questions")
     private List<Question> questions;
 
-    public Test(Integer id, String name, String description, List<Question> questions) {
+    public Test(String token) {
+        super(token);
+    }
+
+    public Test(String token, Integer id) {
+        this.token = token;
+        this.id = id;
+    }
+
+    public Test(Integer id, String name, String description, String coverUrl, Long trainingValidity, Integer progress, List<Question> questions) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.coverUrl = coverUrl;
+        this.trainingValidity = trainingValidity;
+        this.progress = progress;
         this.questions = questions;
     }
 
@@ -47,6 +71,30 @@ public class Test implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getCoverUrl() {
+        return UrlUtils.absolutePathToUrl(coverUrl);
+    }
+
+    public void setCoverUrl(String coverUrl) {
+        this.coverUrl = coverUrl;
+    }
+
+    public Long getTrainingValidity() {
+        return trainingValidity;
+    }
+
+    public void setTrainingValidity(Long trainingValidity) {
+        this.trainingValidity = trainingValidity;
+    }
+
+    public Integer getProgress() {
+        return progress;
+    }
+
+    public void setProgress(Integer progress) {
+        this.progress = progress;
     }
 
     public List<Question> getQuestions() {

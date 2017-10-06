@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ru.zaochno.zaochno.ui.activity.ScheduleNewActivity">
+    tools:context="ru.zaochno.zaochno.ui.activity.ExamNewActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -117,6 +117,7 @@
                 android:weightSum="2">
 
                 <Button
+                    android:id="@+id/btn_register"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -125,6 +126,7 @@
                     android:textColor="@color/md_dark_primary_text" />
 
                 <Button
+                    android:id="@+id/btn_schedule"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="8dp"

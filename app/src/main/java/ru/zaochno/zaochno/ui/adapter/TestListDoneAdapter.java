@@ -11,6 +11,7 @@ import java.util.List;
 
 import ru.zaochno.zaochno.R;
 import ru.zaochno.zaochno.data.model.Test;
+import ru.zaochno.zaochno.data.utils.DateUtils;
 import ru.zaochno.zaochno.ui.holder.TestListDoneViewHolder;
 
 public class TestListDoneAdapter extends RecyclerView.Adapter<TestListDoneViewHolder> {
@@ -29,9 +30,20 @@ public class TestListDoneAdapter extends RecyclerView.Adapter<TestListDoneViewHo
 
     @Override
     public void onBindViewHolder(TestListDoneViewHolder holder, int position) {
+        Test test = tests.get(position);
+
+        if (test == null)
+            return;
+
         Picasso.with(context)
-                .load(R.drawable.example_training)
+                .load(test.getCoverUrl())
                 .into(holder.ivCover);
+
+        holder.tvTitle.setText(test.getName());
+        holder.tvDescription.setText(test.getDescription());
+        holder.tvValidity.setText("Срок годности тренинга до ".concat(DateUtils.millisToPattern(test.getTrainingValidity(), DateUtils.PATTERN_DEFAULT)));
+        holder.tvProgress.setText(String.valueOf(test.getProgress()).concat("%"));
+        holder.progressBar.setProgress(test.getProgress());
     }
 
     @Override

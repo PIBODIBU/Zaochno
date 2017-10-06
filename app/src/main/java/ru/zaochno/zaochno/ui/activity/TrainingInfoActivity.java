@@ -256,9 +256,8 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity {
 
     @OnClick(R.id.btn_schedule)
     public void schedule() {
-        startActivity(new Intent(TrainingInfoActivity.this, ScheduleNewActivity.class)
-                .putExtra(ScheduleNewActivity.INTENT_KEY_TRAINING_MODEL, training)
-                .putExtra(ScheduleNewActivity.INTENT_KEY_TRAINING_FULL_MODEL, trainingFull));
+        startActivity(new Intent(TrainingInfoActivity.this, ExamNewActivity.class)
+                .putExtra(ExamNewActivity.INTENT_KEY_TRAINING_MODEL, training));
     }
 
     @OnClick(R.id.btn_buy)

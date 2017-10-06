@@ -6,7 +6,7 @@
     android:layout_height="200dp"
     android:layout_margin="8dp"
     android:background="@color/white"
-    android:padding="16dp">
+    android:padding="8dp">
 
     <ImageView
         android:id="@+id/iv_cover"
@@ -15,7 +15,7 @@
         tools:src="@drawable/example_training" />
 
     <RelativeLayout
-        android:layout_width="100dp"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/iv_cover"
         android:gravity="center">

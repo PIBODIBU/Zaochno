@@ -9,7 +9,12 @@ import retrofit2.http.Body;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import ru.zaochno.zaochno.data.model.BaseExam;
+import ru.zaochno.zaochno.data.model.Exam;
+import ru.zaochno.zaochno.data.model.ExamFuture;
 import ru.zaochno.zaochno.data.model.Message;
+import ru.zaochno.zaochno.data.model.Region;
+import ru.zaochno.zaochno.data.model.Test;
 import ru.zaochno.zaochno.data.model.Thematic;
 import ru.zaochno.zaochno.data.model.Token;
 import ru.zaochno.zaochno.data.model.Training;
@@ -62,4 +67,22 @@ public interface IAPI {
 
     @POST("feedback/read")
     Call<BaseErrorResponse> markMessageAsRead(@Body Message message);
+
+    @POST("tests/running")
+    Call<DataResponseWrapper<List<Test>>> getActiveTests(@Body Token token);
+
+    @POST("tests/done")
+    Call<DataResponseWrapper<List<Test>>> getDoneTests(@Body Token token);
+
+    @POST("tests/test")
+    Call<DataResponseWrapper<Test>> getTest(@Body Test test);
+
+    @POST("regions")
+    Call<DataResponseWrapper<List<Region>>> getRegions();
+
+    @POST("exams/shedulle")
+    Call<DataResponseWrapper<List<ExamFuture>>> getTrainingExams(@Body Training training);
+
+    @POST("shedulle/register")
+    Call<BaseErrorResponse> registerOnExam(@Body BaseExam exam);
 }

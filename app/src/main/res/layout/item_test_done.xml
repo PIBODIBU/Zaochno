@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="200dp"
     android:layout_margin="8dp"
     android:background="@color/white"
     android:padding="16dp">
@@ -13,6 +13,40 @@
         android:layout_width="120dp"
         android:layout_height="120dp"
         tools:src="@drawable/example_training" />
+
+    <RelativeLayout
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_cover"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tv_progress_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Прогресс "
+            android:textColor="@color/md_light_primary_text" />
+
+        <TextView
+            android:id="@+id/tv_progress"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/tv_progress_title"
+            android:text="50%"
+            android:textColor="@color/md_light_primary_text"
+            android:textStyle="bold" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="100dp"
+            android:layout_height="4dp"
+            android:layout_below="@+id/tv_progress_title"
+            android:layout_marginTop="4dp"
+            android:max="100"
+            android:progress="50"
+            android:progressDrawable="@drawable/progress_bar" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/tv_title"
@@ -36,10 +70,25 @@
         android:layout_above="@+id/tv_validity"
         android:layout_alignParentEnd="true"
         android:layout_below="@id/tv_title"
+        android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
         android:layout_toEndOf="@+id/iv_cover"
         android:maxLines="5"
         android:text="@string/large_text"
         android:textColor="@color/md_light_primary_text"
         android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_validity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_toEndOf="@+id/iv_cover"
+        android:text="Срок годности тренинга до 12.01.2017 12:00"
+        android:textColor="@color/md_light_primary_text"
+        android:textSize="12sp"
+        android:textStyle="bold" />
 </RelativeLayout>
