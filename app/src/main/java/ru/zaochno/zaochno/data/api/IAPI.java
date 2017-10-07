@@ -20,6 +20,7 @@ import ru.zaochno.zaochno.data.model.Token;
 import ru.zaochno.zaochno.data.model.Training;
 import ru.zaochno.zaochno.data.model.TrainingFull;
 import ru.zaochno.zaochno.data.model.User;
+import ru.zaochno.zaochno.data.model.UserAnswerSet;
 import ru.zaochno.zaochno.data.model.filter.TrainingFilter;
 import ru.zaochno.zaochno.data.model.request.TokenRequest;
 import ru.zaochno.zaochno.data.model.response.AuthErrorResponse;
@@ -28,6 +29,7 @@ import ru.zaochno.zaochno.data.model.response.DataResponseWrapper;
 import ru.zaochno.zaochno.data.model.response.RegisterResponse;
 
 public interface IAPI {
+    // Account
     @POST("Account/Login")
     Call<AuthErrorResponse> authenticate(@Body User user);
 
@@ -44,6 +46,8 @@ public interface IAPI {
     @POST("Account/getUserProfile")
     Call<DataResponseWrapper<User>> getUserInfo(@Body Token token);
 
+
+    // Trainings
     @POST("trennings")
     Call<DataResponseWrapper<List<Training>>> getTrainings(@Body TrainingFilter trainingFilter);
 
@@ -56,6 +60,8 @@ public interface IAPI {
     @POST("thematics")
     Call<DataResponseWrapper<List<Thematic>>> getThematics();
 
+
+    // Messages
     @POST("feedback")
     Call<DataResponseWrapper<List<Message>>> getMessages(@Body TokenRequest tokenRequest);
 
@@ -68,6 +74,8 @@ public interface IAPI {
     @POST("feedback/read")
     Call<BaseErrorResponse> markMessageAsRead(@Body Message message);
 
+
+    // Tests
     @POST("tests/running")
     Call<DataResponseWrapper<List<Test>>> getActiveTests(@Body Token token);
 
@@ -77,12 +85,19 @@ public interface IAPI {
     @POST("tests/test")
     Call<DataResponseWrapper<Test>> getTest(@Body Test test);
 
-    @POST("regions")
-    Call<DataResponseWrapper<List<Region>>> getRegions();
+    @POST("tests/test/register")
+    Call<BaseErrorResponse> sendtestResult(@Body UserAnswerSet answerSet);
 
+
+    // Exams
     @POST("exams/shedulle")
     Call<DataResponseWrapper<List<ExamFuture>>> getTrainingExams(@Body Training training);
 
     @POST("shedulle/register")
     Call<BaseErrorResponse> registerOnExam(@Body BaseExam exam);
+
+
+    // Other
+    @POST("regions")
+    Call<DataResponseWrapper<List<Region>>> getRegions();
 }

@@ -2,12 +2,15 @@ package ru.zaochno.zaochno.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -17,8 +20,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import ru.zaochno.zaochno.R;
 import ru.zaochno.zaochno.data.api.Retrofit2Client;
+import ru.zaochno.zaochno.data.model.Answer;
 import ru.zaochno.zaochno.data.model.Question;
 import ru.zaochno.zaochno.data.model.Test;
+import ru.zaochno.zaochno.data.model.UserAnswerSet;
+import ru.zaochno.zaochno.data.model.response.BaseErrorResponse;
 import ru.zaochno.zaochno.data.model.response.DataResponseWrapper;
 import ru.zaochno.zaochno.data.provider.AuthProvider;
 
@@ -50,6 +56,7 @@ public class TestingActivity extends BaseNavDrawerActivity {
     private Integer testId;
     private Integer currentPosition = 0;
     private Test test;
+    private UserAnswerSet userAnswerSet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +66,13 @@ public class TestingActivity extends BaseNavDrawerActivity {
 
         if (!checkIntent())
             return;
+
         setupDrawer();
         fetchTest();
+    }
+
+    private void setupAnswerSet() {
+        userAnswerSet = new UserAnswerSet(AuthProvider.getInstance(this).getCurrentUser().getToken(), test.getId());
     }
 
     private void setupUi() {
@@ -70,14 +82,37 @@ public class TestingActivity extends BaseNavDrawerActivity {
     private void nextQuestion() {
         if (currentPosition == test.getQuestions().size()) {
             // No items left
-            startActivity(new Intent(TestingActivity.this, TestListActivity.class));
-            finish();
+            sendAnswers(userAnswerSet);
             return;
         }
 
-        refreshUi(test.getQuestions().get(currentPosition));
+        refreshUi(getCurrentQuestion());
+    }
 
-        currentPosition++;
+    private void sendAnswers(UserAnswerSet answerSet) {
+        Retrofit2Client.getInstance().getApi().sendtestResult(answerSet).enqueue(new Callback<BaseErrorResponse>() {
+            @Override
+            public void onResponse(Call<BaseErrorResponse> call, Response<BaseErrorResponse> response) {
+                if (response == null || response.body() == null || response.body().getError() == null || response.body().getError()) {
+                    Toast.makeText(TestingActivity.this, R.string.error, Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                Toast.makeText(getApplicationContext(), R.string.test_result_sent, Toast.LENGTH_LONG).show();
+                startActivity(new Intent(TestingActivity.this, TestListActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<BaseErrorResponse> call, Throwable t) {
+                Toast.makeText(TestingActivity.this, R.string.error, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private Question getCurrentQuestion() {
+        return test.getQuestions().get(currentPosition);
     }
 
     private void refreshUi(Question question) {
@@ -99,7 +134,28 @@ public class TestingActivity extends BaseNavDrawerActivity {
         tvAnswers.setText(answers);
     }
 
-    private void chooseAnswer(Integer answer) {
+    private void chooseAnswer(Integer answerPosition) {
+        Answer answer = null;
+        UserAnswerSet.UserAnswer userAnswer = new UserAnswerSet.UserAnswer();
+
+        try {
+            answer = getCurrentQuestion().getAnswers().get(answerPosition - 1);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        if (answer == null || answer.getId() == null)
+            userAnswer.setAnswerId(-1);
+        else
+            userAnswer.setAnswerId(answer.getId());
+
+        if (getCurrentQuestion() == null || getCurrentQuestion().getId() == null)
+            userAnswer.setQuestionId(-1);
+        else
+            userAnswer.setQuestionId(getCurrentQuestion().getId());
+
+        userAnswerSet.getUserAnswers().add(userAnswer);
+        currentPosition++;
         nextQuestion();
     }
 
@@ -133,6 +189,7 @@ public class TestingActivity extends BaseNavDrawerActivity {
 
                         setTest(response.body().getResponseObj());
                         setupUi();
+                        setupAnswerSet();
                         nextQuestion();
                     }
 
