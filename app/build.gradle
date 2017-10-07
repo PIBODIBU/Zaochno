@@ -57,6 +57,9 @@ dependencies {
     // Custom views
     compile 'org.florescu.android.rangeseekbar:rangeseekbar-library:0.4.0'
     compile 'com.github.npanigrahy:Custom-Calendar-View:v1.0'
+    compile 'com.github.rey5137:material:1.2.4'
+    compile 'org.zakariya.flyoutmenus:flyoutmenu:0.5.3'
+    compile 'com.github.varunest:sparkbutton:1.0.5'
 
     // Images
     compile 'com.squareup.picasso:picasso:2.5.2'

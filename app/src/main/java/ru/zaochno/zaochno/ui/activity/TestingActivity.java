@@ -2,15 +2,12 @@ package ru.zaochno.zaochno.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -83,6 +80,19 @@ public class TestingActivity extends BaseNavDrawerActivity {
         if (currentPosition == test.getQuestions().size()) {
             // No items left
             sendAnswers(userAnswerSet);
+            return;
+        }
+
+        Answer answer = null;
+        try {
+            answer = getCurrentQuestion().getAnswers().get(0);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        if (answer == null) {
+            currentPosition++;
+            nextQuestion();
             return;
         }
 

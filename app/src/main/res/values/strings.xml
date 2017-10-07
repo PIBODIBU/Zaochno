@@ -20,4 +20,6 @@
     <string name="added_to_fav">Статус изменен</string>
     <string name="exam_registered">Успешно зарегистрировано</string>
     <string name="test_result_sent">Успешно отправлено</string>
+    <string name="sign_in"><b>Войти</b></string>
+    <string name="sign_out">Выйти</string>
 </resources>

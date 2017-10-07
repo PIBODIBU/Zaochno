@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/container_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/container_bottom"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/ic_launcher_logo_no_bg" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Zaochno Android"
+            android:textColor="@color/md_dark_primary_text"
+            android:textSize="36sp" />
+
+        <TextView
+            android:id="@+id/tv_greet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:text="Вы не авторизованы"
+            android:textColor="@color/md_dark_primary_text"
+            android:textSize="16sp" />
+
+        <com.rey.material.widget.Button
+            android:id="@+id/btn_sign_out"
+            style="@style/MaterialButtonTransparent"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="@string/sign_out"
+            android:textColor="@color/md_dark_primary_text"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/container_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.rey.material.widget.Button
+            android:id="@+id/btn_sign_in"
+            style="@style/MaterialButtonGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
+            android:text="@string/sign_in"
+            android:textColor="@color/md_grey_700" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_below="@id/container_top"
+        android:background="@drawable/shadow_top_bottom" />
+</RelativeLayout>
