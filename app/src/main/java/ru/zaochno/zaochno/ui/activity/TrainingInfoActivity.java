@@ -109,7 +109,8 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity {
     }
 
     private void fetchTraining() {
-        training.setUserToken(AuthProvider.getInstance(this).getCurrentUser().getToken());
+        if (AuthProvider.getInstance(this).isAuthenticated())
+            training.setUserToken(AuthProvider.getInstance(this).getCurrentUser().getToken());
 
         Retrofit2Client.getInstance().getApi().getFullTraining(training).enqueue(new Callback<DataResponseWrapper<TrainingFull>>() {
             @Override
@@ -271,6 +272,9 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity {
     @OnClick(R.id.btn_to_fav)
     public void onFavourite() {
         // Invert favourite status
+        if (!AuthProvider.getInstance(this).isAuthenticated())
+            return;
+
         training.setFavourite(!training.getFavourite());
         training.setUserToken(AuthProvider.getInstance(this).getCurrentUser().getToken());
 
@@ -295,6 +299,9 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity {
 
     @OnClick(R.id.btn_test)
     public void onTest() {
+        startActivity(new Intent(TrainingInfoActivity.this, TestListActivity.class)
+                .putExtra(TestListActivity.INTENT_KEY_TRAINING_ID, training.getId()));
+        finish();
     }
 
     @OnClick(R.id.btn_share)

@@ -3,6 +3,7 @@ package ru.zaochno.zaochno.ui.adapter;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.squareup.picasso.Picasso;
@@ -17,6 +18,7 @@ import ru.zaochno.zaochno.ui.holder.TestListDoneViewHolder;
 public class TestListDoneAdapter extends RecyclerView.Adapter<TestListDoneViewHolder> {
     private List<Test> tests;
     private Context context;
+    private ActionListener actionListener;
 
     public TestListDoneAdapter(List<Test> tests, Context context) {
         this.tests = tests;
@@ -30,7 +32,7 @@ public class TestListDoneAdapter extends RecyclerView.Adapter<TestListDoneViewHo
 
     @Override
     public void onBindViewHolder(TestListDoneViewHolder holder, int position) {
-        Test test = tests.get(position);
+        final Test test = tests.get(position);
 
         if (test == null)
             return;
@@ -44,10 +46,26 @@ public class TestListDoneAdapter extends RecyclerView.Adapter<TestListDoneViewHo
         holder.tvValidity.setText("Срок годности тренинга до ".concat(DateUtils.millisToPattern(test.getTrainingValidity(), DateUtils.PATTERN_DEFAULT)));
         holder.tvProgress.setText(String.valueOf(test.getProgress()).concat("%"));
         holder.progressBar.setProgress(test.getProgress());
+
+        if (actionListener != null)
+            holder.btnContinue.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    actionListener.onTestContinue(test);
+                }
+            });
     }
 
     @Override
     public int getItemCount() {
         return tests.size();
+    }
+
+    public void setActionListener(ActionListener actionListener) {
+        this.actionListener = actionListener;
+    }
+
+    public interface ActionListener {
+        void onTestContinue(Test test);
     }
 }

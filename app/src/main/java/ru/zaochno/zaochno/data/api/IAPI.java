@@ -9,9 +9,7 @@ import retrofit2.http.Body;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
-import ru.zaochno.zaochno.data.model.BaseExam;
 import ru.zaochno.zaochno.data.model.Exam;
-import ru.zaochno.zaochno.data.model.ExamFuture;
 import ru.zaochno.zaochno.data.model.Message;
 import ru.zaochno.zaochno.data.model.Region;
 import ru.zaochno.zaochno.data.model.Test;
@@ -19,6 +17,7 @@ import ru.zaochno.zaochno.data.model.Thematic;
 import ru.zaochno.zaochno.data.model.Token;
 import ru.zaochno.zaochno.data.model.Training;
 import ru.zaochno.zaochno.data.model.TrainingFull;
+import ru.zaochno.zaochno.data.model.TrainingId;
 import ru.zaochno.zaochno.data.model.User;
 import ru.zaochno.zaochno.data.model.UserAnswerSet;
 import ru.zaochno.zaochno.data.model.filter.TrainingFilter;
@@ -77,24 +76,24 @@ public interface IAPI {
 
     // Tests
     @POST("tests/running")
-    Call<DataResponseWrapper<List<Test>>> getActiveTests(@Body Token token);
+    Call<DataResponseWrapper<List<Test>>> getActiveTests(@Body TrainingId token);
 
     @POST("tests/done")
-    Call<DataResponseWrapper<List<Test>>> getDoneTests(@Body Token token);
+    Call<DataResponseWrapper<List<Test>>> getDoneTests(@Body TrainingId token);
 
     @POST("tests/test")
     Call<DataResponseWrapper<Test>> getTest(@Body Test test);
 
     @POST("tests/test/register")
-    Call<BaseErrorResponse> sendtestResult(@Body UserAnswerSet answerSet);
+    Call<BaseErrorResponse> sendTestResult(@Body UserAnswerSet answerSet);
 
 
     // Exams
     @POST("exams/shedulle")
-    Call<DataResponseWrapper<List<ExamFuture>>> getTrainingExams(@Body Training training);
+    Call<DataResponseWrapper<List<Exam>>> getTrainingExams(@Body Training training);
 
     @POST("shedulle/register")
-    Call<BaseErrorResponse> registerOnExam(@Body BaseExam exam);
+    Call<BaseErrorResponse> registerOnExam(@Body Exam exam);
 
 
     // Other

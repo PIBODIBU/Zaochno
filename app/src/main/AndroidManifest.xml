@@ -27,10 +27,7 @@
         <activity android:name=".ui.activity.ExamNewActivity" />
         <activity android:name=".ui.activity.TestListActivity" />
         <activity android:name=".ui.activity.TestingActivity" />
-
-        <activity
-            android:name=".ui.activity.DebugActivity"
-            android:exported="true" />
-        <activity android:name=".ui.activity.DebugActivityLogin" />
+        <activity android:name=".ui.activity.LoginNewActivity" />
+        <activity android:name=".ui.activity.SplashNewActivity" />
     </application>
 </manifest>

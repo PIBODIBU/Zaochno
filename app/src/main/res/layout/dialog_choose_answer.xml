@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="18dp">
+
+    <TextView
+        android:id="@+id/tv_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Здесь будет подсказка для пользователя"
+        android:textColor="@color/md_dark_primary_text"
+        android:textSize="18sp" />
+
+    <com.rey.material.widget.Button
+        android:id="@+id/btn_next"
+        style="@style/MaterialButtonTransparent"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginEnd="36dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="18dp"
+        android:text="Следующий вопрос"
+        android:textColor="@color/md_dark_primary_text" />
+</LinearLayout>

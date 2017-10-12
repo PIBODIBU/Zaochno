@@ -17,14 +17,16 @@ public class Question implements Serializable {
     @SerializedName("questionCover")
     private String coverUrl;
 
+    @SerializedName("hintRight")
+    private String hintRight;
+
+    @SerializedName("hintnWrong")
+    private String hintWrong;
+
     @SerializedName("answers")
     private List<Answer> answers;
 
-    public Question(Integer id, String text, String coverUrl, List<Answer> answers) {
-        this.id = id;
-        this.text = text;
-        this.coverUrl = coverUrl;
-        this.answers = answers;
+    public Question() {
     }
 
     public Integer getId() {
@@ -49,6 +51,22 @@ public class Question implements Serializable {
 
     public void setCoverUrl(String coverUrl) {
         this.coverUrl = coverUrl;
+    }
+
+    public String getHintRight() {
+        return hintRight;
+    }
+
+    public void setHintRight(String hintRight) {
+        this.hintRight = hintRight;
+    }
+
+    public String getHintWrong() {
+        return hintWrong;
+    }
+
+    public void setHintWrong(String hintWrong) {
+        this.hintWrong = hintWrong;
     }
 
     public List<Answer> getAnswers() {

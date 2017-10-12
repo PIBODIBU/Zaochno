@@ -115,8 +115,9 @@ public class TrainingListFilterDialog extends DialogFragment {
                 internalFilter.getThematics().add((Thematic) adapterView.getItemAtPosition(i));
 
                 subThematics.clear();
-                if (((Thematic) adapterView.getItemAtPosition(i)).getSubThematics() != null)
+                if (((Thematic) adapterView.getItemAtPosition(i)).getSubThematics() != null) {
                     subThematics.addAll(((Thematic) adapterView.getItemAtPosition(i)).getSubThematics());
+                }
 
                 ArrayAdapter<SubThematic> dataAdapterSubThematic = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, subThematics);
                 dataAdapterSubThematic.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

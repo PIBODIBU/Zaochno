@@ -33,6 +33,12 @@ public class Training extends BaseObservable implements Serializable {
     @SerializedName("treningFavorite")
     private Boolean isFavourite;
 
+    @SerializedName("progress")
+    private Integer progress;
+
+    @SerializedName("validity")
+    private Long validity;
+
     @SerializedName("categories")
     private List<Category> categories;
 
@@ -126,6 +132,22 @@ public class Training extends BaseObservable implements Serializable {
 
     public void setCategories(List<Category> categories) {
         this.categories = categories;
+    }
+
+    public Integer getProgress() {
+        return progress;
+    }
+
+    public void setProgress(Integer progress) {
+        this.progress = progress;
+    }
+
+    public Long getValidity() {
+        return validity;
+    }
+
+    public void setValidity(Long validity) {
+        this.validity = validity;
     }
 
     public List<TrainingPrice> getTrainingPrices() {

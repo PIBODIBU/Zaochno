@@ -1,5 +1,6 @@
 package ru.zaochno.zaochno.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -21,8 +22,10 @@ import ru.zaochno.zaochno.R;
 import ru.zaochno.zaochno.data.api.Retrofit2Client;
 import ru.zaochno.zaochno.data.model.Test;
 import ru.zaochno.zaochno.data.model.Token;
+import ru.zaochno.zaochno.data.model.TrainingId;
 import ru.zaochno.zaochno.data.model.response.DataResponseWrapper;
 import ru.zaochno.zaochno.data.provider.AuthProvider;
+import ru.zaochno.zaochno.ui.activity.TestingActivity;
 import ru.zaochno.zaochno.ui.adapter.TestListDoneAdapter;
 
 public class TestListDoneFragment extends Fragment {
@@ -30,6 +33,7 @@ public class TestListDoneFragment extends Fragment {
     public RecyclerView recyclerView;
 
     private TestListDoneAdapter adapter;
+    private Integer trainingId = -1;
 
     @Nullable
     @Override
@@ -43,7 +47,12 @@ public class TestListDoneFragment extends Fragment {
     }
 
     private void fetchData() {
-        Retrofit2Client.getInstance().getApi().getDoneTests(new Token(AuthProvider.getInstance(getActivity()).getCurrentUser().getToken()))
+        TrainingId trainingIdModel = new TrainingId(AuthProvider.getInstance(getActivity()).getCurrentUser().getToken());
+
+        if (getTrainingId() != -1)
+            trainingIdModel.setId(getTrainingId());
+
+        Retrofit2Client.getInstance().getApi().getDoneTests(trainingIdModel)
                 .enqueue(new Callback<DataResponseWrapper<List<Test>>>() {
                     @Override
                     public void onResponse(Call<DataResponseWrapper<List<Test>>> call, Response<DataResponseWrapper<List<Test>>> response) {
@@ -64,8 +73,23 @@ public class TestListDoneFragment extends Fragment {
 
     private void setupRecyclerView(List<Test> tests) {
         adapter = new TestListDoneAdapter(tests, getActivity());
+        adapter.setActionListener(new TestListDoneAdapter.ActionListener() {
+            @Override
+            public void onTestContinue(Test test) {
+                startActivity(new Intent(getActivity(), TestingActivity.class)
+                        .putExtra(TestingActivity.INTENT_KEY_TEST_ID, test.getId()));
+            }
+        });
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    public Integer getTrainingId() {
+        return trainingId;
+    }
+
+    public void setTrainingId(Integer trainingId) {
+        this.trainingId = trainingId;
     }
 }

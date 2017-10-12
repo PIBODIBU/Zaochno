@@ -2,6 +2,7 @@ package ru.zaochno.zaochno.ui.holder;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -28,6 +29,9 @@ public class TestListDoneViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.tv_validity)
     public TextView tvValidity;
+
+    @BindView(R.id.btn_continue)
+    public Button btnContinue;
 
     public TestListDoneViewHolder(View itemView) {
         super(itemView);

@@ -9,7 +9,15 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import ru.zaochno.zaochno.R;
+import ru.zaochno.zaochno.data.api.Retrofit2Client;
+import ru.zaochno.zaochno.data.model.Token;
+import ru.zaochno.zaochno.data.model.User;
+import ru.zaochno.zaochno.data.model.response.DataResponseWrapper;
+import ru.zaochno.zaochno.data.provider.AuthProvider;
 
 public class SplashActivity extends AppCompatActivity {
     public static final String TAG = "SplashActivity";
@@ -32,9 +40,28 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(3000);
-                    SplashActivity.this.startActivity(new Intent(SplashActivity.this, TrainingListActivity.class));
-                    SplashActivity.this.finish();
+                    Thread.sleep(2000);
+
+                    if (AuthProvider.getInstance(SplashActivity.this).isAuthenticated())
+                        Retrofit2Client.getInstance().getApi().getUserInfo(new Token(AuthProvider.getInstance(SplashActivity.this).getCurrentUser().getToken()))
+                                .enqueue(new Callback<DataResponseWrapper<User>>() {
+                                    @Override
+                                    public void onResponse(Call<DataResponseWrapper<User>> call, Response<DataResponseWrapper<User>> response) {
+                                        SplashActivity.this.startActivity(new Intent(SplashActivity.this, TrainingListActivity.class));
+                                        SplashActivity.this.finish();
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<DataResponseWrapper<User>> call, Throwable t) {
+                                        AuthProvider.getInstance(SplashActivity.this).logOut();
+                                        SplashActivity.this.startActivity(new Intent(SplashActivity.this, TrainingListActivity.class));
+                                        SplashActivity.this.finish();
+                                    }
+                                });
+                    else {
+                        SplashActivity.this.startActivity(new Intent(SplashActivity.this, TrainingListActivity.class));
+                        SplashActivity.this.finish();
+                    }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

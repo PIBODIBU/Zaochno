@@ -11,6 +11,10 @@ public class SubThematic implements Serializable {
     @SerializedName("id")
     private Integer id;
 
+    public SubThematic(String name) {
+        this.name = name;
+    }
+
     public SubThematic(String name, Integer id) {
         this.name = name;
         this.id = id;

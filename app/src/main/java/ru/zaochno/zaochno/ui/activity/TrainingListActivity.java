@@ -154,6 +154,8 @@ public class TrainingListActivity extends BaseNavDrawerActivity implements Train
     }
 
     private void setupUi() {
+        tabLayout.setVisibility(AuthProvider.getInstance(this).isAuthenticated() ? View.VISIBLE : View.GONE);
+
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -225,6 +227,20 @@ public class TrainingListActivity extends BaseNavDrawerActivity implements Train
         adapterPayed = new TrainingListPayedAdapter(this, this);
 
         adapterAll.setOnItemClickListener(new BaseTrainingListAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(Training training) {
+                startActivity(new Intent(TrainingListActivity.this, TrainingInfoActivity.class)
+                        .putExtra(TrainingInfoActivity.INTENT_KEY_TRAINING_MODEL, training));
+            }
+        });
+        adapterFavourite.setOnItemClickListener(new BaseTrainingListAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(Training training) {
+                startActivity(new Intent(TrainingListActivity.this, TrainingInfoActivity.class)
+                        .putExtra(TrainingInfoActivity.INTENT_KEY_TRAINING_MODEL, training));
+            }
+        });
+        adapterPayed.setOnItemClickListener(new BaseTrainingListAdapter.OnItemClickListener() {
             @Override
             public void onClick(Training training) {
                 startActivity(new Intent(TrainingListActivity.this, TrainingInfoActivity.class)

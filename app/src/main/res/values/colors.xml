@@ -32,4 +32,7 @@
 
     <color name="progressActive">#2d7dc2</color>
     <color name="progressInactive">#e9e9e9</color>
+
+    <color name="spinnerBackground">#f9f9f9</color>
+    <color name="spinnerBorder">#cfcfcf</color>
 </resources>

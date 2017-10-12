@@ -19,7 +19,7 @@ import ru.zaochno.zaochno.data.enums.UserAuthLevel;
 import ru.zaochno.zaochno.data.model.User;
 import ru.zaochno.zaochno.data.provider.AuthProvider;
 
-public class DebugActivity extends AppCompatActivity {
+public class SplashNewActivity extends AppCompatActivity {
     @BindView(R.id.tv_greet)
     public TextView tvGreet;
 
@@ -29,12 +29,15 @@ public class DebugActivity extends AppCompatActivity {
     @BindView(R.id.btn_sign_out)
     public Button btnSignOut;
 
+    @BindView(R.id.btn_skip)
+    public Button btnSkip;
+
     private User user;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_debug);
+        setContentView(R.layout.activity_splash_new);
         ButterKnife.bind(this);
 
         user = AuthProvider.getInstance(this).getCurrentUser();
@@ -50,12 +53,13 @@ public class DebugActivity extends AppCompatActivity {
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(DebugActivity.this, DebugActivityLogin.class));
+                startActivity(new Intent(SplashNewActivity.this, LoginNewActivity.class));
                 finish();
             }
         });
 
         btnSignOut.setVisibility(View.GONE);
+        btnSkip.setVisibility(View.VISIBLE);
     }
 
     @Restrict(userAuthLevel = UserAuthLevel.LOGGED)
@@ -66,19 +70,26 @@ public class DebugActivity extends AppCompatActivity {
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(DebugActivity.this, DebugActivityLogin.class));
+                startActivity(new Intent(SplashNewActivity.this, TrainingListActivity.class));
                 finish();
             }
         });
 
         btnSignOut.setVisibility(View.VISIBLE);
+        btnSkip.setVisibility(View.GONE);
     }
 
     @OnClick(R.id.btn_sign_out)
     public void signOut() {
         AuthProvider.getInstance(this).logOut();
-        startActivity(new Intent(DebugActivity.this, DebugActivity.class)
+        startActivity(new Intent(SplashNewActivity.this, SplashNewActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        finish();
+    }
+
+    @OnClick(R.id.btn_skip)
+    public void skip() {
+        startActivity(new Intent(SplashNewActivity.this, TrainingListActivity.class));
         finish();
     }
 }

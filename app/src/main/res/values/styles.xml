@@ -30,12 +30,16 @@
         <item name="rd_enable">true</item>
     </style>
 
-    <style name="TextInputLayout.AppCompatEditText" parent="Theme.AppCompat.Light">
+    <style name="TextInputLayout.Hint" parent="TextAppearance.AppCompat.Small">
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
-    <style name="TextInputLayout.Hint" parent="TextAppearance.AppCompat.Small">
+    <style name="TextInputLayout.TextInputEditText" parent="Theme.AppCompat.Light">
         <item name="colorControlNormal">@color/md_grey_500</item>
         <item name="colorControlActivated">@color/colorPrimary</item>
+    </style>
+
+    <style name="TabLayoutText" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">16sp</item>
     </style>
 </resources>

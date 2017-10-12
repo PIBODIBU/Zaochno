@@ -23,7 +23,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import ru.zaochno.zaochno.R;
 import ru.zaochno.zaochno.data.api.Retrofit2Client;
-import ru.zaochno.zaochno.data.model.BaseExam;
 import ru.zaochno.zaochno.data.model.Exam;
 import ru.zaochno.zaochno.data.model.Region;
 import ru.zaochno.zaochno.data.model.Training;
@@ -33,6 +32,7 @@ import ru.zaochno.zaochno.data.provider.AuthProvider;
 import ru.zaochno.zaochno.ui.dialog.TrainingExamsDialog;
 
 public class ExamNewActivity extends BaseNavDrawerActivity {
+    private static final String TAG = "ExamNewActivity";
     public static final String INTENT_KEY_TRAINING_MODEL = "INTENT_KEY_TRAINING_MODEL";
 
     @BindView(R.id.calendar_view)
@@ -149,7 +149,7 @@ public class ExamNewActivity extends BaseNavDrawerActivity {
         dialog.setContext(this);
         dialog.setDialogRegisterListener(new TrainingExamsDialog.DialogRegisterListener() {
             @Override
-            public void onRegister(BaseExam exam) {
+            public void onRegister(Exam exam) {
                 exam.setToken(AuthProvider.getInstance(ExamNewActivity.this).getCurrentUser().getToken());
 
                 Retrofit2Client.getInstance().getApi().registerOnExam(exam).enqueue(new Callback<BaseErrorResponse>() {

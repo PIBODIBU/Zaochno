@@ -22,6 +22,7 @@ import ru.zaochno.zaochno.R;
 import ru.zaochno.zaochno.data.api.Retrofit2Client;
 import ru.zaochno.zaochno.data.model.Test;
 import ru.zaochno.zaochno.data.model.Token;
+import ru.zaochno.zaochno.data.model.TrainingId;
 import ru.zaochno.zaochno.data.model.response.DataResponseWrapper;
 import ru.zaochno.zaochno.data.provider.AuthProvider;
 import ru.zaochno.zaochno.ui.activity.TestingActivity;
@@ -32,6 +33,7 @@ public class TestListActiveFragment extends Fragment {
     public RecyclerView recyclerView;
 
     private TestListActiveAdapter adapter;
+    private Integer trainingId = -1;
 
     @Nullable
     @Override
@@ -45,7 +47,12 @@ public class TestListActiveFragment extends Fragment {
     }
 
     private void fetchData() {
-        Retrofit2Client.getInstance().getApi().getActiveTests(new Token(AuthProvider.getInstance(getActivity()).getCurrentUser().getToken()))
+        TrainingId trainingIdModel = new TrainingId(AuthProvider.getInstance(getActivity()).getCurrentUser().getToken());
+
+        if (getTrainingId() != -1)
+            trainingIdModel.setId(getTrainingId());
+
+        Retrofit2Client.getInstance().getApi().getActiveTests(trainingIdModel)
                 .enqueue(new Callback<DataResponseWrapper<List<Test>>>() {
                     @Override
                     public void onResponse(Call<DataResponseWrapper<List<Test>>> call, Response<DataResponseWrapper<List<Test>>> response) {
@@ -76,5 +83,13 @@ public class TestListActiveFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    public Integer getTrainingId() {
+        return trainingId;
+    }
+
+    public void setTrainingId(Integer trainingId) {
+        this.trainingId = trainingId;
     }
 }

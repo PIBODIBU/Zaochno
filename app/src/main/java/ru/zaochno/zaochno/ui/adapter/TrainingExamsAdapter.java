@@ -8,17 +8,15 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import ru.zaochno.zaochno.R;
-import ru.zaochno.zaochno.data.model.BaseExam;
 import ru.zaochno.zaochno.data.model.Exam;
-import ru.zaochno.zaochno.data.model.ExamFuture;
 import ru.zaochno.zaochno.data.utils.DateUtils;
 import ru.zaochno.zaochno.ui.holder.TrainingExamsViewHolder;
 
 public class TrainingExamsAdapter extends RecyclerView.Adapter<TrainingExamsViewHolder> {
-    private List<ExamFuture> exams;
+    private List<Exam> exams;
     private OnItemClickListener onItemClickListener;
 
-    public TrainingExamsAdapter(List<ExamFuture> exams, OnItemClickListener onItemClickListener) {
+    public TrainingExamsAdapter(List<Exam> exams, OnItemClickListener onItemClickListener) {
         this.exams = exams;
         this.onItemClickListener = onItemClickListener;
     }
@@ -30,12 +28,12 @@ public class TrainingExamsAdapter extends RecyclerView.Adapter<TrainingExamsView
 
     @Override
     public void onBindViewHolder(TrainingExamsViewHolder holder, int position) {
-        final ExamFuture exam = exams.get(position);
+        final Exam exam = exams.get(position);
 
         if (exam == null)
             return;
 
-        holder.tvTime.setText(exam.getDate());
+        holder.tvTime.setText(DateUtils.millisToPattern(exam.getDate(), DateUtils.PATTERN_DEFAULT));
         holder.tvMembers.setText(String.valueOf(exam.getMembers()).concat(exam.getMembers() == 1 ? " участник" : " участника"));
         if (onItemClickListener != null)
             holder.btnRegister.setOnClickListener(new View.OnClickListener() {
@@ -52,6 +50,6 @@ public class TrainingExamsAdapter extends RecyclerView.Adapter<TrainingExamsView
     }
 
     public interface OnItemClickListener {
-        void onClick(BaseExam exam);
+        void onClick(Exam exam);
     }
 }

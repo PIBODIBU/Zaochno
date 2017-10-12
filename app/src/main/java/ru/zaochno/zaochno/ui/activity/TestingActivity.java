@@ -2,12 +2,17 @@ package ru.zaochno.zaochno.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+
+import java.util.LinkedList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,13 +29,22 @@ import ru.zaochno.zaochno.data.model.UserAnswerSet;
 import ru.zaochno.zaochno.data.model.response.BaseErrorResponse;
 import ru.zaochno.zaochno.data.model.response.DataResponseWrapper;
 import ru.zaochno.zaochno.data.provider.AuthProvider;
+import ru.zaochno.zaochno.data.utils.DateUtils;
+import ru.zaochno.zaochno.ui.adapter.AnswerListAdapter;
+import ru.zaochno.zaochno.ui.dialog.ChooseAnswerDialog;
 
 public class TestingActivity extends BaseNavDrawerActivity {
     public static final String TAG = "TestingActivity";
     public static final String INTENT_KEY_TEST_ID = "INTENT_KEY_TEST_ID";
 
-    @BindView(R.id.tv_title)
-    public TextView tvTitle;
+    @BindView(R.id.tv_minute_counter)
+    public TextView tvCounter;
+
+    @BindView(R.id.tv_title_question)
+    public TextView tvTitleQuestion;
+
+    @BindView(R.id.tv_question_counter)
+    public TextView tvQuestionCounter;
 
     @BindView(R.id.iv_cover)
     public ImageView ivCover;
@@ -38,17 +52,11 @@ public class TestingActivity extends BaseNavDrawerActivity {
     @BindView(R.id.tv_question)
     public TextView tvQuestion;
 
-    @BindView(R.id.tv_answers)
-    public TextView tvAnswers;
+    @BindView(R.id.recycler_view_answers)
+    public RecyclerView recyclerViewAnswers;
 
-    /*@BindView(R.id.btn_1)
-    public Button btn1;
-    @BindView(R.id.btn_2)
-    public Button btn2;
-    @BindView(R.id.btn_3)
-    public Button btn3;
-    @BindView(R.id.btn_4)
-    public Button btn4;*/
+    private AnswerListAdapter answerListAdapter;
+    private ChooseAnswerDialog answerDialog = new ChooseAnswerDialog();
 
     private Integer testId;
     private Integer currentPosition = 0;
@@ -65,7 +73,16 @@ public class TestingActivity extends BaseNavDrawerActivity {
             return;
 
         setupDrawer();
+        setupRecyclerView();
         fetchTest();
+    }
+
+    private void setupRecyclerView() {
+        answerListAdapter = new AnswerListAdapter(new LinkedList<Answer>(), this);
+
+        recyclerViewAnswers.setAdapter(answerListAdapter);
+        recyclerViewAnswers.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewAnswers.setHasFixedSize(true);
     }
 
     private void setupAnswerSet() {
@@ -73,7 +90,17 @@ public class TestingActivity extends BaseNavDrawerActivity {
     }
 
     private void setupUi() {
-        tvTitle.setText(test.getName());
+        new CountDownTimer(test.getMinutes() * 60 * 1000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                tvCounter.setText("Осталось времени (мин): ".concat(DateUtils.millisToPattern(millisUntilFinished, DateUtils.PATTERN_MIN_SEC)));
+            }
+
+            public void onFinish() {
+                Toast.makeText(TestingActivity.this, "Время вышло", Toast.LENGTH_LONG).show();
+                finish();
+            }
+
+        }.start();
     }
 
     private void nextQuestion() {
@@ -91,7 +118,7 @@ public class TestingActivity extends BaseNavDrawerActivity {
         }
 
         if (answer == null) {
-            currentPosition++;
+            incrementPosition();
             nextQuestion();
             return;
         }
@@ -100,7 +127,7 @@ public class TestingActivity extends BaseNavDrawerActivity {
     }
 
     private void sendAnswers(UserAnswerSet answerSet) {
-        Retrofit2Client.getInstance().getApi().sendtestResult(answerSet).enqueue(new Callback<BaseErrorResponse>() {
+        Retrofit2Client.getInstance().getApi().sendTestResult(answerSet).enqueue(new Callback<BaseErrorResponse>() {
             @Override
             public void onResponse(Call<BaseErrorResponse> call, Response<BaseErrorResponse> response) {
                 if (response == null || response.body() == null || response.body().getError() == null || response.body().getError()) {
@@ -132,16 +159,11 @@ public class TestingActivity extends BaseNavDrawerActivity {
 
         tvQuestion.setText(question.getText());
 
-        String answers = "";
-        for (int i = 0; i < question.getAnswers().size(); i++)
-            if (question.getAnswers().get(i) != null)
-                answers = answers
-                        .concat("Вариант ")
-                        .concat(String.valueOf(i + 1))
-                        .concat(". ")
-                        .concat(question.getAnswers().get(i).getText())
-                        .concat("\n");
-        tvAnswers.setText(answers);
+        answerListAdapter.setAnswers(question.getAnswers());
+        answerListAdapter.notifyDataSetChanged();
+
+        tvTitleQuestion.setText("Вопрос ".concat(String.valueOf(currentPosition + 1)));
+        tvQuestionCounter.setText(String.valueOf(currentPosition + 1).concat("/").concat(String.valueOf(test.getQuestions().size())));
     }
 
     private void chooseAnswer(Integer answerPosition) {
@@ -152,6 +174,7 @@ public class TestingActivity extends BaseNavDrawerActivity {
             answer = getCurrentQuestion().getAnswers().get(answerPosition - 1);
         } catch (Exception ex) {
             ex.printStackTrace();
+            return;
         }
 
         if (answer == null || answer.getId() == null)
@@ -165,8 +188,22 @@ public class TestingActivity extends BaseNavDrawerActivity {
             userAnswer.setQuestionId(getCurrentQuestion().getId());
 
         userAnswerSet.getUserAnswers().add(userAnswer);
+
+        answerDialog = new ChooseAnswerDialog();
+        answerDialog.setQuestion(getCurrentQuestion());
+        answerDialog.setAnswer(answer);
+        answerDialog.setOnNextButtonClickListener(new ChooseAnswerDialog.OnNextButtonClickListener() {
+            @Override
+            public void onClick() {
+                incrementPosition();
+                nextQuestion();
+            }
+        });
+        answerDialog.show(getSupportFragmentManager(), "AnswerDialog");
+    }
+
+    private void incrementPosition() {
         currentPosition++;
-        nextQuestion();
     }
 
     @OnClick({R.id.btn_1, R.id.btn_2, R.id.btn_3, R.id.btn_4})

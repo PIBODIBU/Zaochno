@@ -7,17 +7,21 @@ import android.view.ViewGroup;
 
 import ru.zaochno.zaochno.R;
 import ru.zaochno.zaochno.data.model.Training;
+import ru.zaochno.zaochno.data.model.TrainingFull;
+import ru.zaochno.zaochno.data.utils.DateUtils;
 import ru.zaochno.zaochno.ui.callback.TrainingActionListener;
 import ru.zaochno.zaochno.ui.holder.TrainingListPayedViewHolder;
 
 public class TrainingListPayedAdapter extends BaseTrainingListAdapter<TrainingListPayedViewHolder> {
+    private PayedActionListener payedActionListener;
+
     public TrainingListPayedAdapter(Context context, TrainingActionListener actionListener) {
         super(context, actionListener);
     }
 
     @Override
     public TrainingListPayedViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new TrainingListPayedViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_training, parent, false));
+        return new TrainingListPayedViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_training_payed, parent, false));
     }
 
     @Override
@@ -29,29 +33,28 @@ public class TrainingListPayedAdapter extends BaseTrainingListAdapter<TrainingLi
         if (training == null)
             return;
 
-        holder.containerPrice.setVisibility(View.GONE);
-
-        if (this.actionListener != null) {
-            holder.containerToFavourite.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    actionListener.onFavourite(training);
-                }
-            });
-
-            holder.containerBuy.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    actionListener.onBuy(training);
-                }
-            });
-
-            holder.containerDemo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    actionListener.onDemo(training);
-                }
-            });
+        if (training.getProgress() != null) {
+            holder.tvProgress.setText(String.valueOf(training.getProgress()).concat("%"));
+            holder.progressBar.setProgress(training.getProgress());
         }
+
+        if (training.getValidity() != null)
+            holder.tvValidity.setText("Срок годности тренинга до ".concat(DateUtils.millisToPattern(training.getValidity(), DateUtils.PATTERN_DEFAULT)));
+
+        if (payedActionListener != null)
+            holder.containerExam.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    payedActionListener.onExam(training);
+                }
+            });
+    }
+
+    public void setPayedActionListener(PayedActionListener payedActionListener) {
+        this.payedActionListener = payedActionListener;
+    }
+
+    public interface PayedActionListener {
+        void onExam(Training training);
     }
 }

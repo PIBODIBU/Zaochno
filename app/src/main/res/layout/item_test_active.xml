@@ -32,7 +32,6 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/tv_progress_title"
-            android:text="50%"
             android:textColor="@color/md_light_primary_text"
             android:textStyle="bold" />
 
@@ -44,7 +43,6 @@
             android:layout_below="@+id/tv_progress_title"
             android:layout_marginTop="4dp"
             android:max="100"
-            android:progress="50"
             android:progressDrawable="@drawable/progress_bar" />
     </RelativeLayout>
 
@@ -73,8 +71,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
         android:layout_toEndOf="@+id/iv_cover"
-        android:maxLines="3"
-        android:text="@string/large_text"
+        android:maxLines="4"
         android:textColor="@color/md_light_primary_text"
         android:textSize="14sp" />
 
@@ -87,7 +84,6 @@
         android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
         android:layout_toEndOf="@+id/iv_cover"
-        android:text="Срок годности тренинга до 12.01.2017 12:00"
         android:textColor="@color/md_light_primary_text"
         android:textSize="12sp"
         android:textStyle="bold" />

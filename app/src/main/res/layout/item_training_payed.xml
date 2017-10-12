@@ -23,6 +23,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_toEndOf="@+id/iv_img"
+        android:text="Сегмент рынка определяет"
         android:textColor="@color/colorButtonPrimaryDark"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -31,135 +32,125 @@
         android:id="@+id/tv_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/container_buttons"
+        android:layout_above="@+id/tv_validity"
         android:layout_below="@+id/tv_title"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:layout_toEndOf="@+id/iv_img"
-        android:maxLines="5"
+        android:maxLines="4"
         android:textColor="@color/md_light_primary_text"
         android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tv_validity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/container_buttons"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="8dp"
+        android:layout_toEndOf="@+id/iv_img"
+        android:textColor="@color/md_light_primary_text"
+        android:textSize="12sp"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:id="@+id/container_buttons"
         android:layout_width="match_parent"
         android:layout_height="35dp"
+        android:layout_alignStart="@+id/tv_description"
         android:layout_below="@+id/iv_img"
         android:layout_marginTop="8dp"
         android:baselineAligned="false"
         android:gravity="center"
         android:orientation="horizontal"
-        android:weightSum="3">
+        android:weightSum="2">
 
         <LinearLayout
-            android:id="@+id/container_buy"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/btn_primary_light_cornered"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="match_parent"
-                app:srcCompat="@drawable/ic_cart_white" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="4dp"
-                android:gravity="center"
-                android:text="Купить"
-                android:textColor="@color/md_dark_primary_text"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/container_demo"
+            android:id="@+id/container_exam"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
             android:background="@drawable/btn_accent_cornered"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp">
 
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="match_parent"
-                app:srcCompat="@drawable/ic_visible_white" />
+                app:srcCompat="@drawable/ic_edit_white_24dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="4dp"
                 android:gravity="center"
-                android:text="Демо"
+                android:text="Запись на экзамен"
                 android:textColor="@color/md_dark_primary_text"
                 android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/container_to_favourite"
+            android:id="@+id/container_continue"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
             android:background="@drawable/btn_primary_dark_cornered"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp">
 
             <ImageView
                 android:id="@+id/iv_to_favourite"
                 android:layout_width="25dp"
                 android:layout_height="match_parent"
-                app:srcCompat="@drawable/ic_favourite_white" />
+                app:srcCompat="@drawable/ic_keyboard_arrow_right_white_24dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="4dp"
                 android:gravity="center"
-                android:text="В избранное"
+                android:text="Продолжить"
                 android:textColor="@color/md_dark_primary_text"
                 android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/container_price"
-        android:layout_width="140dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="-40dp"
-        android:layout_marginTop="20dp"
-        android:background="@color/colorLabelRed"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:rotation="-45">
+    <RelativeLayout
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_img"
+        android:gravity="center">
 
         <TextView
+            android:id="@+id/tv_progress_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="от "
-            android:textColor="@color/md_dark_primary_text"
-            android:textSize="10sp" />
+            android:text="Прогресс "
+            android:textColor="@color/md_light_primary_text" />
 
         <TextView
-            android:id="@+id/tv_price"
+            android:id="@+id/tv_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="-1"
-            android:textColor="@color/md_dark_primary_text"
-            android:textSize="15sp"
+            android:layout_toEndOf="@+id/tv_progress_title"
+            android:textColor="@color/md_light_primary_text"
             android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" руб"
-            android:textColor="@color/md_dark_primary_text"
-            android:textSize="10sp" />
-    </LinearLayout>
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="100dp"
+            android:layout_height="4dp"
+            android:layout_below="@+id/tv_progress_title"
+            android:layout_marginTop="4dp"
+            android:max="100"
+            android:progressDrawable="@drawable/progress_bar" />
+    </RelativeLayout>
 </RelativeLayout>

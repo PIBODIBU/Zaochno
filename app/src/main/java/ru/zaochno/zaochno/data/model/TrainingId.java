@@ -2,13 +2,20 @@ package ru.zaochno.zaochno.data.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
 import ru.zaochno.zaochno.data.model.request.TokenRequest;
 
-public abstract class BaseExam extends TokenRequest implements Serializable {
-    @SerializedName("examId")
+public class TrainingId extends TokenRequest {
+    @SerializedName("trenningId")
     private Integer id;
+
+    public TrainingId(String token) {
+        super(token);
+    }
+
+    public TrainingId(String token, Integer id) {
+        super(token);
+        this.id = id;
+    }
 
     public Integer getId() {
         return id;

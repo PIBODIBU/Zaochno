@@ -27,6 +27,9 @@ public class Test extends TokenRequest implements Serializable {
     @SerializedName("progress")
     private Integer progress;
 
+    @SerializedName("minutes")
+    private Integer minutes;
+
     @SerializedName("questions")
     private List<Question> questions;
 
@@ -95,6 +98,14 @@ public class Test extends TokenRequest implements Serializable {
 
     public void setProgress(Integer progress) {
         this.progress = progress;
+    }
+
+    public Integer getMinutes() {
+        return minutes;
+    }
+
+    public void setMinutes(Integer minutes) {
+        this.minutes = minutes;
     }
 
     public List<Question> getQuestions() {

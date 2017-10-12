@@ -13,7 +13,6 @@ import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -24,9 +23,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import ru.zaochno.zaochno.R;
 import ru.zaochno.zaochno.data.api.Retrofit2Client;
-import ru.zaochno.zaochno.data.model.BaseExam;
 import ru.zaochno.zaochno.data.model.Exam;
-import ru.zaochno.zaochno.data.model.ExamFuture;
 import ru.zaochno.zaochno.data.model.Training;
 import ru.zaochno.zaochno.data.model.response.DataResponseWrapper;
 import ru.zaochno.zaochno.ui.adapter.TrainingExamsAdapter;
@@ -55,9 +52,9 @@ public class TrainingExamsDialog extends DialogFragment {
     }
 
     private void setupRecyclerView() {
-        Retrofit2Client.getInstance().getApi().getTrainingExams(training).enqueue(new Callback<DataResponseWrapper<List<ExamFuture>>>() {
+        Retrofit2Client.getInstance().getApi().getTrainingExams(training).enqueue(new Callback<DataResponseWrapper<List<Exam>>>() {
             @Override
-            public void onResponse(Call<DataResponseWrapper<List<ExamFuture>>> call, Response<DataResponseWrapper<List<ExamFuture>>> response) {
+            public void onResponse(Call<DataResponseWrapper<List<Exam>>> call, Response<DataResponseWrapper<List<Exam>>> response) {
                 if (response == null || response.body() == null) {
                     Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_LONG).show();
                     return;
@@ -65,7 +62,7 @@ public class TrainingExamsDialog extends DialogFragment {
 
                 TrainingExamsAdapter adapter = new TrainingExamsAdapter(response.body().getResponseObj(), new TrainingExamsAdapter.OnItemClickListener() {
                     @Override
-                    public void onClick(BaseExam exam) {
+                    public void onClick(Exam exam) {
                         if (dialogRegisterListener != null) {
                             dialogRegisterListener.onRegister(exam);
                             getDialog().cancel();
@@ -79,7 +76,7 @@ public class TrainingExamsDialog extends DialogFragment {
             }
 
             @Override
-            public void onFailure(Call<DataResponseWrapper<List<ExamFuture>>> call, Throwable t) {
+            public void onFailure(Call<DataResponseWrapper<List<Exam>>> call, Throwable t) {
                 Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_LONG).show();
             }
         });
@@ -110,6 +107,6 @@ public class TrainingExamsDialog extends DialogFragment {
     }
 
     public interface DialogRegisterListener {
-        void onRegister(BaseExam exam);
+        void onRegister(Exam exam);
     }
 }

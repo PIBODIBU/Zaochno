@@ -4,14 +4,30 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class Exam extends BaseExam implements Serializable {
+import ru.zaochno.zaochno.data.model.request.TokenRequest;
+
+public class Exam extends TokenRequest implements Serializable {
+    @SerializedName("examId")
+    private Integer id;
+
     @SerializedName("date")
     private Long date;
 
     @SerializedName("region")
     private String region;
 
+    @SerializedName("members")
+    private Integer members;
+
     public Exam() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Long getDate() {
@@ -28,5 +44,13 @@ public class Exam extends BaseExam implements Serializable {
 
     public void setRegion(String region) {
         this.region = region;
+    }
+
+    public Integer getMembers() {
+        return members;
+    }
+
+    public void setMembers(Integer members) {
+        this.members = members;
     }
 }

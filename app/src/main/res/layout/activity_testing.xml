@@ -14,14 +14,41 @@
         <include layout="@layout/toolbar" />
 
         <TextView
-            android:id="@+id/tv_title"
+            android:id="@+id/tv_minute_counter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="8dp"
-            android:text="Test name"
+            android:text="Осталось времени: 112 мин"
             android:textColor="@color/md_light_primary_text"
-            android:textSize="22dp" />
+            android:textSize="16sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp">
+
+            <TextView
+                android:id="@+id/tv_title_question"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="Question 1"
+                android:textColor="@color/md_light_primary_text"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_question_counter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="8dp"
+                android:text="1/24"
+                android:textColor="@color/md_light_primary_text"
+                android:textSize="18sp" />
+        </RelativeLayout>
 
         <ImageView
             android:id="@+id/iv_cover"
@@ -37,19 +64,16 @@
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="@string/large_text"
             android:textColor="@color/md_grey_700" />
 
-        <TextView
-            android:id="@+id/tv_answers"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_answers"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:textColor="@color/md_light_primary_text"
-            android:textSize="18sp" />
+            android:layout_marginTop="8dp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -96,7 +120,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/btn_primary_dark_corner_16dp"
+                    android:background="@drawable/btn_green_corner_16dp"
                     android:text="Вариант 1"
                     android:textColor="@color/white" />
 
@@ -106,7 +130,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginStart="16dp"
                     android:layout_weight="1"
-                    android:background="@drawable/btn_primary_dark_corner_16dp"
+                    android:background="@drawable/btn_red_corner_16dp"
                     android:text="Вариант 2"
                     android:textColor="@color/white" />
             </LinearLayout>
@@ -128,7 +152,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/btn_primary_dark_corner_16dp"
+                    android:background="@drawable/btn_amber_corner_16dp"
                     android:text="Вариант 3"
                     android:textColor="@color/white" />
 
@@ -138,7 +162,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginStart="16dp"
                     android:layout_weight="1"
-                    android:background="@drawable/btn_primary_dark_corner_16dp"
+                    android:background="@drawable/btn_indigo_corner_16dp"
                     android:text="Вариант 4"
                     android:textColor="@color/white" />
             </LinearLayout>
