@@ -1,9 +1,12 @@
 package ru.zaochno.zaochno.ui.activity;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
@@ -60,6 +63,9 @@ public class TrainingListActivity extends BaseNavDrawerActivity implements Train
     public static final String INTENT_KEY_TAB_ALL = "INTENT_KEY_TAB_ALL";
     public static final String INTENT_KEY_TAB_FAVOURITE = "INTENT_KEY_TAB_FAVOURITE";
     public static final String INTENT_KEY_TAB_PAYED = "INTENT_KEY_TAB_PAYED";
+
+    @BindView(R.id.app_bar)
+    public AppBarLayout appBarLayout;
 
     @BindView(R.id.et_search_query)
     public EditText etSearchQuery;
@@ -154,7 +160,15 @@ public class TrainingListActivity extends BaseNavDrawerActivity implements Train
     }
 
     private void setupUi() {
-        tabLayout.setVisibility(AuthProvider.getInstance(this).isAuthenticated() ? View.VISIBLE : View.GONE);
+        if (AuthProvider.getInstance(this).isAuthenticated()) {
+            tabLayout.setVisibility(View.VISIBLE);
+        } else {
+            CoordinatorLayout.LayoutParams layoutParams = new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.MATCH_PARENT,
+                    (int) (56 * Resources.getSystem().getDisplayMetrics().density));
+            appBarLayout.setLayoutParams(layoutParams);
+
+            tabLayout.setVisibility(View.VISIBLE);
+        }
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
