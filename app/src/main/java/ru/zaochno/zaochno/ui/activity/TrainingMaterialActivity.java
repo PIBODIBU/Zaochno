@@ -51,9 +51,6 @@ public class TrainingMaterialActivity extends BaseNavDrawerActivity {
     @BindView(R.id.spinner_sub_thematic)
     public AppCompatSpinner spinnerSubThematic;
 
-    @BindView(R.id.toolbar_2)
-    public Toolbar toolbarSecondary;
-
     private TrainingFull trainingFull;
 
     @Override
@@ -206,15 +203,20 @@ public class TrainingMaterialActivity extends BaseNavDrawerActivity {
         spinnerThematic.setAdapter(arrayAdapter);
 
         if (selectedChapter != null)
-            spinnerThematic.setSelection(getThematicAdapterPositionById(arrayAdapter, selectedChapter.getId()));
+            spinnerThematic.setSelection(getThematicAdapterPositionById(arrayAdapter, selectedChapter.getId()), false);
 
         spinnerThematic.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            private Boolean firstAdding = true;
+
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Chapter chapter = arrayAdapter.getItem(position);
                 refreshUi(chapter);
 
-                setupSpinnerSubThematics(chapter, null);
+                if (firstAdding)
+                    firstAdding = false;
+                else
+                    setupSpinnerSubThematics(chapter, null);
             }
 
             @Override
@@ -231,9 +233,6 @@ public class TrainingMaterialActivity extends BaseNavDrawerActivity {
         final ArrayAdapter<SubChapter> adapter = new ArrayAdapter<>(getSupportActionBar().getThemedContext(), R.layout.support_simple_spinner_dropdown_item);
         adapter.addAll(chapter.getSubChapters());
 
-        if (subChapter != null)
-            spinnerSubThematic.setSelection(getSubThematicAdapterPositionById(adapter, subChapter.getId()));
-
         spinnerSubThematic.setAdapter(adapter);
         spinnerSubThematic.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -246,6 +245,11 @@ public class TrainingMaterialActivity extends BaseNavDrawerActivity {
 
             }
         });
+
+        if (subChapter != null)
+            spinnerSubThematic.setSelection(getSubThematicAdapterPositionById(adapter, subChapter.getId()));
+
+        Log.d(TAG, "setupSpinnerSubThematics: " + (subChapter == null ? "null" : "not null"));
     }
 
     @NonNull

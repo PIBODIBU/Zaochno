@@ -35,7 +35,7 @@ public class TrainingListPayedAdapter extends BaseTrainingListAdapter<TrainingLi
 
         if (training.getProgress() != null) {
             holder.tvProgress.setText(String.valueOf(training.getProgress()).concat("%"));
-            holder.progressBar.setProgress(training.getProgress());
+            holder.progressBar.setProgress((training.getProgress().intValue()));
         }
 
         if (training.getValidity() != null)

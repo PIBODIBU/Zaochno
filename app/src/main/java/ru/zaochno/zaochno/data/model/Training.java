@@ -34,7 +34,7 @@ public class Training extends BaseObservable implements Serializable {
     private Boolean isFavourite;
 
     @SerializedName("progress")
-    private Integer progress;
+    private Double progress;
 
     @SerializedName("validity")
     private Long validity;
@@ -134,11 +134,11 @@ public class Training extends BaseObservable implements Serializable {
         this.categories = categories;
     }
 
-    public Integer getProgress() {
+    public Double getProgress() {
         return progress;
     }
 
-    public void setProgress(Integer progress) {
+    public void setProgress(Double progress) {
         this.progress = progress;
     }
 

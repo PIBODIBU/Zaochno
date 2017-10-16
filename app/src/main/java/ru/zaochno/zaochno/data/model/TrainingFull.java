@@ -22,7 +22,7 @@ public class TrainingFull implements Serializable {
     private Long durationHours;
 
     @SerializedName("progress")
-    private Integer progress;
+    private Double progress;
 
     @SerializedName("chapters")
     private List<Chapter> chapters;
@@ -30,7 +30,7 @@ public class TrainingFull implements Serializable {
     @SerializedName("tests")
     private List<Test> tests;
 
-    public TrainingFull(Boolean full, String name, String htmlText, Long purchaseDate, Long durationHours, Integer progress, List<Chapter> chapters, List<Test> tests) {
+    public TrainingFull(Boolean full, String name, String htmlText, Long purchaseDate, Long durationHours, Double progress, List<Chapter> chapters, List<Test> tests) {
         this.full = full;
         this.name = name;
         this.htmlText = htmlText;
@@ -84,11 +84,11 @@ public class TrainingFull implements Serializable {
         return durationHours * 60 * 60 * 1000;
     }
 
-    public Integer getProgress() {
+    public Double getProgress() {
         return progress;
     }
 
-    public void setProgress(Integer progress) {
+    public void setProgress(Double progress) {
         this.progress = progress;
     }
 
