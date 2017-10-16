@@ -22,4 +22,6 @@
     <string name="test_result_sent">Успешно отправлено</string>
     <string name="sign_in"><b>Войти</b></string>
     <string name="sign_out">Выйти</string>
+    <string name="prompt_sub_thematic">Подглава</string>
+    <string name="prompt_thematic">Глава</string>
 </resources>

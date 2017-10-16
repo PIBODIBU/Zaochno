@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -34,6 +35,7 @@ import ru.zaochno.zaochno.data.api.Retrofit2Client;
 import ru.zaochno.zaochno.data.event.TrainingFavouriteEvent;
 import ru.zaochno.zaochno.data.model.BaseChapter;
 import ru.zaochno.zaochno.data.model.Chapter;
+import ru.zaochno.zaochno.data.model.SubChapter;
 import ru.zaochno.zaochno.data.model.Training;
 import ru.zaochno.zaochno.data.model.TrainingFull;
 import ru.zaochno.zaochno.data.model.response.BaseErrorResponse;
@@ -43,7 +45,7 @@ import ru.zaochno.zaochno.data.utils.DateUtils;
 import ru.zaochno.zaochno.databinding.ActivityTrainingInfoBinding;
 import ru.zaochno.zaochno.ui.adapter.ChapterListAdapter;
 
-public class TrainingInfoActivity extends BaseNavDrawerActivity {
+public class TrainingInfoActivity extends BaseNavDrawerActivity implements ChapterListAdapter.OnChapterClickListener {
     private static final String TAG = "TrainingInfoActivity";
 
     public static final String INTENT_KEY_TRAINING_MODEL = "INTENT_KEY_TRAINING_MODEL";
@@ -228,12 +230,14 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity {
                 for (int i = 0; i < chapter.getSubChapters().size(); i++) {
                     if (chapter.getSubChapters().get(i) != null) {
                         chapter.getSubChapters().get(i).setPosition(i + 1);
+                        chapter.getSubChapters().get(i).setParentId(chapter.getId());
                         chapters.add(chapter.getSubChapters().get(i));
                     }
                 }
         }
 
         ChapterListAdapter adapter = new ChapterListAdapter(this, chapters);
+        adapter.setOnChapterClickListener(this);
 
         recyclerViewChapters.setAdapter(adapter);
         recyclerViewChapters.setHasFixedSize(true);
@@ -306,5 +310,24 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity {
 
     @OnClick(R.id.btn_share)
     public void onShare() {
+    }
+
+    @Override
+    public void onChapterClick(Chapter chapter) {
+        startActivity(new Intent(TrainingInfoActivity.this, TrainingMaterialActivity.class)
+                .putExtra(TrainingMaterialActivity.INTENT_KEY_TRAINING_ID, training.getId())
+                .putExtra(TrainingMaterialActivity.INTENT_KEY_SHOW_TYPE, TrainingMaterialActivity.SHOW_TYPE_CHAPTER)
+                .putExtra(TrainingMaterialActivity.INTENT_KEY_CHAPTER_ID, chapter.getId())
+        );
+    }
+
+    @Override
+    public void onSubChapterClick(SubChapter subChapter) {
+        startActivity(new Intent(TrainingInfoActivity.this, TrainingMaterialActivity.class)
+                .putExtra(TrainingMaterialActivity.INTENT_KEY_TRAINING_ID, training.getId())
+                .putExtra(TrainingMaterialActivity.INTENT_KEY_SHOW_TYPE, TrainingMaterialActivity.SHOW_TYPE_SUB_CHAPTER)
+                .putExtra(TrainingMaterialActivity.INTENT_KEY_CHAPTER_ID, subChapter.getParentId())
+                .putExtra(TrainingMaterialActivity.INTENT_KEY_SUB_CHAPTER_ID, subChapter.getId())
+        );
     }
 }

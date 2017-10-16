@@ -75,4 +75,9 @@ public class Chapter extends BaseChapter implements Serializable {
     public void setSubChapters(List<SubChapter> subChapters) {
         this.subChapters = subChapters;
     }
+
+    @Override
+    public String toString() {
+        return name == null ? "" : name;
+    }
 }

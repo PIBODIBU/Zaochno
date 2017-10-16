@@ -3,10 +3,12 @@ package ru.zaochno.zaochno.ui.adapter;
 import android.content.Context;
 import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.LinkedList;
@@ -26,6 +28,7 @@ public class ChapterListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private LinkedList<BaseChapter> chapters;
     private Context context;
+    private OnChapterClickListener onChapterClickListener;
 
     public ChapterListAdapter(Context context, LinkedList<BaseChapter> chapters) {
         this.chapters = chapters;
@@ -56,7 +59,7 @@ public class ChapterListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ChapterListViewHolder) {
             if (chapters.get(position) instanceof Chapter) {
-                Chapter chapter = ((Chapter) chapters.get(position));
+                final Chapter chapter = ((Chapter) chapters.get(position));
                 ChapterListViewHolder viewHolder = ((ChapterListViewHolder) holder);
 
                 if (chapter == null)
@@ -67,10 +70,18 @@ public class ChapterListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     String chapterTitle = "Глава " + String.valueOf(chapter.getPosition()) + ". \"" + chapter.getName() + "\"";
                     viewHolder.tvChapter.setText(chapterTitle);
                 }
+
+                if (onChapterClickListener != null)
+                    viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            onChapterClickListener.onChapterClick(chapter);
+                        }
+                    });
             }
         } else if (holder instanceof SubChapterViewHolder) {
             if (chapters.get(position) instanceof SubChapter) {
-                SubChapter subChapter = ((SubChapter) chapters.get(position));
+                final SubChapter subChapter = ((SubChapter) chapters.get(position));
                 SubChapterViewHolder viewHolder = ((SubChapterViewHolder) holder);
 
                 if (subChapter == null)
@@ -92,6 +103,14 @@ public class ChapterListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                         SPAN_INCLUSIVE_INCLUSIVE);
 
                 viewHolder.tvSubChapter.setText(TextUtils.concat(spanTitle, spanText));
+
+                if (onChapterClickListener != null)
+                    viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            onChapterClickListener.onSubChapterClick(subChapter);
+                        }
+                    });
             }
         }
     }
@@ -99,5 +118,15 @@ public class ChapterListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public int getItemCount() {
         return chapters.size();
+    }
+
+    public void setOnChapterClickListener(OnChapterClickListener onChapterClickListener) {
+        this.onChapterClickListener = onChapterClickListener;
+    }
+
+    public interface OnChapterClickListener {
+        void onChapterClick(Chapter chapter);
+
+        void onSubChapterClick(SubChapter subChapter);
     }
 }

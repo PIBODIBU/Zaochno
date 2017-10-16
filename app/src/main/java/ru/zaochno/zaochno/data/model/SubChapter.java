@@ -8,6 +8,7 @@ import java.io.Serializable;
 
 public class SubChapter extends BaseChapter implements Serializable {
     transient private Integer position;
+    transient private Integer parentId;
 
     @SerializedName("subChapterId")
     private Integer id;
@@ -29,6 +30,14 @@ public class SubChapter extends BaseChapter implements Serializable {
         if (position == null)
             return -1;
         return position;
+    }
+
+    public Integer getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
     }
 
     public void setPosition(Integer position) {
@@ -61,5 +70,10 @@ public class SubChapter extends BaseChapter implements Serializable {
 
     public void setHtmlText(String htmlText) {
         this.htmlText = htmlText;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

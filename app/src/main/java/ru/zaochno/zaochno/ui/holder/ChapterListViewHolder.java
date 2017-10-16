@@ -9,6 +9,9 @@ import butterknife.ButterKnife;
 import ru.zaochno.zaochno.R;
 
 public class ChapterListViewHolder extends RecyclerView.ViewHolder {
+    @BindView(R.id.root_view)
+    public View rootView;
+
     @BindView(R.id.tv_chapter)
     public TextView tvChapter;
 

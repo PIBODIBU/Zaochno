@@ -4,6 +4,16 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:spinnerStyle">@style/Spinner</item>
+    </style>
+
+    <style name="AppTheme.PopupOverlay" parent="@style/ThemeOverlay.AppCompat.Light">
+
+    </style>
+
+    <style name="Spinner" parent="Base.Widget.AppCompat.Spinner">
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
     </style>
 
     <style name="MaterialButtonPrimary" parent="Material.Drawable.Ripple.Touch">
