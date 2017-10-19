@@ -3,6 +3,7 @@ package ru.zaochno.zaochno.data.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 
 import ru.zaochno.zaochno.utils.UrlUtils;
@@ -27,6 +28,11 @@ public class Question implements Serializable {
     private List<Answer> answers;
 
     public Question() {
+    }
+
+    public void randomizeAnswers() {
+        if (answers != null)
+            Collections.shuffle(answers);
     }
 
     public Integer getId() {

@@ -6,7 +6,9 @@ import java.util.Locale;
 
 public class DateUtils {
     public static final String PATTERN_DEFAULT = "dd MMMM yyyy HH:mm";
+    public static final String PATTERN_DATE = "dd.MM.yyyy";
     public static final String PATTERN_MIN_SEC = "mm:ss";
+    public static final String PATTERN_HOUR_MIN_SEC = "HH:mm:ss";
     public static final Long HOUR = 60 * 60 * 1000L;
 
     public static String millisToPattern(Long millis, String pattern) {

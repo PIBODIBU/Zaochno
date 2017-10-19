@@ -343,7 +343,7 @@ public class TrainingListActivity extends BaseNavDrawerActivity implements Train
     private void setupTabs() {
         pagerAdapter = new TrainingListPagerAdapter(getSupportFragmentManager());
 
-        pagerAdapter.addFragment(fragmentAll, "Тренинги");
+        pagerAdapter.addFragment(fragmentAll, "Все тренинги");
 
         if (AuthProvider.getInstance(this).isAuthenticated()) {
             pagerAdapter.addFragment(fragmentFavourite, "Избранное");
@@ -366,6 +366,11 @@ public class TrainingListActivity extends BaseNavDrawerActivity implements Train
 
     @Override
     public void onFavourite(final Training training) {
+        if (!AuthProvider.getInstance(this).isAuthenticated()) {
+            startActivity(new Intent(TrainingListActivity.this, LoginActivity.class));
+            return;
+        }
+
         // Invert favourite status
         training.setFavourite(!training.getFavourite());
         training.setUserToken(AuthProvider.getInstance(this).getCurrentUser().getToken());

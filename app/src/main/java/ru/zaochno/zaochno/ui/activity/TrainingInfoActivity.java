@@ -276,8 +276,10 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity implements Chapt
     @OnClick(R.id.btn_to_fav)
     public void onFavourite() {
         // Invert favourite status
-        if (!AuthProvider.getInstance(this).isAuthenticated())
+        if (!AuthProvider.getInstance(this).isAuthenticated()) {
+            startActivity(new Intent(TrainingInfoActivity.this, LoginActivity.class));
             return;
+        }
 
         training.setFavourite(!training.getFavourite());
         training.setUserToken(AuthProvider.getInstance(this).getCurrentUser().getToken());

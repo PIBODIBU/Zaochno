@@ -26,8 +26,7 @@
                 android:layout_gravity="top"
                 android:background="@color/colorPrimary"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                app:popupTheme="@style/AppTheme.PopupOverlay" />
+                app:layout_scrollFlags="scroll|exitUntilCollapsed" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -37,8 +36,7 @@
                 android:orientation="vertical"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 android:weightSum="2"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/AppTheme.PopupOverlay">
+                app:layout_collapseMode="pin">
 
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/spinner_thematic"
@@ -59,17 +57,22 @@
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="fill_vertical"
-        android:fillViewport="true"
         android:scrollbars="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <TextView
-            android:id="@+id/tv_text"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:text="@string/large_text"
-            android:textColor="@color/md_light_primary_text" />
+            android:orientation="vertical"
+            android:paddingBottom="36dp">
+
+            <TextView
+                android:id="@+id/tv_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@string/large_text"
+                android:textColor="@color/md_light_primary_text" />
+        </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

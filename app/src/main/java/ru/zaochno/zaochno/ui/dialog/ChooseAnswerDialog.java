@@ -64,6 +64,7 @@ public class ChooseAnswerDialog extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
 
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getDialog().setCanceledOnTouchOutside(false);
     }
 
     public interface OnNextButtonClickListener {

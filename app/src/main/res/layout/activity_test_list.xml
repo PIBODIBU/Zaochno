@@ -14,8 +14,10 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:tabBackground="@drawable/tab_selector"
+        app:tabGravity="fill"
         app:tabIndicatorColor="@android:color/transparent"
         app:tabSelectedTextColor="@color/md_dark_primary_text"
+        app:tabTextAppearance="@style/TabLayoutText"
         app:tabTextColor="@color/md_light_primary_text" />
 
     <View

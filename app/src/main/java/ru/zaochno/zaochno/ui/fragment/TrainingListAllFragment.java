@@ -5,6 +5,7 @@ import org.greenrobot.eventbus.Subscribe;
 import ru.zaochno.zaochno.R;
 import ru.zaochno.zaochno.data.event.TrainingFavouriteEvent;
 import ru.zaochno.zaochno.data.model.Training;
+import ru.zaochno.zaochno.data.provider.AuthProvider;
 import ru.zaochno.zaochno.ui.adapter.TrainingListAllAdapter;
 
 public class TrainingListAllFragment extends BaseTrainingListFragment<TrainingListAllAdapter> {

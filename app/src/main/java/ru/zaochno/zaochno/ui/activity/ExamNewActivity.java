@@ -29,14 +29,15 @@ import ru.zaochno.zaochno.data.model.Training;
 import ru.zaochno.zaochno.data.model.response.BaseErrorResponse;
 import ru.zaochno.zaochno.data.model.response.DataResponseWrapper;
 import ru.zaochno.zaochno.data.provider.AuthProvider;
+import ru.zaochno.zaochno.data.utils.DateUtils;
 import ru.zaochno.zaochno.ui.dialog.TrainingExamsDialog;
 
 public class ExamNewActivity extends BaseNavDrawerActivity {
     private static final String TAG = "ExamNewActivity";
     public static final String INTENT_KEY_TRAINING_MODEL = "INTENT_KEY_TRAINING_MODEL";
 
-    @BindView(R.id.calendar_view)
-    public CustomCalendarView calendarView;
+   /* @BindView(R.id.calendar_view)
+    public CustomCalendarView calendarView;*/
 
     @BindView(R.id.tv_training_name)
     public TextView tvTrainingName;
@@ -74,19 +75,19 @@ public class ExamNewActivity extends BaseNavDrawerActivity {
     private void setupUi() {
         tvTrainingName.setText(training.getName());
 
-        ((ImageView) calendarView.findViewById(R.id.leftButton)).setImageResource(R.drawable.ic_keyboard_arrow_left_grey_24dp);
+        /*((ImageView) calendarView.findViewById(R.id.leftButton)).setImageResource(R.drawable.ic_keyboard_arrow_left_grey_24dp);
         ((ImageView) calendarView.findViewById(R.id.rightButton)).setImageResource(R.drawable.ic_keyboard_arrow_right_grey_24dp);
         calendarView.setCalendarListener(new CalendarListener() {
             @Override
             public void onDateSelected(Date date) {
-                exam.setDate(date.getTime());
+                exam.setDate(DateUtils.millisToPattern(date.getTime(), DateUtils.PATTERN_DATE));
             }
 
             @Override
             public void onMonthChanged(Date date) {
 
             }
-        });
+        });*/
 
         setupSpinner();
     }

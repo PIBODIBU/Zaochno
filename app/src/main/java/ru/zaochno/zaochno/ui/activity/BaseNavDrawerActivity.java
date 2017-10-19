@@ -134,7 +134,7 @@ public class BaseNavDrawerActivity extends AppCompatActivity {
             drawer.addItems(
                     DrawerItemCreator.createItem(this,
                             R.drawable.ic_training,
-                            "Мои тренинги",
+                            "Все тренинги",
                             1,
                             true,
                             TrainingListActivity.class,

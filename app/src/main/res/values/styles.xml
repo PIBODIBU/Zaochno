@@ -8,12 +8,12 @@
         <item name="android:spinnerStyle">@style/Spinner</item>
     </style>
 
-    <style name="AppTheme.PopupOverlay" parent="@style/ThemeOverlay.AppCompat.Light">
-
+    <style name="AppTheme.PopupTheme" parent="@style/ThemeOverlay.AppCompat.Light">
+        <!--<item name="colorControlNormal">@color/md_light_primary_text</item>-->
     </style>
 
     <style name="Spinner" parent="Base.Widget.AppCompat.Spinner">
-        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="popupTheme">@style/AppTheme.PopupTheme</item>
     </style>
 
     <style name="MaterialButtonPrimary" parent="Material.Drawable.Ripple.Touch">
@@ -50,6 +50,6 @@
     </style>
 
     <style name="TabLayoutText" parent="TextAppearance.Design.Tab">
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">14sp</item>
     </style>
 </resources>

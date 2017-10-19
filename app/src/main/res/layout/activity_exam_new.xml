@@ -84,7 +84,7 @@
                         android:layout_marginTop="8dp"
                         android:background="@drawable/divider" />
 
-                    <com.imanoweb.calendarview.CustomCalendarView
+                    <!--<com.imanoweb.calendarview.CustomCalendarView
                         android:id="@+id/calendar_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -95,7 +95,7 @@
                         app:disabledDayTextColor="@color/calendar_disabled_text"
                         app:selectedDayBackgroundColor="@color/colorAccent"
                         app:selectedDayTextColor="@color/white"
-                        app:titleLayoutBackgroundColor="@color/calendar_title_bg" />
+                        app:titleLayoutBackgroundColor="@color/calendar_title_bg" />-->
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
 

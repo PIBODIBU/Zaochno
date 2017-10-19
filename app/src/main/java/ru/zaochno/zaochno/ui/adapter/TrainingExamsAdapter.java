@@ -33,7 +33,7 @@ public class TrainingExamsAdapter extends RecyclerView.Adapter<TrainingExamsView
         if (exam == null)
             return;
 
-        holder.tvTime.setText(DateUtils.millisToPattern(exam.getDate(), DateUtils.PATTERN_DEFAULT));
+        holder.tvTime.setText(exam.getDate());
         holder.tvMembers.setText(String.valueOf(exam.getMembers()).concat(exam.getMembers() == 1 ? " участник" : " участника"));
         if (onItemClickListener != null)
             holder.btnRegister.setOnClickListener(new View.OnClickListener() {

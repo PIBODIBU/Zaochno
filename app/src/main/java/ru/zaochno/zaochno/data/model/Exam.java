@@ -11,7 +11,7 @@ public class Exam extends TokenRequest implements Serializable {
     private Integer id;
 
     @SerializedName("date")
-    private Long date;
+    private String date;
 
     @SerializedName("region")
     private String region;
@@ -30,11 +30,11 @@ public class Exam extends TokenRequest implements Serializable {
         this.id = id;
     }
 
-    public Long getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Long date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

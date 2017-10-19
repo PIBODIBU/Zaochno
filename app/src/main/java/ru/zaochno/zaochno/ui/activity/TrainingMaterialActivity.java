@@ -1,5 +1,6 @@
 package ru.zaochno.zaochno.ui.activity;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,11 +10,16 @@ import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.pixplicity.htmlcompat.HtmlCompat;
+
+import org.xml.sax.Attributes;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -200,6 +206,7 @@ public class TrainingMaterialActivity extends BaseNavDrawerActivity {
     private void setupSpinnerThematics(Chapter selectedChapter) {
         final ArrayAdapter<Chapter> arrayAdapter = new ArrayAdapter<>(getSupportActionBar().getThemedContext(), R.layout.support_simple_spinner_dropdown_item);
         arrayAdapter.addAll(trainingFull.getChapters());
+        arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         spinnerThematic.setAdapter(arrayAdapter);
 
         if (selectedChapter != null)
@@ -232,6 +239,7 @@ public class TrainingMaterialActivity extends BaseNavDrawerActivity {
 
         final ArrayAdapter<SubChapter> adapter = new ArrayAdapter<>(getSupportActionBar().getThemedContext(), R.layout.support_simple_spinner_dropdown_item);
         adapter.addAll(chapter.getSubChapters());
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
 
         spinnerSubThematic.setAdapter(adapter);
         spinnerSubThematic.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -248,8 +256,6 @@ public class TrainingMaterialActivity extends BaseNavDrawerActivity {
 
         if (subChapter != null)
             spinnerSubThematic.setSelection(getSubThematicAdapterPositionById(adapter, subChapter.getId()));
-
-        Log.d(TAG, "setupSpinnerSubThematics: " + (subChapter == null ? "null" : "not null"));
     }
 
     @NonNull
@@ -296,8 +302,18 @@ public class TrainingMaterialActivity extends BaseNavDrawerActivity {
     }
 
     private void setMainText(String htmlText) {
-        if (htmlText != null)
-            tvText.setText(new SpannableString(Html.fromHtml(htmlText)));
+        if (htmlText != null) {
+//            tvText.setText(new SpannableString(Html.fromHtml(htmlText)));
+
+            tvText.setMovementMethod(LinkMovementMethod.getInstance());
+            tvText.setText(HtmlCompat.fromHtml(this, htmlText, 0, new HtmlCompat.ImageGetter() {
+                @Override
+                public Drawable getDrawable(String source, Attributes attributes) {
+                    Log.d(TAG, "getDrawable: " + source);
+                    return null;
+                }
+            }));
+        }
     }
 
     private void showSnackBar(String text) {
