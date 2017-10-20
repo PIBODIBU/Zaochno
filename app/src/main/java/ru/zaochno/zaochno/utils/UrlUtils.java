@@ -1,7 +1,7 @@
 package ru.zaochno.zaochno.utils;
 
 public class UrlUtils {
-    public static String absolutePathToUrl(String absolutePath) {
+    public static String htmlPathToUrl(String absolutePath) {
         if (absolutePath == null)
             return "";
 

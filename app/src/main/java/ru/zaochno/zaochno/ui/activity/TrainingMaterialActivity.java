@@ -1,25 +1,19 @@
 package ru.zaochno.zaochno.ui.activity;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
-import android.support.v7.widget.Toolbar;
-import android.text.Html;
-import android.text.SpannableString;
-import android.text.method.LinkMovementMethod;
-import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.TextView;
 
-import com.pixplicity.htmlcompat.HtmlCompat;
-
-import org.xml.sax.Attributes;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,15 +22,20 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import ru.zaochno.zaochno.R;
 import ru.zaochno.zaochno.data.api.Retrofit2Client;
+import ru.zaochno.zaochno.data.event.ChapterSelectedEvent;
+import ru.zaochno.zaochno.data.event.SubChapterSelectedEvent;
+import ru.zaochno.zaochno.data.event.TrainingFullLoadedEvent;
 import ru.zaochno.zaochno.data.model.Chapter;
 import ru.zaochno.zaochno.data.model.SubChapter;
-import ru.zaochno.zaochno.data.model.SubThematic;
 import ru.zaochno.zaochno.data.model.Training;
 import ru.zaochno.zaochno.data.model.TrainingFull;
 import ru.zaochno.zaochno.data.model.response.DataResponseWrapper;
 import ru.zaochno.zaochno.data.provider.AuthProvider;
+import ru.zaochno.zaochno.ui.fragment.MaterialPhotoFragment;
+import ru.zaochno.zaochno.ui.fragment.MaterialTextFragment;
+import ru.zaochno.zaochno.ui.fragment.MaterialVideoFragment;
 
-public class TrainingMaterialActivity extends BaseNavDrawerActivity {
+public class TrainingMaterialActivity extends BaseNavDrawerActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = "TrainingMaterActivity";
     public static final String INTENT_KEY_TRAINING_ID = "INTENT_KEY_TRAINING_ID";
     public static final String INTENT_KEY_SHOW_TYPE = "INTENT_KEY_SHOW_TYPE";
@@ -48,14 +47,18 @@ public class TrainingMaterialActivity extends BaseNavDrawerActivity {
     @BindView(R.id.coordinator)
     public CoordinatorLayout coordinator;
 
-    @BindView(R.id.tv_text)
-    public TextView tvText;
-
     @BindView(R.id.spinner_thematic)
     public AppCompatSpinner spinnerThematic;
 
     @BindView(R.id.spinner_sub_thematic)
     public AppCompatSpinner spinnerSubThematic;
+
+    @BindView(R.id.bottom_navigation)
+    public BottomNavigationView bottomNavigation;
+
+    public MaterialTextFragment textFragment = new MaterialTextFragment();
+    public MaterialPhotoFragment photoFragment = new MaterialPhotoFragment();
+    public MaterialVideoFragment videoFragment = new MaterialVideoFragment();
 
     private TrainingFull trainingFull;
 
@@ -73,55 +76,74 @@ public class TrainingMaterialActivity extends BaseNavDrawerActivity {
             return;
         }
 
+        photoFragment.setContext(this);
         fetchTraining(getTrainingIdFromIntent());
     }
 
-    private void fetchTraining(Integer id) {
-        Training params = new Training(id);
-        params.setUserToken(AuthProvider.getInstance(this).getCurrentUser().getToken());
+    @Subscribe
+    public void onTrainingFullLoaded(TrainingFullLoadedEvent event) {
+        setTrainingFull(event.getTrainingFull());
+        setupUi();
+    }
 
-        Retrofit2Client.getInstance().getApi().getFullTraining(params).enqueue(new Callback<DataResponseWrapper<TrainingFull>>() {
-            @Override
-            public void onResponse(Call<DataResponseWrapper<TrainingFull>> call, Response<DataResponseWrapper<TrainingFull>> response) {
-                if (response == null || response.body() == null) {
-                    showSnackBar(getString(R.string.error));
-                    return;
+    private void setupUi() {
+        bottomNavigation.setOnNavigationItemSelectedListener(this);
+        bottomNavigation.setSelectedItemId(R.id.action_text);
+
+        Chapter chapter = null;
+        SubChapter subChapter = null;
+
+        if (getShowTypeFromIntent() == null)
+            return;
+
+        switch (getShowTypeFromIntent()) {
+            case SHOW_TYPE_CHAPTER:
+                if (getChapterIdFromIntent() != null && getChapterById(getChapterIdFromIntent()) != null) {
+                    chapter = getChapterById(getChapterIdFromIntent());
+                    EventBus.getDefault().post(new ChapterSelectedEvent(chapter));
                 }
-
-                setTrainingFull(response.body().getResponseObj());
-                setupUi();
-            }
-
-            @Override
-            public void onFailure(Call<DataResponseWrapper<TrainingFull>> call, Throwable t) {
-                showSnackBar(getString(R.string.error));
-            }
-        });
-    }
-
-    private void setTrainingFull(TrainingFull trainingFull) {
-        this.trainingFull = trainingFull;
-    }
-
-    private boolean checkIntent() {
-        if (getIntent() == null || getIntent().getExtras() == null || !getIntent().getExtras().containsKey(INTENT_KEY_TRAINING_ID))
-            return false;
-        else
-            return true;
-    }
-
-    @NonNull
-    private Integer getTrainingIdFromIntent() {
-        Integer id;
-
-        try {
-            id = getIntent().getExtras().getInt(INTENT_KEY_TRAINING_ID);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            id = -1;
+                break;
+            case SHOW_TYPE_SUB_CHAPTER:
+                if (getChapterIdFromIntent() != null && getSubChapterIdFromIntent() != null
+                        && getSubChapterById(getChapterIdFromIntent(), getSubChapterIdFromIntent()) != null) {
+                    chapter = getChapterById(getChapterIdFromIntent());
+                    subChapter = getSubChapterById(getChapterIdFromIntent(), getSubChapterIdFromIntent());
+                    EventBus.getDefault().post(new SubChapterSelectedEvent(subChapter));
+                }
+                break;
+            default:
+                break;
         }
 
-        return id;
+        setupSpinnerThematics(chapter);
+        setupSpinnerSubThematics(chapter, subChapter);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_text:
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame_layout, textFragment)
+                        .commit();
+                return true;
+            case R.id.action_photo:
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame_layout, photoFragment)
+                        .commit();
+                return true;
+            case R.id.action_video:
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame_layout, videoFragment)
+                        .commit();
+                return true;
+
+            default:
+                return false;
+        }
     }
 
     @Nullable
@@ -150,7 +172,7 @@ public class TrainingMaterialActivity extends BaseNavDrawerActivity {
 
     @Nullable
     private Chapter getChapterById(Integer id) {
-        for (Chapter chapter : trainingFull.getChapters()) {
+        for (Chapter chapter : getTrainingFull().getChapters()) {
             if (chapter.getId() == id)
                 return chapter;
         }
@@ -171,91 +193,6 @@ public class TrainingMaterialActivity extends BaseNavDrawerActivity {
         }
 
         return null;
-    }
-
-    private void setupUi() {
-        Chapter chapter = null;
-        SubChapter subChapter = null;
-
-        if (getShowTypeFromIntent() == null)
-            return;
-
-        switch (getShowTypeFromIntent()) {
-            case SHOW_TYPE_CHAPTER:
-                if (getChapterIdFromIntent() != null && getChapterById(getChapterIdFromIntent()) != null) {
-                    chapter = getChapterById(getChapterIdFromIntent());
-                    setMainText(chapter.getHtmlText());
-                }
-                break;
-            case SHOW_TYPE_SUB_CHAPTER:
-                if (getChapterIdFromIntent() != null && getSubChapterIdFromIntent() != null
-                        && getSubChapterById(getChapterIdFromIntent(), getSubChapterIdFromIntent()) != null) {
-                    chapter = getChapterById(getChapterIdFromIntent());
-                    subChapter = getSubChapterById(getChapterIdFromIntent(), getSubChapterIdFromIntent());
-                    setMainText(subChapter.getHtmlText());
-                }
-                break;
-            default:
-                break;
-        }
-
-        setupSpinnerThematics(chapter);
-        setupSpinnerSubThematics(chapter, subChapter);
-    }
-
-    private void setupSpinnerThematics(Chapter selectedChapter) {
-        final ArrayAdapter<Chapter> arrayAdapter = new ArrayAdapter<>(getSupportActionBar().getThemedContext(), R.layout.support_simple_spinner_dropdown_item);
-        arrayAdapter.addAll(trainingFull.getChapters());
-        arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-        spinnerThematic.setAdapter(arrayAdapter);
-
-        if (selectedChapter != null)
-            spinnerThematic.setSelection(getThematicAdapterPositionById(arrayAdapter, selectedChapter.getId()), false);
-
-        spinnerThematic.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            private Boolean firstAdding = true;
-
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Chapter chapter = arrayAdapter.getItem(position);
-                refreshUi(chapter);
-
-                if (firstAdding)
-                    firstAdding = false;
-                else
-                    setupSpinnerSubThematics(chapter, null);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-    }
-
-    private void setupSpinnerSubThematics(final Chapter chapter, final SubChapter subChapter) {
-        if (chapter == null)
-            return;
-
-        final ArrayAdapter<SubChapter> adapter = new ArrayAdapter<>(getSupportActionBar().getThemedContext(), R.layout.support_simple_spinner_dropdown_item);
-        adapter.addAll(chapter.getSubChapters());
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-
-        spinnerSubThematic.setAdapter(adapter);
-        spinnerSubThematic.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                refreshUi(adapter.getItem(position));
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        if (subChapter != null)
-            spinnerSubThematic.setSelection(getSubThematicAdapterPositionById(adapter, subChapter.getId()));
     }
 
     @NonNull
@@ -285,38 +222,123 @@ public class TrainingMaterialActivity extends BaseNavDrawerActivity {
         return position;
     }
 
-    private void refreshUi(Chapter chapter) {
-        if (chapter != null)
-            setMainText(chapter.getHtmlText());
+    private void setupSpinnerThematics(Chapter selectedChapter) {
+        final ArrayAdapter<Chapter> arrayAdapter = new ArrayAdapter<>(getSupportActionBar().getThemedContext(), R.layout.support_simple_spinner_dropdown_item);
+        arrayAdapter.addAll(trainingFull.getChapters());
+        arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        spinnerThematic.setAdapter(arrayAdapter);
+
+        if (selectedChapter != null)
+            spinnerThematic.setSelection(getThematicAdapterPositionById(arrayAdapter, selectedChapter.getId()), false);
+
+        spinnerThematic.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            private Boolean firstAdding = true;
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Chapter chapter = arrayAdapter.getItem(position);
+                EventBus.getDefault().post(new ChapterSelectedEvent(chapter));
+                photoFragment.setItem(chapter);
+
+                if (firstAdding)
+                    firstAdding = false;
+                else
+                    setupSpinnerSubThematics(chapter, null);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
-    private void refreshUi(SubChapter subChapter) {
+    private void setupSpinnerSubThematics(final Chapter chapter, SubChapter subChapter) {
+        if (chapter == null)
+            return;
+
+        final ArrayAdapter<SubChapter> adapter = new ArrayAdapter<>(getSupportActionBar().getThemedContext(), R.layout.support_simple_spinner_dropdown_item);
+        adapter.addAll(chapter.getSubChapters());
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+
+        spinnerSubThematic.setAdapter(adapter);
+        spinnerSubThematic.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                SubChapter subChapter = adapter.getItem(position);
+
+                EventBus.getDefault().post(new SubChapterSelectedEvent(subChapter));
+                photoFragment.setItem(subChapter);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         if (subChapter != null)
-            setMainText(subChapter.getHtmlText());
+            spinnerSubThematic.setSelection(getSubThematicAdapterPositionById(adapter, subChapter.getId()));
     }
 
-    private void refreshUi(Chapter chapter, SubChapter subChapter) {
-        if (chapter != null && subChapter != null) {
-            setMainText(chapter.getHtmlText().concat(subChapter.getHtmlText()));
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    private boolean checkIntent() {
+        if (getIntent() == null || getIntent().getExtras() == null || !getIntent().getExtras().containsKey(INTENT_KEY_TRAINING_ID))
+            return false;
+        else
+            return true;
+    }
+
+    @NonNull
+    private Integer getTrainingIdFromIntent() {
+        Integer id;
+
+        try {
+            id = getIntent().getExtras().getInt(INTENT_KEY_TRAINING_ID);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            id = -1;
         }
+
+        return id;
     }
 
-    private void setMainText(String htmlText) {
-        if (htmlText != null) {
-//            tvText.setText(new SpannableString(Html.fromHtml(htmlText)));
+    private void fetchTraining(Integer id) {
+        Training params = new Training(id);
+        params.setUserToken(AuthProvider.getInstance(this).getCurrentUser().getToken());
 
-            tvText.setMovementMethod(LinkMovementMethod.getInstance());
-            tvText.setText(HtmlCompat.fromHtml(this, htmlText, 0, new HtmlCompat.ImageGetter() {
-                @Override
-                public Drawable getDrawable(String source, Attributes attributes) {
-                    Log.d(TAG, "getDrawable: " + source);
-                    return null;
+        Retrofit2Client.getInstance().getApi().getFullTraining(params).enqueue(new Callback<DataResponseWrapper<TrainingFull>>() {
+            @Override
+            public void onResponse(Call<DataResponseWrapper<TrainingFull>> call, Response<DataResponseWrapper<TrainingFull>> response) {
+                if (response == null || response.body() == null) {
+                    return;
                 }
-            }));
-        }
+
+                EventBus.getDefault().post(new TrainingFullLoadedEvent(response.body().getResponseObj()));
+            }
+
+            @Override
+            public void onFailure(Call<DataResponseWrapper<TrainingFull>> call, Throwable t) {
+            }
+        });
     }
 
-    private void showSnackBar(String text) {
-        Snackbar.make(coordinator, text, Snackbar.LENGTH_LONG).show();
+    public TrainingFull getTrainingFull() {
+        return trainingFull;
+    }
+
+    public void setTrainingFull(TrainingFull trainingFull) {
+        this.trainingFull = trainingFull;
     }
 }

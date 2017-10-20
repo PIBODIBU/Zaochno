@@ -77,7 +77,7 @@ public class Test extends TokenRequest implements Serializable {
     }
 
     public String getCoverUrl() {
-        return UrlUtils.absolutePathToUrl(coverUrl);
+        return UrlUtils.htmlPathToUrl(coverUrl);
     }
 
     public void setCoverUrl(String coverUrl) {

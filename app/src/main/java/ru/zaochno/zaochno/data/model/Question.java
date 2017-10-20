@@ -52,7 +52,7 @@ public class Question implements Serializable {
     }
 
     public String getCoverUrl() {
-        return UrlUtils.absolutePathToUrl(coverUrl);
+        return UrlUtils.htmlPathToUrl(coverUrl);
     }
 
     public void setCoverUrl(String coverUrl) {
