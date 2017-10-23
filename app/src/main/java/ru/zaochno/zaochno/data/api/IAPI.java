@@ -25,6 +25,7 @@ import ru.zaochno.zaochno.data.model.request.TokenRequest;
 import ru.zaochno.zaochno.data.model.response.AuthErrorResponse;
 import ru.zaochno.zaochno.data.model.response.BaseErrorResponse;
 import ru.zaochno.zaochno.data.model.response.DataResponseWrapper;
+import ru.zaochno.zaochno.data.model.response.ExamRegisterResponse;
 import ru.zaochno.zaochno.data.model.response.RegisterResponse;
 
 public interface IAPI {
@@ -93,7 +94,7 @@ public interface IAPI {
     Call<DataResponseWrapper<List<Exam>>> getTrainingExams(@Body Training training);
 
     @POST("shedulle/register")
-    Call<BaseErrorResponse> registerOnExam(@Body Exam exam);
+    Call<ExamRegisterResponse> registerOnExam(@Body Exam exam);
 
 
     // Other

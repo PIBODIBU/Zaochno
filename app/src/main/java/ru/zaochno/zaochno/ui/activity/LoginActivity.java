@@ -84,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<AuthErrorResponse> call, Response<AuthErrorResponse> response) {
                 if (response == null || response.body() == null || response.body().getToken() == null) {
-                    Toast.makeText(LoginActivity.this, "Ошибка авторизации", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "Логин или пароль введены неверно", Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -104,8 +104,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<DataResponseWrapper<User>> call, Throwable t) {
-                        Toast.makeText(LoginActivity.this, "Ошибка авторизации", Toast.LENGTH_LONG).show();
-
+                        Toast.makeText(LoginActivity.this, "Логин или пароль введены неверно", Toast.LENGTH_LONG).show();
                     }
                 });
             }

@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 import ru.zaochno.zaochno.data.model.request.TokenRequest;
+import ru.zaochno.zaochno.data.utils.DateUtils;
 
 public class Exam extends TokenRequest implements Serializable {
     @SerializedName("examId")
@@ -18,6 +19,10 @@ public class Exam extends TokenRequest implements Serializable {
 
     @SerializedName("members")
     private Integer members;
+
+    public Exam(String region) {
+        this.region = region;
+    }
 
     public Exam() {
     }
@@ -52,5 +57,10 @@ public class Exam extends TokenRequest implements Serializable {
 
     public void setMembers(Integer members) {
         this.members = members;
+    }
+
+    @Override
+    public String toString() {
+        return DateUtils.millisToPattern(date, DateUtils.PATTERN_DATE);
     }
 }

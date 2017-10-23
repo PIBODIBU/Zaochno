@@ -107,13 +107,6 @@ public class MaterialTextFragment extends Fragment {
             final Spanned spanned = HtmlCompat.fromHtml(getActivity(), htmlText, 0, new HtmlCompat.ImageGetter() {
                 @Override
                 public Drawable getDrawable(String source, Attributes attributes) {
-                   /* PicassoTargetDrawable targetDrawable = new PicassoTargetDrawable(getActivity());
-
-                    Picasso.with(getActivity())
-                            .load(UrlUtils.htmlPathToUrl(source))
-                            .into(targetDrawable);
-
-                    return targetDrawable;*/
                     return new ColorDrawable(Color.TRANSPARENT);
                 }
             });

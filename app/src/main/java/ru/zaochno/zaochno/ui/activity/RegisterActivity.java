@@ -85,7 +85,7 @@ public class RegisterActivity extends AppCompatActivity implements BaseRegisterF
             @Override
             public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
                 if (response == null || response.body() == null || !response.body().getRegistered()) {
-                    Toast.makeText(RegisterActivity.this, R.string.error, Toast.LENGTH_LONG).show();
+                    Toast.makeText(RegisterActivity.this, "На данный e-mail уже зарегистрирован аккаунт в системе", Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -105,7 +105,7 @@ public class RegisterActivity extends AppCompatActivity implements BaseRegisterF
 
                     @Override
                     public void onFailure(Call<DataResponseWrapper<User>> call, Throwable t) {
-                        Toast.makeText(RegisterActivity.this, R.string.error, Toast.LENGTH_LONG).show();
+                        Toast.makeText(RegisterActivity.this, "На данный e-mail уже зарегистрирован аккаунт в системе", Toast.LENGTH_LONG).show();
                     }
                 });
             }

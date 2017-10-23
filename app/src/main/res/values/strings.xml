@@ -24,4 +24,5 @@
     <string name="sign_out">Выйти</string>
     <string name="prompt_sub_thematic">Подглава</string>
     <string name="prompt_thematic">Глава</string>
+    <string name="prompt_exam">Выберите экзамен</string>
 </resources>

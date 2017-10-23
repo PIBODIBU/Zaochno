@@ -56,6 +56,9 @@ public class TrainingMaterialActivity extends BaseNavDrawerActivity implements B
     @BindView(R.id.bottom_navigation)
     public BottomNavigationView bottomNavigation;
 
+    @BindView(R.id.container_loader)
+    public View loader;
+
     public MaterialTextFragment textFragment = new MaterialTextFragment();
     public MaterialPhotoFragment photoFragment = new MaterialPhotoFragment();
     public MaterialVideoFragment videoFragment = new MaterialVideoFragment();
@@ -76,6 +79,7 @@ public class TrainingMaterialActivity extends BaseNavDrawerActivity implements B
             return;
         }
 
+        showLoader();
         photoFragment.setContext(this);
         fetchTraining(getTrainingIdFromIntent());
     }
@@ -84,6 +88,14 @@ public class TrainingMaterialActivity extends BaseNavDrawerActivity implements B
     public void onTrainingFullLoaded(TrainingFullLoadedEvent event) {
         setTrainingFull(event.getTrainingFull());
         setupUi();
+    }
+
+    private void showLoader() {
+        loader.setVisibility(View.VISIBLE);
+    }
+
+    private void hideLoader() {
+        loader.setVisibility(View.GONE);
     }
 
     private void setupUi() {
@@ -326,6 +338,7 @@ public class TrainingMaterialActivity extends BaseNavDrawerActivity implements B
                 }
 
                 EventBus.getDefault().post(new TrainingFullLoadedEvent(response.body().getResponseObj()));
+                hideLoader();
             }
 
             @Override

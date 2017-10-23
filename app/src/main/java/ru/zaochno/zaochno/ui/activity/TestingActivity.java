@@ -92,7 +92,7 @@ public class TestingActivity extends BaseNavDrawerActivity {
     private void setupUi() {
         new CountDownTimer(test.getMinutes() * 60 * 1000, 1000) {
             public void onTick(long millisUntilFinished) {
-                tvCounter.setText("Осталось времени (мин): ".concat(DateUtils.millisToPattern(millisUntilFinished, DateUtils.PATTERN_HOUR_MIN_SEC)));
+                tvCounter.setText("Осталось времени (мин): ".concat(DateUtils.millisToPatternWithUTC(millisUntilFinished, DateUtils.PATTERN_HOUR_MIN_SEC)));
             }
 
             public void onFinish() {
@@ -166,7 +166,7 @@ public class TestingActivity extends BaseNavDrawerActivity {
         tvTitleQuestion.setText("Вопрос ".concat(String.valueOf(currentPosition + 1)));
         tvQuestionCounter.setText(String.valueOf(currentPosition + 1).concat("/").concat(String.valueOf(test.getQuestions().size())));
     }
-    
+
     private void chooseAnswer(Integer answerPosition) {
         Answer answer = null;
         UserAnswerSet.UserAnswer userAnswer = new UserAnswerSet.UserAnswer();

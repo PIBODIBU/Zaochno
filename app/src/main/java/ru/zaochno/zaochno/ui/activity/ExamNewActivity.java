@@ -4,15 +4,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.imanoweb.calendarview.CalendarListener;
-import com.imanoweb.calendarview.CustomCalendarView;
-
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -28,8 +23,8 @@ import ru.zaochno.zaochno.data.model.Region;
 import ru.zaochno.zaochno.data.model.Training;
 import ru.zaochno.zaochno.data.model.response.BaseErrorResponse;
 import ru.zaochno.zaochno.data.model.response.DataResponseWrapper;
+import ru.zaochno.zaochno.data.model.response.ExamRegisterResponse;
 import ru.zaochno.zaochno.data.provider.AuthProvider;
-import ru.zaochno.zaochno.data.utils.DateUtils;
 import ru.zaochno.zaochno.ui.dialog.TrainingExamsDialog;
 
 public class ExamNewActivity extends BaseNavDrawerActivity {
@@ -44,6 +39,9 @@ public class ExamNewActivity extends BaseNavDrawerActivity {
 
     @BindView(R.id.spinner_region)
     public Spinner spinner;
+
+    @BindView(R.id.spinner_exams)
+    public Spinner spinnerExams;
 
     private Training training;
     private Exam exam = new Exam();
@@ -96,7 +94,7 @@ public class ExamNewActivity extends BaseNavDrawerActivity {
         Retrofit2Client.getInstance().getApi().getRegions().enqueue(new Callback<DataResponseWrapper<List<Region>>>() {
             @Override
             public void onResponse(Call<DataResponseWrapper<List<Region>>> call, Response<DataResponseWrapper<List<Region>>> response) {
-                final ArrayAdapter<Region> adapter = new ArrayAdapter<>(ExamNewActivity.this, android.R.layout.simple_spinner_item);
+                final ArrayAdapter<Region> adapter = new ArrayAdapter<>(ExamNewActivity.this, R.layout.spinner_dropdown_item_tall);
                 adapter.add(new Region("Выберите регион из списка"));
                 adapter.addAll(response.body().getResponseObj());
                 spinner.setAdapter(adapter);
@@ -115,7 +113,32 @@ public class ExamNewActivity extends BaseNavDrawerActivity {
 
             @Override
             public void onFailure(Call<DataResponseWrapper<List<Region>>> call, Throwable t) {
+                Toast.makeText(ExamNewActivity.this, R.string.error, Toast.LENGTH_LONG).show();
+            }
+        });
 
+        Retrofit2Client.getInstance().getApi().getTrainingExams(training).enqueue(new Callback<DataResponseWrapper<List<Exam>>>() {
+            @Override
+            public void onResponse(Call<DataResponseWrapper<List<Exam>>> call, Response<DataResponseWrapper<List<Exam>>> response) {
+                final ArrayAdapter<Exam> adapter = new ArrayAdapter<>(ExamNewActivity.this, android.R.layout.simple_list_item_1);
+                adapter.addAll(response.body().getResponseObj());
+                spinnerExams.setAdapter(adapter);
+                spinnerExams.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        exam.setId(adapter.getItem(i).getId());
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Call<DataResponseWrapper<List<Exam>>> call, Throwable t) {
+                Toast.makeText(ExamNewActivity.this, R.string.error, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -124,10 +147,10 @@ public class ExamNewActivity extends BaseNavDrawerActivity {
     public void register() {
         exam.setToken(AuthProvider.getInstance(this).getCurrentUser().getToken());
 
-        Retrofit2Client.getInstance().getApi().registerOnExam(exam).enqueue(new Callback<BaseErrorResponse>() {
+        Retrofit2Client.getInstance().getApi().registerOnExam(exam).enqueue(new Callback<ExamRegisterResponse>() {
             @Override
-            public void onResponse(Call<BaseErrorResponse> call, Response<BaseErrorResponse> response) {
-                if (response == null || response.body() == null || response.body().getError() == null || response.body().getError()) {
+            public void onResponse(Call<ExamRegisterResponse> call, Response<ExamRegisterResponse> response) {
+                if (response == null || response.body() == null || !response.body().getRegistered()) {
                     Toast.makeText(ExamNewActivity.this, R.string.error, Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -137,15 +160,15 @@ public class ExamNewActivity extends BaseNavDrawerActivity {
             }
 
             @Override
-            public void onFailure(Call<BaseErrorResponse> call, Throwable t) {
+            public void onFailure(Call<ExamRegisterResponse> call, Throwable t) {
                 Toast.makeText(ExamNewActivity.this, R.string.error, Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    @OnClick(R.id.btn_schedule)
+    //@OnClick(R.id.btn_schedule)
     public void showScheduleDialog() {
-        TrainingExamsDialog dialog = new TrainingExamsDialog();
+      /*  TrainingExamsDialog dialog = new TrainingExamsDialog();
         dialog.setTraining(training);
         dialog.setContext(this);
         dialog.setDialogRegisterListener(new TrainingExamsDialog.DialogRegisterListener() {
@@ -173,6 +196,6 @@ public class ExamNewActivity extends BaseNavDrawerActivity {
             }
         });
 
-        dialog.show(getSupportFragmentManager(), "TrainingExamsDialog");
+        dialog.show(getSupportFragmentManager(), "TrainingExamsDialog");*/
     }
 }
