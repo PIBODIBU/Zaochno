@@ -29,7 +29,8 @@
         <activity android:name=".ui.activity.TestingActivity" />
         <activity android:name=".ui.activity.LoginNewActivity" />
         <activity android:name=".ui.activity.SplashNewActivity" />
-        <activity android:name=".ui.activity.TrainingMaterialActivity"></activity>
+        <activity android:name=".ui.activity.TrainingMaterialActivity" />
+        <activity android:name=".ui.activity.VideoActivity" />
     </application>
 
 </manifest>

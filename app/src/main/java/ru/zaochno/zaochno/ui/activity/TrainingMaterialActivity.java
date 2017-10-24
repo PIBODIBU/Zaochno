@@ -80,6 +80,7 @@ public class TrainingMaterialActivity extends BaseNavDrawerActivity implements B
         }
 
         showLoader();
+        videoFragment.setContext(this);
         photoFragment.setContext(this);
         fetchTraining(getTrainingIdFromIntent());
     }
@@ -250,6 +251,7 @@ public class TrainingMaterialActivity extends BaseNavDrawerActivity implements B
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Chapter chapter = arrayAdapter.getItem(position);
                 EventBus.getDefault().post(new ChapterSelectedEvent(chapter));
+                videoFragment.setItem(chapter);
                 photoFragment.setItem(chapter);
 
                 if (firstAdding)
@@ -280,6 +282,7 @@ public class TrainingMaterialActivity extends BaseNavDrawerActivity implements B
                 SubChapter subChapter = adapter.getItem(position);
 
                 EventBus.getDefault().post(new SubChapterSelectedEvent(subChapter));
+                videoFragment.setItem(subChapter);
                 photoFragment.setItem(subChapter);
             }
 
