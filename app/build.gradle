@@ -11,6 +11,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 26
         vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -34,6 +35,9 @@ repositories {
 }
 
 dependencies {
+    // Multidex
+    compile 'com.android.support:multidex:1.0.1'
+
     // Support
     compile 'com.android.support:appcompat-v7:26.1.0'
     compile 'com.android.support:design:26.1.0'
