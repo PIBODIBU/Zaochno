@@ -84,12 +84,14 @@ public class MaterialTextFragment extends Fragment {
 
     @Subscribe
     public void onChapterSelectedEvent(ChapterSelectedEvent event) {
+        setMainText("");
         if (event.getChapter() != null)
             setMainText(event.getChapter().getHtmlText());
     }
 
     @Subscribe
     public void onSubChapterSelectedEvent(SubChapterSelectedEvent event) {
+        setMainText("");
         if (event.getSubChapter() != null)
             setMainText(event.getSubChapter().getHtmlText());
     }
@@ -102,6 +104,11 @@ public class MaterialTextFragment extends Fragment {
     }
 
     private void setMainText(String htmlText) {
+        if (htmlText.equals("")) {
+            tvText.setText(htmlText);
+            return;
+        }
+
         if (htmlText != null) {
             tvText.setMovementMethod(LinkMovementMethod.getInstance());
             final Spanned spanned = HtmlCompat.fromHtml(getActivity(), htmlText, 0, new HtmlCompat.ImageGetter() {

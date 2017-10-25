@@ -2,12 +2,16 @@ package ru.zaochno.zaochno.ui.activity;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.MediaController;
 import android.widget.VideoView;
+
+import com.rey.material.widget.ProgressView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,6 +22,9 @@ public class VideoActivity extends AppCompatActivity {
 
     @BindView(R.id.video_view)
     public VideoView videoView;
+
+    @BindView(R.id.progress_bar)
+    public ProgressView progressView;
 
     private String url;
 
@@ -40,5 +47,28 @@ public class VideoActivity extends AppCompatActivity {
         videoView.setMediaController(mediaController);
         videoView.setVideoURI(Uri.parse(url));
         videoView.start();
+
+        videoView.setOnInfoListener(new MediaPlayer.OnInfoListener() {
+            @Override
+            public boolean onInfo(MediaPlayer mp, int what, int extra) {
+                if (MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START == what) {
+                    progressView.setVisibility(View.GONE);
+                }
+                if (MediaPlayer.MEDIA_INFO_BUFFERING_START == what) {
+                    progressView.setVisibility(View.VISIBLE);
+                }
+                if (MediaPlayer.MEDIA_INFO_BUFFERING_END == what) {
+                    progressView.setVisibility(View.VISIBLE);
+                }
+                return false;
+            }
+        });
+
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                progressView.setVisibility(View.GONE);
+            }
+        });
     }
 }

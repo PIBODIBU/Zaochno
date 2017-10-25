@@ -268,8 +268,13 @@ public class TrainingMaterialActivity extends BaseNavDrawerActivity implements B
     }
 
     private void setupSpinnerSubThematics(final Chapter chapter, SubChapter subChapter) {
-        if (chapter == null)
+        if (chapter == null) {
+            final ArrayAdapter<SubChapter> adapter = new ArrayAdapter<>(getSupportActionBar().getThemedContext(), R.layout.support_simple_spinner_dropdown_item);
+            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+            spinnerSubThematic.setAdapter(adapter);
+
             return;
+        }
 
         final ArrayAdapter<SubChapter> adapter = new ArrayAdapter<>(getSupportActionBar().getThemedContext(), R.layout.support_simple_spinner_dropdown_item);
         adapter.addAll(chapter.getSubChapters());
