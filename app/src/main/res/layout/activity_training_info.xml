@@ -21,7 +21,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="ru.zaochno.zaochno.ui.activity.TrainingInfoActivity">
+        tools:activity="ru.zaochno.zaochno.ui.activity.TrainingInfoActivity">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -229,6 +229,7 @@
             android:weightSum="4">
 
             <RelativeLayout
+                android:id="@+id/c_btn_demo"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">

@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -92,6 +94,12 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity implements Chapt
     @BindView(R.id.recycler_view_chapters)
     public RecyclerView recyclerViewChapters;
 
+    @BindView(R.id.btn_container)
+    public LinearLayout llBtnContainer;
+
+    @BindView(R.id.c_btn_demo)
+    public View cBtnDemo;
+
     private Training training;
     private TrainingFull trainingFull;
     private ActivityTrainingInfoBinding binding;
@@ -162,6 +170,8 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity implements Chapt
         tvRecyclerViewTitle.setVisibility(View.VISIBLE);
         containerProgress.setVisibility(View.VISIBLE);
         btnSchedule.setVisibility(View.VISIBLE);
+        cBtnDemo.setVisibility(View.GONE);
+        llBtnContainer.setWeightSum(3);
 
         tvDescription.setMaxLines(3);
 

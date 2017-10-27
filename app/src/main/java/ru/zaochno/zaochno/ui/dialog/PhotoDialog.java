@@ -9,8 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.ImageView;
 
+import com.github.chrisbanes.photoview.PhotoView;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -19,7 +19,7 @@ import ru.zaochno.zaochno.R;
 
 public class PhotoDialog extends DialogFragment {
     @BindView(R.id.image_view)
-    public ImageView imageView;
+    public PhotoView imageView;
 
     private String url;
 
@@ -36,7 +36,7 @@ public class PhotoDialog extends DialogFragment {
 
         return rootView;
     }
-    
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

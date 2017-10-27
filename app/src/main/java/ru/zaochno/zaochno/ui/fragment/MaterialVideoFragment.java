@@ -91,10 +91,6 @@ public class MaterialVideoFragment extends Fragment implements MaterialVideoList
     public void onVideoClick(String url) {
         startActivity(new Intent(getActivity(), VideoActivity.class)
                 .putExtra(VideoActivity.INTENT_KEY_VIDEO_URL, url));
-
-        /*VideoDialog videoDialog = new VideoDialog();
-        videoDialog.setUrl(url);
-        videoDialog.show(getActivity().getSupportFragmentManager(), "VideoDialog");*/
     }
 
     public void setContext(Context context) {

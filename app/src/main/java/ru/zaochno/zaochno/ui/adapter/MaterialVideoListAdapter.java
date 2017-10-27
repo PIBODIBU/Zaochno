@@ -1,9 +1,13 @@
 package ru.zaochno.zaochno.ui.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
+import android.os.AsyncTask;
+import android.support.annotation.UiThread;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,16 +19,16 @@ import ru.zaochno.zaochno.R;
 import ru.zaochno.zaochno.ui.holder.MaterialVideoListViewHolder;
 
 public class MaterialVideoListAdapter extends RecyclerView.Adapter<MaterialVideoListViewHolder> {
-    private static final String TAG = "MaterialVideoListAdapter";
+    private static final String TAG = "VideoListAdapter";
 
     private LinkedList<String> urls;
-    private Context context;
+    private Activity activity;
     private MaterialVideoListAdapter.OnImageClickListener onImageClickListener;
 
 
-    public MaterialVideoListAdapter(Context context, MaterialVideoListAdapter.OnImageClickListener onImageClickListener) {
+    public MaterialVideoListAdapter(Activity activity, MaterialVideoListAdapter.OnImageClickListener onImageClickListener) {
         this.urls = new LinkedList<>();
-        this.context = context;
+        this.activity = activity;
         this.onImageClickListener = onImageClickListener;
     }
 
@@ -34,7 +38,7 @@ public class MaterialVideoListAdapter extends RecyclerView.Adapter<MaterialVideo
     }
 
     @Override
-    public void onBindViewHolder(MaterialVideoListViewHolder holder, int position) {
+    public void onBindViewHolder(final MaterialVideoListViewHolder holder, int position) {
         if (urls == null)
             return;
 
@@ -51,7 +55,12 @@ public class MaterialVideoListAdapter extends RecyclerView.Adapter<MaterialVideo
                 }
             });
 
-        holder.ivThumbnail.setImageBitmap(retrieveVideoFrameFromVideo(url));
+        retrieveVideoFrameFromVideo(url, new RetrieveListener() {
+            @Override
+            public void onRetrieve(final Bitmap bitmap) {
+                holder.ivThumbnail.setImageBitmap(bitmap);
+            }
+        });
     }
 
     @Override
@@ -73,22 +82,33 @@ public class MaterialVideoListAdapter extends RecyclerView.Adapter<MaterialVideo
         notifyDataSetChanged();
     }
 
-    private Bitmap retrieveVideoFrameFromVideo(String videoPath) {
-        Bitmap bitmap = null;
-        MediaMetadataRetriever mediaMetadataRetriever = null;
-        try {
-            mediaMetadataRetriever = new MediaMetadataRetriever();
-            mediaMetadataRetriever.setDataSource(videoPath, new HashMap<String, String>());
-            //   mediaMetadataRetriever.setDataSource(videoPath);
-            bitmap = mediaMetadataRetriever.getFrameAtTime();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (mediaMetadataRetriever != null) {
-                mediaMetadataRetriever.release();
+    private void retrieveVideoFrameFromVideo(final String videoPath, final RetrieveListener retrieveListener) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                MediaMetadataRetriever mediaMetadataRetriever = null;
+
+                try {
+                    mediaMetadataRetriever = new MediaMetadataRetriever();
+                    mediaMetadataRetriever.setDataSource(videoPath, new HashMap<String, String>());
+                    //   mediaMetadataRetriever.setDataSource(videoPath);
+
+                    if (retrieveListener != null)
+                        retrieveListener.onRetrieve(mediaMetadataRetriever.getFrameAtTime());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (mediaMetadataRetriever != null) {
+                        mediaMetadataRetriever.release();
+                    }
+                }
             }
-        }
-        return bitmap;
+        }).start();
+    }
+
+
+    interface RetrieveListener {
+        void onRetrieve(Bitmap bitmap);
     }
 
     public interface OnImageClickListener {
