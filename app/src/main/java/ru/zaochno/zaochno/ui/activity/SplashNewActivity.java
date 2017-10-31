@@ -19,7 +19,7 @@ import ru.zaochno.zaochno.data.enums.UserAuthLevel;
 import ru.zaochno.zaochno.data.model.User;
 import ru.zaochno.zaochno.data.provider.AuthProvider;
 
-public class SplashNewActivity extends AppCompatActivity {
+public class SplashNewActivity extends AbstractActivity {
     @BindView(R.id.tv_greet)
     public TextView tvGreet;
 
@@ -53,7 +53,7 @@ public class SplashNewActivity extends AppCompatActivity {
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(SplashNewActivity.this, LoginNewActivity.class));
+                startActivity(new Intent(SplashNewActivity.this, LoginActivity.class));
                 finish();
             }
         });

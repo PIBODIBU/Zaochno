@@ -27,7 +27,7 @@ import ru.zaochno.zaochno.data.model.response.AuthErrorResponse;
 import ru.zaochno.zaochno.data.model.response.DataResponseWrapper;
 import ru.zaochno.zaochno.data.shared.SharedPrefUtils;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AbstractActivity {
     private static final String TAG = "LoginActivity";
 
     @BindView(R.id.btn_forgot_pass)

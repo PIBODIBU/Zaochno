@@ -3,20 +3,28 @@ package ru.zaochno.zaochno.ui.activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+
+import com.crashlytics.android.Crashlytics;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import io.fabric.sdk.android.Fabric;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -132,22 +140,53 @@ public class TrainingMaterialActivity extends BaseNavDrawerActivity implements B
         setupSpinnerSubThematics(chapter, subChapter);
     }
 
+    private void setBottomNavItemSelected(int position) {
+        setBottomNavIconSize(position, 30);
+    }
+
+    private void setBottomNavItemUnSelected(int position) {
+        setBottomNavIconSize(position, 24);
+    }
+
+    private void setBottomNavIconSize(int position, int dpSize) {
+        BottomNavigationMenuView menuView = (BottomNavigationMenuView) bottomNavigation.getChildAt(0);
+
+        final View iconView = menuView.getChildAt(position).findViewById(android.support.design.R.id.icon);
+        final ViewGroup.LayoutParams layoutParams = iconView.getLayoutParams();
+        final DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        layoutParams.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpSize, displayMetrics);
+        layoutParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpSize, displayMetrics);
+        iconView.setLayoutParams(layoutParams);
+    }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_text:
+                setBottomNavItemSelected(0);
+                setBottomNavItemUnSelected(1);
+                setBottomNavItemUnSelected(2);
+
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frame_layout, textFragment)
                         .commit();
                 return true;
             case R.id.action_photo:
+                setBottomNavItemUnSelected(0);
+                setBottomNavItemSelected(1);
+                setBottomNavItemUnSelected(2);
+
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frame_layout, photoFragment)
                         .commit();
                 return true;
             case R.id.action_video:
+                setBottomNavItemUnSelected(0);
+                setBottomNavItemUnSelected(1);
+                setBottomNavItemSelected(2);
+
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frame_layout, videoFragment)

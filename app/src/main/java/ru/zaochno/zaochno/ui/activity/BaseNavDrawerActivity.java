@@ -38,7 +38,7 @@ import ru.zaochno.zaochno.data.provider.AuthProvider;
 import ru.zaochno.zaochno.data.shared.SharedPrefUtils;
 import ru.zaochno.zaochno.ui.drawer.DrawerItemCreator;
 
-public class BaseNavDrawerActivity extends AppCompatActivity {
+public class BaseNavDrawerActivity extends AbstractActivity {
     private static final String TAG = "BaseNavDrawerActivity";
 
     static {

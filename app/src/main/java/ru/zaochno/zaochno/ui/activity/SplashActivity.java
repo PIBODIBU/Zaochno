@@ -19,7 +19,7 @@ import ru.zaochno.zaochno.data.model.User;
 import ru.zaochno.zaochno.data.model.response.DataResponseWrapper;
 import ru.zaochno.zaochno.data.provider.AuthProvider;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends AbstractActivity {
     public static final String TAG = "SplashActivity";
 
     @BindView(R.id.iv_logo)

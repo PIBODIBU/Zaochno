@@ -17,7 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.zaochno.zaochno.R;
 
-public class VideoActivity extends AppCompatActivity {
+public class VideoActivity extends AbstractActivity {
     public static final String INTENT_KEY_VIDEO_URL = "INTENT_KEY_VIDEO_URL";
 
     @BindView(R.id.video_view)

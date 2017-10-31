@@ -12,26 +12,58 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activity.SplashActivity">
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="dccc6249b9f5f22c1094455248b274bbfc5781cc" />
+
+        <activity
+            android:name=".ui.activity.SplashNewActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.LoginActivity" />
-        <activity android:name=".ui.activity.RegisterActivity" />
-        <activity android:name=".ui.activity.TrainingListActivity" />
-        <activity android:name=".ui.activity.MessageListActivity" />
-        <activity android:name=".ui.activity.AccountSettingsActivity" />
-        <activity android:name=".ui.activity.TrainingInfoActivity" />
-        <activity android:name=".ui.activity.ExamNewActivity" />
-        <activity android:name=".ui.activity.TestListActivity" />
-        <activity android:name=".ui.activity.TestingActivity" />
-        <activity android:name=".ui.activity.LoginNewActivity" />
-        <activity android:name=".ui.activity.SplashNewActivity" />
-        <activity android:name=".ui.activity.TrainingMaterialActivity" />
-        <activity android:name=".ui.activity.VideoActivity" />
+        <activity
+            android:name=".ui.activity.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.RegisterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.TrainingListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.MessageListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.AccountSettingsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.TrainingInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ExamNewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.TestListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.TestingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.LoginNewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.SplashActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.TrainingMaterialActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.VideoActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

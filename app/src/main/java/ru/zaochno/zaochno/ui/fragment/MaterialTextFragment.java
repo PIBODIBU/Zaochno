@@ -104,22 +104,20 @@ public class MaterialTextFragment extends Fragment {
     }
 
     private void setMainText(String htmlText) {
-        if (htmlText.equals("")) {
+        if (htmlText == null || htmlText.equals("")) {
             tvText.setText(htmlText);
             return;
         }
 
-        if (htmlText != null) {
-            tvText.setMovementMethod(LinkMovementMethod.getInstance());
-            final Spanned spanned = HtmlCompat.fromHtml(getActivity(), htmlText, 0, new HtmlCompat.ImageGetter() {
-                @Override
-                public Drawable getDrawable(String source, Attributes attributes) {
-                    return new ColorDrawable(Color.TRANSPARENT);
-                }
-            });
+        tvText.setMovementMethod(LinkMovementMethod.getInstance());
+        final Spanned spanned = HtmlCompat.fromHtml(getActivity(), htmlText, 0, new HtmlCompat.ImageGetter() {
+            @Override
+            public Drawable getDrawable(String source, Attributes attributes) {
+                return new ColorDrawable(Color.TRANSPARENT);
+            }
+        });
 
-            tvText.setText(spanned);
-            this.spanned = spanned;
-        }
+        tvText.setText(spanned);
+        this.spanned = spanned;
     }
 }
