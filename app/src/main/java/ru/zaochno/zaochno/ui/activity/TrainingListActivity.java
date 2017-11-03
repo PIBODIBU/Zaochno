@@ -9,6 +9,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -38,6 +39,7 @@ import ru.zaochno.zaochno.data.annotation.Restrict;
 import ru.zaochno.zaochno.data.annotation.processor.RestrictProcessor;
 import ru.zaochno.zaochno.data.api.Retrofit2Client;
 import ru.zaochno.zaochno.data.enums.UserAuthLevel;
+import ru.zaochno.zaochno.data.event.DataRefreshFinished;
 import ru.zaochno.zaochno.data.event.TrainingFavouriteEvent;
 import ru.zaochno.zaochno.data.model.Training;
 import ru.zaochno.zaochno.data.model.filter.TrainingFilter;
@@ -265,6 +267,13 @@ public class TrainingListActivity extends BaseNavDrawerActivity implements Train
         fragmentAll.setAdapter(adapterAll);
         fragmentFavourite.setAdapter(adapterFavourite);
         fragmentPayed.setAdapter(adapterPayed);
+
+        fragmentAll.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                fetchData();
+            }
+        });
     }
 
     private void fetchData() {
@@ -306,6 +315,8 @@ public class TrainingListActivity extends BaseNavDrawerActivity implements Train
                 adapterPayed.notifyDataSetChanged();
 
                 setupFilterSettingsDialog(maxPrice);
+
+                EventBus.getDefault().post(new DataRefreshFinished());
             }
 
             @Override

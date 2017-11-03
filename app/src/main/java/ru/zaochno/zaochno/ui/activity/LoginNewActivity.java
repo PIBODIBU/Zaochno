@@ -26,7 +26,7 @@ import ru.zaochno.zaochno.data.model.response.AuthErrorResponse;
 import ru.zaochno.zaochno.data.model.response.DataResponseWrapper;
 import ru.zaochno.zaochno.data.shared.SharedPrefUtils;
 
-public class LoginNewActivity extends AppCompatActivity {
+public class LoginNewActivity extends AbstractActivity {
     @BindView(R.id.coordinator)
     public CoordinatorLayout coordinatorLayout;
 

@@ -9,10 +9,8 @@ public class RegisterResponse extends BaseErrorResponse {
     @SerializedName("token")
     private String token;
 
-    public RegisterResponse(Boolean registered, String token) {
-        this.registered = registered;
-        this.token = token;
-    }
+    @SerializedName("message")
+    private String message;
 
     public Boolean getRegistered() {
         return registered;
@@ -28,5 +26,13 @@ public class RegisterResponse extends BaseErrorResponse {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

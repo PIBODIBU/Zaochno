@@ -25,7 +25,7 @@ import ru.zaochno.zaochno.ui.fragment.BaseRegisterFragment;
 import ru.zaochno.zaochno.ui.fragment.RegisterTypeLawFragment;
 import ru.zaochno.zaochno.ui.fragment.RegisterTypePhysFragment;
 
-public class RegisterActivity extends AppCompatActivity implements BaseRegisterFragment.RegisterActionListener {
+public class RegisterActivity extends AbstractActivity implements BaseRegisterFragment.RegisterActionListener {
     @BindView(R.id.btn_type_phys)
     public Button btnTypePhys;
 
@@ -84,8 +84,13 @@ public class RegisterActivity extends AppCompatActivity implements BaseRegisterF
         Retrofit2Client.getInstance().getApi().register(user).enqueue(new Callback<RegisterResponse>() {
             @Override
             public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
-                if (response == null || response.body() == null || !response.body().getRegistered()) {
-                    Toast.makeText(RegisterActivity.this, "На данный e-mail уже зарегистрирован аккаунт в системе", Toast.LENGTH_LONG).show();
+                if (response == null || response.body() == null) {
+                    Toast.makeText(RegisterActivity.this, R.string.error, Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                if (!response.body().getRegistered()) {
+                    Toast.makeText(RegisterActivity.this, response.body().getMessage(), Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -105,7 +110,7 @@ public class RegisterActivity extends AppCompatActivity implements BaseRegisterF
 
                     @Override
                     public void onFailure(Call<DataResponseWrapper<User>> call, Throwable t) {
-                        Toast.makeText(RegisterActivity.this, "На данный e-mail уже зарегистрирован аккаунт в системе", Toast.LENGTH_LONG).show();
+                        Toast.makeText(RegisterActivity.this, R.string.error, Toast.LENGTH_LONG).show();
                     }
                 });
             }

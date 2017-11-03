@@ -26,6 +26,7 @@ import ru.zaochno.zaochno.data.model.User;
 import ru.zaochno.zaochno.data.model.response.AuthErrorResponse;
 import ru.zaochno.zaochno.data.model.response.DataResponseWrapper;
 import ru.zaochno.zaochno.data.shared.SharedPrefUtils;
+import ru.zaochno.zaochno.ui.dialog.ForgotPasswordDialog;
 
 public class LoginActivity extends AbstractActivity {
     private static final String TAG = "LoginActivity";
@@ -114,6 +115,12 @@ public class LoginActivity extends AbstractActivity {
                 Toast.makeText(LoginActivity.this, "Ошибка авторизации", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    @OnClick(R.id.btn_forgot_pass)
+    public void forgotPassword() {
+        ForgotPasswordDialog dialog = new ForgotPasswordDialog();
+        dialog.show(getSupportFragmentManager(), "ForgotPasswordDialog");
     }
 
     private Boolean isFieldValid(String field) {
