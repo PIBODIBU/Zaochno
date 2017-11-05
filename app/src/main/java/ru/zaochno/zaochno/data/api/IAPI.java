@@ -26,6 +26,7 @@ import ru.zaochno.zaochno.data.model.response.AuthErrorResponse;
 import ru.zaochno.zaochno.data.model.response.BaseErrorResponse;
 import ru.zaochno.zaochno.data.model.response.DataResponseWrapper;
 import ru.zaochno.zaochno.data.model.response.ExamRegisterResponse;
+import ru.zaochno.zaochno.data.model.response.PasswordRestoreResponse;
 import ru.zaochno.zaochno.data.model.response.RegisterResponse;
 
 public interface IAPI {
@@ -45,6 +46,9 @@ public interface IAPI {
 
     @POST("Account/getUserProfile")
     Call<DataResponseWrapper<User>> getUserInfo(@Body Token token);
+
+    @POST("Account/Restore")
+    Call<PasswordRestoreResponse> restorePassword(@Body User user);
 
 
     // Trainings
