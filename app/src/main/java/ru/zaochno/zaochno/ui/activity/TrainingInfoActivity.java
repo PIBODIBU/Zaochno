@@ -3,8 +3,10 @@ package ru.zaochno.zaochno.ui.activity;
 import android.content.Intent;
 import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -89,7 +91,7 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity implements Chapt
     @BindView(R.id.btn_container)
     public LinearLayout llBtnContainer;
 
-    @BindView(R.id.c_btn_demo)
+    @BindView(R.id.btn_demo)
     public View cBtnDemo;
 
     private Training training;
@@ -158,10 +160,12 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity implements Chapt
         binding.setTraining(training);
         binding.setTrainingFull(trainingFull);
 
-        if (training.getFavourite())
-            tvButtonFavourite.setCompoundDrawables(null, ContextCompat.getDrawable(this, R.drawable.ic_star_white_24dp), null, null);
-        else
-            tvButtonFavourite.setCompoundDrawables(null, ContextCompat.getDrawable(this, R.drawable.ic_star_border_white_24dp), null, null);
+        Drawable drawable = ResourcesCompat.getDrawable(
+                getResources(),
+                training.getFavourite() ? R.drawable.ic_star_white_24dp : R.drawable.ic_star_border_white_24dp,
+                null);
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+        tvButtonFavourite.setCompoundDrawables(null, drawable, null, null);
 
         if (training.getPayed())
             setupUiPayed();
@@ -227,7 +231,8 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity implements Chapt
     @Subscribe
     public void onTrainingFavouriteEvent(TrainingFavouriteEvent event) {
         training = event.getTraining();
-        fetchTraining();
+//        fetchTraining();
+        setupUi();
     }
 
     private void setupRecyclerViews() {
@@ -305,6 +310,9 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity implements Chapt
                     Toast.makeText(TrainingInfoActivity.this, R.string.error, Toast.LENGTH_LONG).show();
                     return;
                 }
+
+                if (response.body().getError())
+                    return;
 
                 Toast.makeText(TrainingInfoActivity.this, R.string.added_to_fav, Toast.LENGTH_LONG).show();
                 EventBus.getDefault().post(new TrainingFavouriteEvent(training));
