@@ -23,70 +23,12 @@
         android:layout_height="match_parent"
         tools:activity="ru.zaochno.zaochno.ui.activity.TrainingInfoActivity">
 
-        <android.support.v7.widget.Toolbar
+        <include
             android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="@color/colorPrimary"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="4dp">
-
-                <RelativeLayout
-                    android:layout_width="230dp"
-                    android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
-                    android:background="@drawable/btn_toolbar_white_cornered"
-                    android:gravity="center"
-                    android:paddingEnd="16dp"
-                    android:paddingStart="16dp">
-
-                    <ImageView
-                        android:id="@+id/iv_toolbar_logo"
-                        android:layout_width="56dp"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentStart="true"
-                        android:scaleType="centerInside"
-                        tools:src="@drawable/ic_launcher_logo" />
-
-                    <TextView
-                        android:id="@+id/tv_toolbar_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toEndOf="@+id/iv_toolbar_logo"
-                        android:lines="1"
-                        android:maxLines="1"
-                        android:singleLine="true"
-                        android:text="Заочно Ру"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/tv_toolbar_title"
-                        android:layout_toEndOf="@+id/iv_toolbar_logo"
-                        android:lines="1"
-                        android:maxLines="1"
-                        android:singleLine="true"
-                        android:text="Собери пазл знаний"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="14sp" />
-                </RelativeLayout>
-
-                <Switch
-                    android:id="@+id/switch_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true" />
-            </RelativeLayout>
-        </android.support.v7.widget.Toolbar>
+            layout="@layout/toolbar" />
 
         <android.support.v4.widget.NestedScrollView
+            android:id="@+id/nested_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/btn_container"
@@ -228,117 +170,78 @@
             android:orientation="horizontal"
             android:weightSum="4">
 
-            <RelativeLayout
-                android:id="@+id/c_btn_demo"
+            <TextView
+                android:id="@+id/btn_demo"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <ImageButton
-                    android:id="@+id/btn_demo"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/primary_dark"
-                    android:paddingBottom="10dp"
-                    app:srcCompat="@drawable/ic_ondemand_video_white_24dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:gravity="center"
-                    android:paddingBottom="4dp"
-                    android:text="Демо"
-                    android:textColor="@color/md_dark_primary_text"
-                    android:textSize="11sp" />
-            </RelativeLayout>
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_ondemand_video_white_24dp"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="Демо"
+                android:textColor="@color/md_dark_primary_text"
+                android:textSize="11sp" />
 
             <View
                 android:layout_width="1px"
                 android:layout_height="match_parent"
                 android:background="@color/md_dark_dividers" />
 
-            <RelativeLayout
+            <TextView
+                android:id="@+id/btn_to_fav"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <ImageButton
-                    android:id="@+id/btn_to_fav"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/primary_dark"
-                    android:paddingBottom="10dp"
-                    app:srcCompat="@drawable/ic_star_white_24dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:gravity="center"
-                    android:paddingBottom="4dp"
-                    android:text="В избранное"
-                    android:textColor="@color/md_dark_primary_text"
-                    android:textSize="11sp" />
-            </RelativeLayout>
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_star_white_24dp"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="В избранное"
+                android:textColor="@color/md_dark_primary_text"
+                android:textSize="11sp" />
 
             <View
                 android:layout_width="1px"
                 android:layout_height="match_parent"
                 android:background="@color/md_dark_dividers" />
 
-            <RelativeLayout
+            <TextView
+                android:id="@+id/btn_test"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <ImageButton
-                    android:id="@+id/btn_test"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/primary_dark"
-                    android:paddingBottom="10dp"
-                    app:srcCompat="@drawable/ic_edit_white_24dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:gravity="center"
-                    android:paddingBottom="4dp"
-                    android:text="Тестирования"
-                    android:textColor="@color/md_dark_primary_text"
-                    android:textSize="11sp" />
-            </RelativeLayout>
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_edit_white_24dp"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="Тестирования"
+                android:textColor="@color/md_dark_primary_text"
+                android:textSize="11sp" />
 
             <View
                 android:layout_width="1px"
                 android:layout_height="match_parent"
                 android:background="@color/md_dark_dividers" />
 
-            <RelativeLayout
+            <TextView
+                android:id="@+id/btn_share"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <ImageButton
-                    android:id="@+id/btn_share"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/primary_dark"
-                    android:paddingBottom="10dp"
-                    app:srcCompat="@drawable/ic_share_white_24dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:gravity="center"
-                    android:paddingBottom="4dp"
-                    android:text="Поделиться"
-                    android:textColor="@color/md_dark_primary_text"
-                    android:textSize="11sp" />
-            </RelativeLayout>
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_share_white_24dp"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="Поделиться"
+                android:textColor="@color/md_dark_primary_text"
+                android:textSize="11sp" />
         </LinearLayout>
+
+        <com.rey.material.widget.ProgressView
+            android:id="@+id/progress_bar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerInParent="true"
+            app:pv_autostart="true"
+            app:pv_circular="true"
+            app:pv_progressMode="indeterminate"
+            app:pv_progressStyle="@style/Material.Drawable.CircularProgress" />
     </RelativeLayout>
 </layout>

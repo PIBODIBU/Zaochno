@@ -4,21 +4,19 @@ import android.content.Intent;
 import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.rey.material.widget.ProgressView;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
@@ -58,6 +56,12 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity implements Chapt
     @BindView(R.id.btn_buy)
     public Button btnBuy;
 
+    @BindView(R.id.progress_bar)
+    public ProgressView progressBar;
+
+    @BindView(R.id.nested_scroll_view)
+    public NestedScrollView nestedScrollView;
+
     @BindView(R.id.btn_read_more)
     public Button btnReadMore;
 
@@ -71,22 +75,10 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity implements Chapt
     public TextView tvValidTo;
 
     @BindView(R.id.btn_to_fav)
-    public ImageButton ibFavourite;
-
-    @BindView(R.id.btn_demo)
-    public ImageButton ibDemo;
-
-    @BindView(R.id.btn_test)
-    public ImageButton ibTest;
-
-    @BindView(R.id.btn_share)
-    public ImageButton ibShare;
+    public TextView tvButtonFavourite;
 
     @BindView(R.id.btn_schedule)
     public Button btnSchedule;
-
-    @BindView(R.id.switch_view)
-    public Switch aSwitch;
 
     @BindView(R.id.recycler_view_title)
     public TextView tvRecyclerViewTitle;
@@ -110,6 +102,9 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity implements Chapt
         binding = DataBindingUtil.setContentView(this, R.layout.activity_training_info);
         ButterKnife.bind(this);
 
+        hideContent();
+        showProgressBar();
+
         setToolbar(toolbar);
         setupDrawer();
 
@@ -132,6 +127,8 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity implements Chapt
 
                 trainingFull = response.body().getResponseObj();
                 setupUi();
+                showContent();
+                hideProgressBar();
             }
 
             @Override
@@ -141,23 +138,30 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity implements Chapt
         });
     }
 
+    private void showContent() {
+        nestedScrollView.setVisibility(View.VISIBLE);
+    }
+
+    private void hideContent() {
+        nestedScrollView.setVisibility(View.INVISIBLE);
+    }
+
+    private void showProgressBar() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
+    }
+
     private void setupUi() {
         binding.setTraining(training);
         binding.setTrainingFull(trainingFull);
 
-        aSwitch.setChecked(binding.getTraining().getPayed());
-        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                binding.getTraining().setPayed(b);
-                setupUi();
-            }
-        });
-
         if (training.getFavourite())
-            ibFavourite.setImageResource(R.drawable.ic_star_white_24dp);
+            tvButtonFavourite.setCompoundDrawables(null, ContextCompat.getDrawable(this, R.drawable.ic_star_white_24dp), null, null);
         else
-            ibFavourite.setImageResource(R.drawable.ic_star_border_white_24dp);
+            tvButtonFavourite.setCompoundDrawables(null, ContextCompat.getDrawable(this, R.drawable.ic_star_border_white_24dp), null, null);
 
         if (training.getPayed())
             setupUiPayed();

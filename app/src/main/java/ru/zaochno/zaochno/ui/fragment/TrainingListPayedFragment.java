@@ -26,13 +26,14 @@ public class TrainingListPayedFragment extends BaseTrainingListFragment<Training
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        getAdapter().setPayedActionListener(new TrainingListPayedAdapter.PayedActionListener() {
-            @Override
-            public void onExam(Training training) {
-                startActivity(new Intent(getActivity(), ExamNewActivity.class)
-                        .putExtra(ExamNewActivity.INTENT_KEY_TRAINING_MODEL, training));
-            }
-        });
+        if (getAdapter() != null)
+            getAdapter().setPayedActionListener(new TrainingListPayedAdapter.PayedActionListener() {
+                @Override
+                public void onExam(Training training) {
+                    startActivity(new Intent(getActivity(), ExamNewActivity.class)
+                            .putExtra(ExamNewActivity.INTENT_KEY_TRAINING_MODEL, training));
+                }
+            });
 
         return view;
     }

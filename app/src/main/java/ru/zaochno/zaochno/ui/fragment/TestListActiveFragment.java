@@ -47,6 +47,9 @@ public class TestListActiveFragment extends Fragment {
     }
 
     private void fetchData() {
+        if (AuthProvider.getInstance(getActivity()).getCurrentUser() != null)
+            return;
+
         TrainingId trainingIdModel = new TrainingId(AuthProvider.getInstance(getActivity()).getCurrentUser().getToken());
 
         if (getTrainingId() != -1)
