@@ -80,4 +80,8 @@ public abstract class BaseTrainingListAdapter<T extends BaseTrainingListViewHold
     public interface OnItemClickListener {
         void onClick(Training training);
     }
+
+    public void setActionListener(TrainingActionListener actionListener) {
+        this.actionListener = actionListener;
+    }
 }

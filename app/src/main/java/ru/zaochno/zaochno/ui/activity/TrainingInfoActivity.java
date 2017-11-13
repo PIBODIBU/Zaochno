@@ -175,7 +175,7 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity implements Chapt
 
     private void setupUiPayed() {
         btnBuy.setVisibility(View.GONE);
-        tvRecyclerViewTitle.setVisibility(View.VISIBLE);
+//        tvRecyclerViewTitle.setVisibility(View.VISIBLE);
         containerProgress.setVisibility(View.VISIBLE);
         btnSchedule.setVisibility(View.VISIBLE);
         cBtnDemo.setVisibility(View.GONE);
@@ -213,7 +213,9 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity implements Chapt
 
         btnReadMore.setVisibility(View.GONE);
         tvValidTo.setVisibility(View.GONE);
-        tvRecyclerViewTitle.setVisibility(View.GONE);
+
+//        tvRecyclerViewTitle.setVisibility(View.GONE);
+        setupRecyclerViews();
     }
 
     @Override
@@ -290,16 +292,18 @@ public class TrainingInfoActivity extends BaseNavDrawerActivity implements Chapt
 
     @OnClick(R.id.btn_demo)
     public void onDemo() {
+        startActivity(new Intent(TrainingInfoActivity.this, TrainingInfoActivity.class)
+                .putExtra(TrainingInfoActivity.INTENT_KEY_TRAINING_MODEL, training));
     }
 
     @OnClick(R.id.btn_to_fav)
     public void onFavourite() {
-        // Invert favourite status
         if (!AuthProvider.getInstance(this).isAuthenticated()) {
             startActivity(new Intent(TrainingInfoActivity.this, LoginActivity.class));
             return;
         }
 
+        // Invert favourite status
         training.setFavourite(!training.getFavourite());
         training.setUserToken(AuthProvider.getInstance(this).getCurrentUser().getToken());
 

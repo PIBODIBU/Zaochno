@@ -9,6 +9,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
@@ -82,6 +83,7 @@ public class TrainingMaterialActivity extends BaseNavDrawerActivity implements B
         setupDrawer();
         setTitle("Материалы");
 
+        Log.d(TAG, "onCreate: " + checkIntent());
         if (!checkIntent()) {
             finish();
             return;
@@ -375,7 +377,8 @@ public class TrainingMaterialActivity extends BaseNavDrawerActivity implements B
 
     private void fetchTraining(Integer id) {
         Training params = new Training(id);
-        params.setUserToken(AuthProvider.getInstance(this).getCurrentUser().getToken());
+        if (AuthProvider.getInstance(this).isAuthenticated())
+            params.setUserToken(AuthProvider.getInstance(this).getCurrentUser().getToken());
 
         Retrofit2Client.getInstance().getApi().getFullTraining(params).enqueue(new Callback<DataResponseWrapper<TrainingFull>>() {
             @Override

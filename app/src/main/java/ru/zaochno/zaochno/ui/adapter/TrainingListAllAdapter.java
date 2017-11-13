@@ -1,6 +1,7 @@
 package ru.zaochno.zaochno.ui.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,8 @@ import ru.zaochno.zaochno.ui.callback.TrainingActionListener;
 import ru.zaochno.zaochno.ui.holder.TrainingListAllViewHolder;
 
 public class TrainingListAllAdapter extends BaseTrainingListAdapter<TrainingListAllViewHolder> {
+    private final String TAG = "TrainingListAllAdapter";
+
     public TrainingListAllAdapter(Context context, TrainingActionListener actionListener) {
         super(context, actionListener);
     }
@@ -37,27 +40,28 @@ public class TrainingListAllAdapter extends BaseTrainingListAdapter<TrainingList
         else
             holder.ivFavourite.setImageResource(R.drawable.ic_favourite_white);
 
-        if (this.actionListener != null) {
-            holder.containerToFavourite.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+        holder.containerToFavourite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (actionListener != null)
                     actionListener.onFavourite(training);
-                }
-            });
+            }
+        });
 
-            holder.containerBuy.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+        holder.containerBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (actionListener != null)
                     actionListener.onBuy(training);
-                }
-            });
+            }
+        });
 
-            holder.containerDemo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+        holder.containerDemo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (actionListener != null)
                     actionListener.onDemo(training);
-                }
-            });
-        }
+            }
+        });
     }
 }

@@ -407,7 +407,8 @@ public class TrainingListActivity extends BaseNavDrawerActivity implements Train
 
     @Override
     public void onDemo(Training training) {
-
+        startActivity(new Intent(TrainingListActivity.this, TrainingInfoActivity.class)
+                .putExtra(TrainingInfoActivity.INTENT_KEY_TRAINING_MODEL, training));
     }
 
     @Override
