@@ -58,7 +58,10 @@ public class TestListDoneAdapter extends RecyclerView.Adapter<TestListDoneViewHo
 
     @Override
     public int getItemCount() {
-        return tests.size();
+        if (tests == null)
+            return 0;
+        else
+            return tests.size();
     }
 
     public void setActionListener(ActionListener actionListener) {
